@@ -8,18 +8,22 @@
 
 import Foundation
 
-// I don't know, why StorageID is needed
+let homeDirectory = NSFileManager.homeDirectory().stringByAppendingPathComponent("persons")
+
 struct StorageID {
     let id = NSUUID().UUIDString
 }
 
-let homeDirectory = NSFileManager.homeDirectory().stringByAppendingPathComponent("persons")
+struct StorageObjectID {
+    let id = NSUUID().UUIDString
+}
 
 class _Person: NSObject, NSCoding {
-    private struct CodingKey {
-        static let fName = "firstName"
-        static let sName = "secondName"
+    enum CodingKey: String {
+        case fName = "firstName"
+        case sName = "secondName"
     }
+    let identifier = StorageObjectID()
     
     var firstName: String
     var secondName: String
@@ -30,37 +34,80 @@ class _Person: NSObject, NSCoding {
     }
     
     required init(coder aDecoder: NSCoder) {
-        self.firstName = aDecoder.decodeObjectForKey(CodingKey.fName) as! String
-        self.secondName = aDecoder.decodeObjectForKey(CodingKey.sName) as! String
+        self.firstName = aDecoder.decodeObjectForKey(CodingKey.fName.rawValue) as! String
+        self.secondName = aDecoder.decodeObjectForKey(CodingKey.sName.rawValue) as! String
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self.firstName, forKey: CodingKey.fName)
-        aCoder.encodeObject(self.secondName, forKey: CodingKey.sName)
+        aCoder.encodeObject(self.firstName, forKey: CodingKey.fName.rawValue)
+        aCoder.encodeObject(self.secondName, forKey: CodingKey.sName.rawValue)
     }
     
     func valuesAndVersion() -> (values: [NSObject : AnyObject], version: UInt64)? {
-        return (values:[CodingKey.fName : firstName, CodingKey.sName : secondName], version: 1)
+        return (values:[CodingKey.fName.rawValue : firstName, CodingKey.sName.rawValue : secondName], version: 1)
     }
 }
 
 class PersonStorage {
-    var persons = NSKeyedUnarchiver.unarchiveObjectWithFile(homeDirectory) as? [_Person]
-    let storageID = StorageID()
     
-    func fetchRecords(entityName: String, newEntityCreator: (String, StorageID, [NSObject]?) -> AnyObject) -> AnyObject? {
+    var cachePersons = [_Person]()
+    var persons: [_Person]?
+    
+    // It can be written in one line
+    func arrayOfKeys() -> [AnyObject]? {
+        if let persons = self.persons {
+            var keys = [AnyObject]()
+            for person in persons {
+                keys.append(person.identifier.id)
+            }
+            return keys
+        }
+        return nil
+    }
+    
+    // For protocol
+    func fetchRecords(entityName: String, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
+        persons = NSKeyedUnarchiver.unarchiveObjectWithFile(homeDirectory) as? [_Person]
         if entityName == "Person" {
-            let persons = newEntityCreator("Person", self.storageID, self.persons) as! [_Person]
+            let persons = newEntityCreator("Person", arrayOfKeys()) as! [_Person]
             return persons
         }
         return nil
     }
     
-    func saveRecord(personForSave: Person) {
+    // It can be written better
+    func valuesAndVersion(id: String) -> (values: [NSObject : AnyObject], version: UInt64)? {
+        if let persons = self.persons {
+            for person in persons {
+                if person.identifier.id == id {
+                    return person.valuesAndVersion()
+                }
+            }
+            return nil
+        }
+        return nil
+    }
+    
+    func keyOfNewObject() -> AnyObject {
+        var newPerson = _Person(firstName: "", secondName: "")
+        cachePersons.append(newPerson)
+        return newPerson.identifier.id
+    }
+    
+    func saveRecord(personForSave: Person, key: String) {
         if self.persons == nil {
             self.persons = [_Person]()
         }
-        self.persons!.append(_Person(firstName: personForSave.firstName, secondName: personForSave.secondName))
+        for personInCache in cachePersons {
+            if personInCache.identifier.id == key {
+                personInCache.firstName = personForSave.firstName
+                personInCache.secondName = personForSave.secondName
+                self.persons?.append(personInCache)
+                // It doesn't work with several persons
+                cachePersons = [_Person]()
+                break
+            }
+        }
         NSKeyedArchiver.archiveRootObject(persons!, toFile: homeDirectory)
     }
 }
@@ -70,10 +117,3 @@ extension NSFileManager {
         return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
     }
 }
-
-//private
-//extension Person {
-//    class func values(firstName: String, secondName: String) -> [NSObject : AnyObject] {
-//        return ["firstName" : firstName, "secondName" : secondName]
-//    }
-//}

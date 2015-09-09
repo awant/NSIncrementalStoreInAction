@@ -25,13 +25,14 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     override func loadMetadata(error: NSErrorPointer) -> Bool {
+        // metadata validation goes here - for example we want to check URL or path, check permissions
         self.metadata = [NSStoreUUIDKey : NSProcessInfo().globallyUniqueString,  NSStoreTypeKey : self.dynamicType.type]
         return true
     }
     
     override func newValuesForObjectWithID(objectID: NSManagedObjectID, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> NSIncrementalStoreNode? {
-        // TODO: We can change it with protocols - (cache[objectID] as! _Person)
-        if let valuesAndVersion = (cache[objectID] as! _Person).valuesAndVersion() {
+        let identifier = self.referenceObjectForObjectID(objectID) as! String
+        if let valuesAndVersion = self.personStorage.valuesAndVersion(identifier) {
             return NSIncrementalStoreNode(objectID: objectID, withValues: valuesAndVersion.values, version: valuesAndVersion.version)
         }
         return nil
@@ -50,21 +51,31 @@ class PersistanceStore: NSIncrementalStore {
         }
     }
     
-    func executeSaveRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> AnyObject? {
-        // TODO: we can add several objects at the same time
-        if let personForSave = (request as! NSSaveChangesRequest).insertedObjects?.first {
-            self.personStorage.saveRecord(personForSave as! Person)
+    override func obtainPermanentIDsForObjects(array: [AnyObject], error: NSErrorPointer) -> [AnyObject]? {
+        var permanentIDs = [NSManagedObjectID]()
+        for managedObject in array {
+            var managedObjectID = (managedObject as! NSManagedObject).objectID
+            let objectID = self.newObjectIDForEntity(managedObject.entity, referenceObject: self.personStorage.keyOfNewObject())
+            permanentIDs.append(objectID)
         }
-        if let personForUpdate = (request as! NSSaveChangesRequest).updatedObjects?.first {
+        return permanentIDs
+    }
+    
+    func executeSaveRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> AnyObject? {
+        if let personsForSave = (request as! NSSaveChangesRequest).insertedObjects {
+            
+            
+            for newPerson in personsForSave {
+                self.personStorage.saveRecord(newPerson as! Person, key: self.referenceObjectForObjectID((newPerson as! NSManagedObject).objectID) as! String)
+            }
+        }
+        if let personsForUpdate = (request as! NSSaveChangesRequest).updatedObjects {
             println("update Records")
         }
-        if let personForDelete = (request as! NSSaveChangesRequest).deletedObjects?.first {
+        if let personsForDelete = (request as! NSSaveChangesRequest).deletedObjects {
             println("delete Records")
-            //self.personStorage.deleteRecord(personForDelete as! Person)
         }
-        //        let saver: (String) -> AnyObject = { (String) in
-        //        }
-        return [NSObject]()
+        return []
     }
     
     func executeBatchUpdateRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> AnyObject? {
@@ -72,19 +83,17 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     func executeFetchRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> AnyObject? {
-        let newEntityCreator: (String, StorageID, [NSObject]?) -> AnyObject = { (name, storageID, objects) in
+        let managedObjectsCreator: (String, [AnyObject]?) -> AnyObject = { (name, keys) in
             let entityDescription = NSEntityDescription.entityForName(name, inManagedObjectContext: context)!
             var returningObjects = [AnyObject]()
-            if let objects = objects {
-                for object in objects {
-                    let objectID = self.newObjectIDForEntity(entityDescription, referenceObject: object)
+            if let keys = keys {
+                for key in keys {
+                    let objectID = self.newObjectIDForEntity(entityDescription, referenceObject: key)
                     returningObjects.append(context.objectWithID(objectID))
-                    self.cache[objectID] = object
-                    // self.idMapping[objectID] = storageID
                 }
             }
             return returningObjects
         }
-        return self.personStorage.fetchRecords((request as! NSFetchRequest).entityName!, newEntityCreator: newEntityCreator)
+        return self.personStorage.fetchRecords((request as! NSFetchRequest).entityName!, newEntityCreator: managedObjectsCreator)
     }
 }
