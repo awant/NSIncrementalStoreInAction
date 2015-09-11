@@ -14,6 +14,8 @@ import CoreData
 class PersistanceStore: NSIncrementalStore {
     let personStorage = PersonStorage()
     var idMapping = [NSManagedObjectID: StorageID]()
+    var cache = [NSManagedObjectID: NSObject]()
+    
     override class func initialize() {
         NSPersistentStoreCoordinator.registerStoreClass(self, forStoreType: self.type)
     }
@@ -23,25 +25,23 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     override func loadMetadata(error: NSErrorPointer) -> Bool {
+        // metadata validation goes here - for example we want to check URL or path, check permissions
         self.metadata = [NSStoreUUIDKey : NSProcessInfo().globallyUniqueString,  NSStoreTypeKey : self.dynamicType.type]
         return true
     }
     
     override func newValuesForObjectWithID(objectID: NSManagedObjectID, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> NSIncrementalStoreNode? {
-        if let mappedID = self.idMapping[objectID],
-            let values = self.personStorage.valuesAndVersion(mappedID) {
-                return NSIncrementalStoreNode(objectID: objectID, withValues: values.values, version: values.version)
+        let identifier = self.referenceObjectForObjectID(objectID) as! String
+        if let valuesAndVersion = self.personStorage.valuesAndVersion(identifier) {
+            return NSIncrementalStoreNode(objectID: objectID, withValues: valuesAndVersion.values, version: valuesAndVersion.version)
         }
-
         return nil
-        
     }
     
     override func executeRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> AnyObject? {
         let requestHandler = requestHandlerForType(request.requestType)
         return requestHandler(request, context, error)
     }
-    
     
     func requestHandlerForType(requestType: NSPersistentStoreRequestType) -> (NSPersistentStoreRequest, NSManagedObjectContext, NSErrorPointer) -> AnyObject? {
         switch requestType {
@@ -51,9 +51,31 @@ class PersistanceStore: NSIncrementalStore {
         }
     }
     
+    override func obtainPermanentIDsForObjects(array: [AnyObject], error: NSErrorPointer) -> [AnyObject]? {
+        var permanentIDs = [NSManagedObjectID]()
+        for managedObject in array {
+            var managedObjectID = (managedObject as! NSManagedObject).objectID
+            let objectID = self.newObjectIDForEntity(managedObject.entity, referenceObject: self.personStorage.keyOfNewObject())
+            permanentIDs.append(objectID)
+        }
+        return permanentIDs
+    }
+    
     func executeSaveRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> AnyObject? {
-        
-        return nil
+        if let personsForSave = (request as! NSSaveChangesRequest).insertedObjects {
+            
+            
+            for newPerson in personsForSave {
+                self.personStorage.saveRecord(newPerson as! Person, key: self.referenceObjectForObjectID((newPerson as! NSManagedObject).objectID) as! String)
+            }
+        }
+        if let personsForUpdate = (request as! NSSaveChangesRequest).updatedObjects {
+            println("update Records")
+        }
+        if let personsForDelete = (request as! NSSaveChangesRequest).deletedObjects {
+            println("delete Records")
+        }
+        return []
     }
     
     func executeBatchUpdateRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> AnyObject? {
@@ -61,12 +83,17 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     func executeFetchRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> AnyObject? {
-        let newEntityCreator: (String, StorageID) -> AnyObject = { (name, storageID) in
+        let managedObjectsCreator: (String, [AnyObject]?) -> AnyObject = { (name, keys) in
             let entityDescription = NSEntityDescription.entityForName(name, inManagedObjectContext: context)!
-            let objectID = self.newObjectIDForEntity(entityDescription, referenceObject: storageID.id)
-            self.idMapping[objectID] = storageID
-            return context.objectWithID(objectID)
+            var returningObjects = [AnyObject]()
+            if let keys = keys {
+                for key in keys {
+                    let objectID = self.newObjectIDForEntity(entityDescription, referenceObject: key)
+                    returningObjects.append(context.objectWithID(objectID))
+                }
+            }
+            return returningObjects
         }
-        return self.personStorage.fetchRecords((request as! NSFetchRequest).entityName!, newEntityCreator: newEntityCreator)
+        return self.personStorage.fetchRecords((request as! NSFetchRequest).entityName!, newEntityCreator: managedObjectsCreator)
     }
 }
