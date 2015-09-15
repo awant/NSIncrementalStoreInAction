@@ -42,11 +42,15 @@ class _Person: NSObject, NSCoding {
     func valuesAndVersion() -> (values: [NSObject : AnyObject], version: UInt64)? {
         return (values:[CodingKey.fName.rawValue : firstName, CodingKey.sName.rawValue : secondName], version: 1)
     }
+    
+    override var description: String {
+        return "\(firstName) \(secondName)"
+    }
 }
 
 protocol IncrementalStorageProtocol {
     /** [AnyObject]? is array of keys of objects in storage. Return persons getting from newEntityCreator */
-    func fetchRecords(entityName: String, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject?
+    func fetchRecords(entityName: String, sortDescriptors: [AnyObject]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject?
     /** Get values and version of object with this key */
     func valuesAndVersion(key: AnyObject) -> (values: [NSObject : AnyObject], version: UInt64)?
     /** Create new empty object and return key of it */
@@ -76,9 +80,12 @@ class PersonStorage: IncrementalStorageProtocol {
         return nil
     }
     
-    func fetchRecords(entityName: String, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
+    func fetchRecords(entityName: String, sortDescriptors: [AnyObject]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
         persons = NSKeyedUnarchiver.unarchiveObjectWithFile(homeDirectory) as? [_Person]
         if entityName == "Person" {
+            if let persons = self.persons, let sD = sortDescriptors {
+                self.persons = (persons as NSArray).sortedArrayUsingDescriptors(sD) as? [_Person]
+            }
             let persons = newEntityCreator("Person", arrayOfKeys()) as! [_Person]
             return persons
         }

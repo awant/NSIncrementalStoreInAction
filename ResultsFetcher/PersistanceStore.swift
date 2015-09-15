@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 
-
 class PersistanceStore: NSIncrementalStore {
     let personStorage = PersonStorage()
     var cache = [NSManagedObjectID: NSObject]()
@@ -84,6 +83,7 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     func executeFetchRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext, error: NSErrorPointer) -> AnyObject? {
+        let sD = (request as! NSFetchRequest).sortDescriptors
         let managedObjectsCreator: (String, [AnyObject]?) -> AnyObject = { (name, keys) in
             let entityDescription = NSEntityDescription.entityForName(name, inManagedObjectContext: context)!
             if let keys = keys {
@@ -96,6 +96,6 @@ class PersistanceStore: NSIncrementalStore {
             }
             return []
         }
-        return self.personStorage.fetchRecords((request as! NSFetchRequest).entityName!, newEntityCreator: managedObjectsCreator)
+        return self.personStorage.fetchRecords((request as! NSFetchRequest).entityName!, sortDescriptors: sD, newEntityCreator: managedObjectsCreator)
     }
 }
