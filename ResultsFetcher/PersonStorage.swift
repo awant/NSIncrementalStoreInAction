@@ -10,10 +10,6 @@ import Foundation
 
 let homeDirectory = NSFileManager.homeDirectory().stringByAppendingPathComponent("persons")
 
-struct StorageID {
-    let id = NSUUID().UUIDString
-}
-
 struct StorageObjectID {
     let id = NSUUID().UUIDString
 }
@@ -48,9 +44,24 @@ class _Person: NSObject, NSCoding {
     }
 }
 
-class PersonStorage {
+protocol IncrementalStorageProtocol {
+    /** [AnyObject]? is array of keys of objects in storage. Return persons getting from newEntityCreator */
+    func fetchRecords(entityName: String, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject?
+    /** Get values and version of object with this key */
+    func valuesAndVersion(key: AnyObject) -> (values: [NSObject : AnyObject], version: UInt64)?
+    /** Create new empty object and return key of it */
+    func getKeyOfNewObject() -> AnyObject
+    /** Save record in storage and return nil if can't */
+    func saveRecord(personForSave: Person, key: AnyObject) -> AnyObject?
+    /** Update record in storage and return nil if can't */
+    func updateRecord(personForUpdate: Person, key: AnyObject) -> AnyObject?
+    /** Delete record in storage and return nil if can't */
+    func deleteRecord(personForDelete: Person, key: AnyObject) -> AnyObject?
+}
+
+class PersonStorage: IncrementalStorageProtocol {
     
-    var cachePersons = [_Person]()
+    var cachePersons = [String: _Person]()
     var persons: [_Person]?
     
     // It can be written in one line
@@ -65,7 +76,6 @@ class PersonStorage {
         return nil
     }
     
-    // For protocol
     func fetchRecords(entityName: String, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
         persons = NSKeyedUnarchiver.unarchiveObjectWithFile(homeDirectory) as? [_Person]
         if entityName == "Person" {
@@ -75,11 +85,10 @@ class PersonStorage {
         return nil
     }
     
-    // It can be written better
-    func valuesAndVersion(id: String) -> (values: [NSObject : AnyObject], version: UInt64)? {
+    func valuesAndVersion(key: AnyObject) -> (values: [NSObject : AnyObject], version: UInt64)? {
         if let persons = self.persons {
             for person in persons {
-                if person.identifier.id == id {
+                if person.identifier.id == key as! String {
                     return person.valuesAndVersion()
                 }
             }
@@ -88,27 +97,62 @@ class PersonStorage {
         return nil
     }
     
-    func keyOfNewObject() -> AnyObject {
+    func getKeyOfNewObject() -> AnyObject {
         var newPerson = _Person(firstName: "", secondName: "")
-        cachePersons.append(newPerson)
+        cachePersons[newPerson.identifier.id] = newPerson
         return newPerson.identifier.id
     }
     
-    func saveRecord(personForSave: Person, key: String) {
+    func saveRecord(personForSave: Person, key: AnyObject) -> AnyObject? {
         if self.persons == nil {
             self.persons = [_Person]()
         }
-        for personInCache in cachePersons {
-            if personInCache.identifier.id == key {
-                personInCache.firstName = personForSave.firstName
-                personInCache.secondName = personForSave.secondName
-                self.persons?.append(personInCache)
-                // It doesn't work with several persons
-                cachePersons = [_Person]()
-                break
+        if let personInCache = self.cachePersons[key as! String] {
+            personInCache.firstName = personForSave.firstName
+            personInCache.secondName = personForSave.secondName
+            self.persons!.append(personInCache)
+            if (!NSKeyedArchiver.archiveRootObject(persons!, toFile: homeDirectory)) {
+                return nil
+            }
+            cachePersons.removeValueForKey(key as! String)
+            return []
+        }
+        return nil
+    }
+    
+    func updateRecord(personForUpdate: Person, key: AnyObject) -> AnyObject? {
+        if self.persons == nil {
+            return nil
+        }
+        for person in self.persons! {
+            if person.identifier.id == key as! String {
+                person.firstName = personForUpdate.firstName
+                person.secondName = personForUpdate.secondName
+                if (!NSKeyedArchiver.archiveRootObject(persons!, toFile: homeDirectory)) {
+                    return nil
+                }
+                return []
             }
         }
-        NSKeyedArchiver.archiveRootObject(persons!, toFile: homeDirectory)
+        return nil
+    }
+    
+    func deleteRecord(personForDelete: Person, key: AnyObject) -> AnyObject? {
+        if self.persons == nil {
+            return nil
+        }
+        var i = 0
+        for person in self.persons! {
+            if person.identifier.id == key as! String {
+                self.persons!.removeAtIndex(i)
+                if (!NSKeyedArchiver.archiveRootObject(persons!, toFile: homeDirectory)) {
+                    return nil
+                }
+                return []
+            }
+            i++
+        }
+        return nil
     }
 }
 
