@@ -9,6 +9,60 @@
 import Foundation
 import CoreData
 
+protocol IncrementalStorageProtocol {
+    
+    /** 
+        Returns objects from storage. [AnyObject]? is array of keys of objects in storage. Return persons getting from newEntityCreator
+    
+        :param: entityName the Name of entity to create
+        :param: sortDescriptors how can we want to sort objects
+        :param: newEntityCreator function, which get (entityName, local keys of objects) for create
+        :returns: objects from storage (empty for a while)
+    */
+    func fetchRecords(entityName: String, sortDescriptors: [AnyObject]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject?
+    
+    /** 
+        Get values and version of object in storage identified by key
+    
+        :param: key local identifier of object
+        :returns: values and version of object
+    */
+    func valuesAndVersion(key: AnyObject) -> (values: [NSObject : AnyObject], version: UInt64)?
+    
+    /** 
+        Create new empty object in storage and return key of it
+    
+        :returns: key of new object
+    */
+    func getKeyOfNewObject() -> AnyObject
+    
+    /** 
+        Save record in storage and return nil if can't
+        
+        :param: objectForSave representation of object in storage
+        :param: key local identifier of object
+        :returns: nil, if can't save
+    */
+    func saveRecord(objectForSave: AnyObject, key: AnyObject) -> AnyObject?
+    
+    /** 
+        Update record in storage and return nil if can't
+    
+        :param: objectForUpdate representation of object in storage
+        :param: key local identifier of object
+        :returns: nil, if can't update
+    */
+    func updateRecord(objectForUpdate: AnyObject, key: AnyObject) -> AnyObject?
+    
+    /** 
+        Delete record in storage and return nil if can't
+    
+        :param: objectForDelete representation of object in storage
+        :param: key local identifier of object
+        :returns: nil, if can't delete
+    */
+    func deleteRecord(objectForDelete: AnyObject, key: AnyObject) -> AnyObject?
+}
 
 class PersistanceStore: NSIncrementalStore {
     let personStorage = PersonStorage()

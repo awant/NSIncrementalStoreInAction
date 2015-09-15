@@ -48,21 +48,6 @@ class _Person: NSObject, NSCoding {
     }
 }
 
-protocol IncrementalStorageProtocol {
-    /** [AnyObject]? is array of keys of objects in storage. Return persons getting from newEntityCreator */
-    func fetchRecords(entityName: String, sortDescriptors: [AnyObject]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject?
-    /** Get values and version of object with this key */
-    func valuesAndVersion(key: AnyObject) -> (values: [NSObject : AnyObject], version: UInt64)?
-    /** Create new empty object and return key of it */
-    func getKeyOfNewObject() -> AnyObject
-    /** Save record in storage and return nil if can't */
-    func saveRecord(personForSave: Person, key: AnyObject) -> AnyObject?
-    /** Update record in storage and return nil if can't */
-    func updateRecord(personForUpdate: Person, key: AnyObject) -> AnyObject?
-    /** Delete record in storage and return nil if can't */
-    func deleteRecord(personForDelete: Person, key: AnyObject) -> AnyObject?
-}
-
 class PersonStorage: IncrementalStorageProtocol {
     
     var cachePersons = [String: _Person]()
@@ -110,13 +95,13 @@ class PersonStorage: IncrementalStorageProtocol {
         return newPerson.identifier.id
     }
     
-    func saveRecord(personForSave: Person, key: AnyObject) -> AnyObject? {
+    func saveRecord(objectForSave: AnyObject, key: AnyObject) -> AnyObject? {
         if self.persons == nil {
             self.persons = [_Person]()
         }
         if let personInCache = self.cachePersons[key as! String] {
-            personInCache.firstName = personForSave.firstName
-            personInCache.secondName = personForSave.secondName
+            personInCache.firstName = (objectForSave as! Person).firstName
+            personInCache.secondName = (objectForSave as! Person).secondName
             self.persons!.append(personInCache)
             if (!NSKeyedArchiver.archiveRootObject(persons!, toFile: homeDirectory)) {
                 return nil
@@ -127,14 +112,14 @@ class PersonStorage: IncrementalStorageProtocol {
         return nil
     }
     
-    func updateRecord(personForUpdate: Person, key: AnyObject) -> AnyObject? {
+    func updateRecord(objectForUpdate: AnyObject, key: AnyObject) -> AnyObject? {
         if self.persons == nil {
             return nil
         }
         for person in self.persons! {
             if person.identifier.id == key as! String {
-                person.firstName = personForUpdate.firstName
-                person.secondName = personForUpdate.secondName
+                person.firstName = (objectForUpdate as! Person).firstName
+                person.secondName = (objectForUpdate as! Person).secondName
                 if (!NSKeyedArchiver.archiveRootObject(persons!, toFile: homeDirectory)) {
                     return nil
                 }
@@ -144,7 +129,7 @@ class PersonStorage: IncrementalStorageProtocol {
         return nil
     }
     
-    func deleteRecord(personForDelete: Person, key: AnyObject) -> AnyObject? {
+    func deleteRecord(objectForDelete: AnyObject, key: AnyObject) -> AnyObject? {
         if self.persons == nil {
             return nil
         }
