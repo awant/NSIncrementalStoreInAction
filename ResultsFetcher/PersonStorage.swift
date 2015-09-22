@@ -8,6 +8,13 @@
 
 import Foundation
 
+extension String {
+    func stringByAppendingPathComponent(path: String) -> String {
+        let nsSt = self as NSString
+        return nsSt.stringByAppendingPathComponent(path)
+    }
+}
+
 let homeDirectory = NSFileManager.homeDirectory().stringByAppendingPathComponent("persons")
 
 struct StorageObjectID {
@@ -39,7 +46,7 @@ class _Person: NSObject, NSCoding {
         aCoder.encodeObject(self.secondName, forKey: CodingKey.sName.rawValue)
     }
     
-    func valuesAndVersion() -> (values: [NSObject : AnyObject], version: UInt64)? {
+    func valuesAndVersion() -> (values: [String : AnyObject], version: UInt64)? {
         return (values:[CodingKey.fName.rawValue : firstName, CodingKey.sName.rawValue : secondName], version: 1)
     }
     
@@ -65,7 +72,7 @@ class PersonStorage: IncrementalStorageProtocol {
         return nil
     }
     
-    func fetchRecords(entityName: String, sortDescriptors: [AnyObject]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
+    func fetchRecords(entityName: String, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
         persons = NSKeyedUnarchiver.unarchiveObjectWithFile(homeDirectory) as? [_Person]
         if entityName == "Person" {
             if let persons = self.persons, let sD = sortDescriptors {
@@ -77,7 +84,7 @@ class PersonStorage: IncrementalStorageProtocol {
         return nil
     }
     
-    func valuesAndVersion(key: AnyObject) -> (values: [NSObject : AnyObject], version: UInt64)? {
+    func valuesAndVersion(key: AnyObject) -> (values: [String : AnyObject], version: UInt64)? {
         if let persons = self.persons {
             for person in persons {
                 if person.identifier.id == key as! String {
@@ -90,7 +97,7 @@ class PersonStorage: IncrementalStorageProtocol {
     }
     
     func getKeyOfNewObject() -> AnyObject {
-        var newPerson = _Person(firstName: "", secondName: "")
+        let newPerson = _Person(firstName: "", secondName: "")
         cachePersons[newPerson.identifier.id] = newPerson
         return newPerson.identifier.id
     }
@@ -150,6 +157,6 @@ class PersonStorage: IncrementalStorageProtocol {
 
 extension NSFileManager {
     class func homeDirectory() -> String {
-        return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+        return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
     }
 }
