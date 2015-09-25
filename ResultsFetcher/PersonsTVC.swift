@@ -33,8 +33,8 @@ class PersonVC: UIViewController {
         if self.person == nil {
             self.person = CoreDataManager.sharedManager.personInsertion()
         }
-        self.person?.firstName = self.firstNameTF.text
-        self.person?.secondName = self.secondNameTF.text
+        self.person?.firstName = self.firstNameTF.text!
+        self.person?.secondName = self.secondNameTF.text!
         CoreDataManager.sharedManager.saveContext()
     }
 }
@@ -43,7 +43,7 @@ extension CoreDataManager {
     func fetchedResultsController(entityName: String, cacheName: String, sortDescriptors: [NSSortDescriptor]) -> NSFetchedResultsController {
         let fetchRequest = NSFetchRequest(entityName: entityName)
         fetchRequest.sortDescriptors = sortDescriptors
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: cacheName)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext, sectionNameKeyPath: nil, cacheName: cacheName)
     }
 }
 
@@ -56,7 +56,9 @@ class PersonsTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         let sortDescriptors = [NSSortDescriptor(key: "secondName", ascending: true)]
         self.fetchresultsController = CoreDataManager.sharedManager.fetchedResultsController("Person", cacheName: "Root", sortDescriptors: sortDescriptors)
         self.fetchresultsController?.delegate = self
-        self.fetchresultsController?.performFetch(nil)
+        do {
+            try self.fetchresultsController?.performFetch()
+        } catch _ {}
     }
 
 //  MARK: - NSFetchedResultsControllerDelegate
@@ -89,7 +91,10 @@ class PersonsTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (self.fetchresultsController?.sections?[section] as? NSFetchedResultsSectionInfo)?.numberOfObjects ?? 0
+        let varValue: Int
+        let numberOfObjects = (self.fetchresultsController!.sections![section]).numberOfObjects
+        varValue = numberOfObjects
+        return varValue
     }
     
     func updateCell(cell: UITableViewCell, indexPath: NSIndexPath) {
@@ -99,7 +104,7 @@ class PersonsTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PersonCellID", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("PersonCellID", forIndexPath: indexPath)
         self.updateCell(cell, indexPath: indexPath)
         return cell
     }
@@ -108,13 +113,13 @@ class PersonsTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         switch editingStyle {
         case .Delete:
             if let person = (tableView.cellForRowAtIndexPath(indexPath) as? PersonCell)?.person {
-                CoreDataManager.sharedManager.managedObjectContext?.deleteObject(person)
+                CoreDataManager.sharedManager.managedObjectContext.deleteObject(person)
                 CoreDataManager.sharedManager.saveContext()
             }
         case .Insert:
             CoreDataManager.sharedManager.personInsertion()
         case .None:
-            let qewr = 10
+            _ = 0
         }
     }
     
