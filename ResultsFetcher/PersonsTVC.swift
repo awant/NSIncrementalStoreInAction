@@ -151,8 +151,8 @@ class PersonsTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     func updateCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         if let personCell = cell as? PersonCell, person = self.fetchresultsController?.objectAtIndexPath(indexPath) as? Person {
             personCell.person = person
-            //personCell.job = person.job
-            //personCell.city = person.city
+            personCell.job = person.job
+            personCell.city = person.city
         }
     }
 

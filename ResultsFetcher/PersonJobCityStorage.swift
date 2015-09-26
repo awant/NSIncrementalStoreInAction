@@ -51,9 +51,9 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
         if let person = self.persons![key as! String] {
             retDict["firstName"] = person["firstName"]
             retDict["secondName"] = person["secondName"]
-            retDict["job"] = NSNull()
-            retDict["city"] = NSNull()
+            return (values: retDict, version: 1)
         }
+        retDict["name"] = "Place"
         if let job = self.job![key as! String] {
             retDict["name"] = job["firstName"]
             print("request for values of job")

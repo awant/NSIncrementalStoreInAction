@@ -67,8 +67,10 @@ protocol IncrementalStorageProtocol {
 }
 
 class PersistanceStore: NSIncrementalStore {
-    var cache = [NSManagedObjectID: NSObject]()
     let storage : IncrementalStorageProtocol = PersonJobCityStorage()
+    
+    
+    var correspondenceTable = [String: NSManagedObjectID]()
     
     override class func initialize() {
         NSPersistentStoreCoordinator.registerStoreClass(self, forStoreType: self.type)
@@ -85,14 +87,19 @@ class PersistanceStore: NSIncrementalStore {
     override func newValuesForObjectWithID(objectID: NSManagedObjectID, withContext context: NSManagedObjectContext) throws -> NSIncrementalStoreNode {
         let key: AnyObject = self.referenceObjectForObjectID(objectID)
         let valuesAndVersion = self.storage.valuesAndVersion(key)
+        self.correspondenceTable[key as! String] = objectID
         return NSIncrementalStoreNode(objectID: objectID, withValues: valuesAndVersion!.values, version: valuesAndVersion!.version)
     }
     
     override func newValueForRelationship(relationship: NSRelationshipDescription, forObjectWithID objectID: NSManagedObjectID, withContext context: NSManagedObjectContext?) throws -> AnyObject {
         print("newValueForRelationship")
         let key = self.storage.getKeyOfDestFrom(self.referenceObjectForObjectID(objectID) as! String, to: relationship.name)
-        //let retObjectID = ...
-        return  NSNull()//retObjectID
+        let objectID = self.newObjectIDForEntity(relationship.destinationEntity!, referenceObject: key!)
+        do {
+            try self.newValuesForObjectWithID(objectID, withContext: context!)
+        } catch {}
+        //let retObjectID = self.correspondenceTable[key as! String]
+        return  objectID
     }
     
     override func executeRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext?) throws -> AnyObject {
@@ -152,6 +159,7 @@ class PersistanceStore: NSIncrementalStore {
                 let returningObjects = keys.map {
                     (let key) -> NSManagedObject in
                     let objectID = self.newObjectIDForEntity(entityDescription, referenceObject: key)
+                    //self.correspondenceTable[key as! String] = objectID
                     return context.objectWithID(objectID)
                 }
                 return returningObjects
