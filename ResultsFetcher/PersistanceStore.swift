@@ -83,7 +83,6 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     override func newValuesForObjectWithID(objectID: NSManagedObjectID, withContext context: NSManagedObjectContext) throws -> NSIncrementalStoreNode {
-        print("newValuesForObjectWithID, objectID = \(objectID.entity.name)")
         let key: AnyObject = self.referenceObjectForObjectID(objectID)
         let valuesAndVersion = self.storage.valuesAndVersion(key)
         return NSIncrementalStoreNode(objectID: objectID, withValues: valuesAndVersion!.values, version: valuesAndVersion!.version)
@@ -91,10 +90,9 @@ class PersistanceStore: NSIncrementalStore {
     
     override func newValueForRelationship(relationship: NSRelationshipDescription, forObjectWithID objectID: NSManagedObjectID, withContext context: NSManagedObjectContext?) throws -> AnyObject {
         print("newValueForRelationship")
-        print("objectID: \(objectID)")
         let key = self.storage.getKeyOfDestFrom(self.referenceObjectForObjectID(objectID) as! String, to: relationship.name)
-        let retObjectID = self.newObjectIDForEntity(relationship.destinationEntity!, referenceObject: key!)
-        return  retObjectID
+        //let retObjectID = ...
+        return  NSNull()//retObjectID
     }
     
     override func executeRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext?) throws -> AnyObject {
@@ -112,7 +110,6 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     override func obtainPermanentIDsForObjects(array: [NSManagedObject]) throws -> [NSManagedObjectID] {
-        print("obtainPermanentIDsForObjects")
         var permanentIDs = [NSManagedObjectID]()
         for managedObject in array {
             let objectID = self.newObjectIDForEntity(managedObject.entity, referenceObject: self.storage.getKeyOfNewObjectWithEntityName(managedObject.entity.name!))
@@ -122,7 +119,6 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     func executeSaveRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext) -> AnyObject? {
-        print("executeSaveRequest")
         if let objectsForSave = (request as! NSSaveChangesRequest).insertedObjects {
             for newObject in objectsForSave {
                 // I'm very confused about relationships, but I think the best way is to get their from newObject and pass
@@ -149,7 +145,6 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     func executeFetchRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext) -> AnyObject? {
-        print("executeFetchRequest")
         let sD = (request as! NSFetchRequest).sortDescriptors
         let managedObjectsCreator: (String, [AnyObject]?) -> AnyObject = { (name, keys) in
             let entityDescription = NSEntityDescription.entityForName(name, inManagedObjectContext: context)!

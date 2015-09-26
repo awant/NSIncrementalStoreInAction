@@ -9,10 +9,6 @@
 import Foundation
 import Parse
 
-// For a while
-import CoreData
-//
-
 class PersonJobCityStorage: IncrementalStorageProtocol {
     var persons: [String: PFObject]?
     var city: [String: PFObject]?
@@ -51,16 +47,25 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
     }
     
     func valuesAndVersion(key: AnyObject) -> (values: [String : AnyObject], version: UInt64)? {
-        var dict = [String : AnyObject]()
-        dict["firstName"] = (self.persons![key as! String])!["firstName"]
-        dict["secondName"] = (self.persons![key as! String])!["secondName"]
-        dict["job"] = NSNull()
-        dict["city"] = NSNull()
-        return (values: dict, version: 1)
+        var retDict = [String : AnyObject]()
+        if let person = self.persons![key as! String] {
+            retDict["firstName"] = person["firstName"]
+            retDict["secondName"] = person["secondName"]
+            retDict["job"] = NSNull()
+            retDict["city"] = NSNull()
+        }
+        if let job = self.job![key as! String] {
+            retDict["name"] = job["firstName"]
+            print("request for values of job")
+        }
+        if let city = self.city![key as! String] {
+            retDict["name"] = city["firstName"]
+            print("request for values of city")
+        }
+        return (values: retDict, version: 1)
     }
     
     func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {
-        print("getKeyOfNewObjectWithEntityName")
         if entityName == "Person" {
             self.personForSave = PFObject(className: entityName)
             do {
@@ -98,7 +103,7 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
 
     func saveRecord(objectForSave: AnyObject, key: AnyObject) -> AnyObject? {
         // We don't use NSManagedObject in this and I'll change this in the future
-        if (objectForSave as! NSManagedObject).entity.name == "Person" {
+        if ((self.personForSave?.objectId)! == key as! String) {
             // And this is because I don't pass relationships
             self.personForSave!["firstName"] = (objectForSave as! Person).firstName
             self.personForSave!["secondName"] = (objectForSave as! Person).secondName
@@ -110,7 +115,7 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
             } catch {}
             return []
         }
-        if (objectForSave as! NSManagedObject).entity.name == "Job" {
+        if ((self.jobForSave?.objectId)! == key as! String) {
             
             self.jobForSave!["name"] = (objectForSave as! Job).name
             self.jobForSave!["persons"] = [self.personForSave!]
@@ -119,7 +124,7 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
             } catch {}
             return []
         }
-        if (objectForSave as! NSManagedObject).entity.name == "City" {
+        if ((self.cityForSave?.objectId)! == key as! String) {
             self.cityForSave!["name"] = (objectForSave as! City).name
             self.cityForSave!["persons"] = [self.personForSave!]
             do {
