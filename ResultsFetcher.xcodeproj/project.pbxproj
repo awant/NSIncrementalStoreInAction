@@ -24,8 +24,6 @@
 		840B92301BB2D4EA00406062 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B922A1BB2D4EA00406062 /* Person.swift */; settings = {ASSET_TAGS = (); }; };
 		840B92311BB2D4EA00406062 /* Job+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B922B1BB2D4EA00406062 /* Job+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
 		840B92321BB2D4EA00406062 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B922C1BB2D4EA00406062 /* Job.swift */; settings = {ASSET_TAGS = (); }; };
-		840DFE481BB81BC900F6E125 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840DFE461BB81BC900F6E125 /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
-		840DFE491BB81BC900F6E125 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840DFE471BB81BC900F6E125 /* Parse.framework */; settings = {ASSET_TAGS = (); }; };
 		848F9F8D1BB3148F0017BB09 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F8B1BB3148E0017BB09 /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
 		848F9F8E1BB3148F0017BB09 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F8B1BB3148E0017BB09 /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
 		848F9F8F1BB3148F0017BB09 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F8C1BB3148E0017BB09 /* Parse.framework */; settings = {ASSET_TAGS = (); }; };
@@ -74,8 +72,6 @@
 		840B922A1BB2D4EA00406062 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Person.swift; path = ../Person.swift; sourceTree = "<group>"; };
 		840B922B1BB2D4EA00406062 /* Job+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Job+CoreDataProperties.swift"; path = "../Job+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		840B922C1BB2D4EA00406062 /* Job.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Job.swift; path = ../Job.swift; sourceTree = "<group>"; };
-		840DFE461BB81BC900F6E125 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		840DFE471BB81BC900F6E125 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		848F9F8B1BB3148E0017BB09 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		848F9F8C1BB3148E0017BB09 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		848F9F931BB315150017BB09 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -102,10 +98,8 @@
 				848F9F9E1BB315390017BB09 /* Security.framework in Frameworks */,
 				848F9F9C1BB315310017BB09 /* QuartzCore.framework in Frameworks */,
 				848F9F9A1BB3152A0017BB09 /* CoreLocation.framework in Frameworks */,
-				840DFE481BB81BC900F6E125 /* Bolts.framework in Frameworks */,
 				848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */,
 				848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */,
-				840DFE491BB81BC900F6E125 /* Parse.framework in Frameworks */,
 				848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */,
 				848F9F8F1BB3148F0017BB09 /* Parse.framework in Frameworks */,
 				848F9F8D1BB3148F0017BB09 /* Bolts.framework in Frameworks */,
@@ -214,8 +208,6 @@
 				848F9F951BB3151C0017BB09 /* CFNetwork.framework */,
 				848F9F931BB315150017BB09 /* AudioToolbox.framework */,
 				848F9F8B1BB3148E0017BB09 /* Bolts.framework */,
-				840DFE461BB81BC900F6E125 /* Bolts.framework */,
-				840DFE471BB81BC900F6E125 /* Parse.framework */,
 				848F9F8C1BB3148E0017BB09 /* Parse.framework */,
 			);
 			name = "Additional Frameworks";
