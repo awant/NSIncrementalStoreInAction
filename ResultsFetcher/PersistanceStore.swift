@@ -92,13 +92,8 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     override func newValueForRelationship(relationship: NSRelationshipDescription, forObjectWithID objectID: NSManagedObjectID, withContext context: NSManagedObjectContext?) throws -> AnyObject {
-        print("newValueForRelationship")
         let key = self.storage.getKeyOfDestFrom(self.referenceObjectForObjectID(objectID) as! String, to: relationship.name)
         let objectID = self.newObjectIDForEntity(relationship.destinationEntity!, referenceObject: key!)
-        do {
-            try self.newValuesForObjectWithID(objectID, withContext: context!)
-        } catch {}
-        //let retObjectID = self.correspondenceTable[key as! String]
         return  objectID
     }
     

@@ -22,13 +22,12 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
     }
     
     var persons: [String: PFObject]?
-    var city: [String: PFObject]?
-    var job: [String: PFObject]?
     
     var personForSave: PFObject?
     var jobForSave: PFObject?
     var cityForSave: PFObject?
     
+    // Fetch
     func fetchRecords(entityName: String, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
         if entityName == "Person" {
             let personQuery = PFQuery(className: "Person")
@@ -42,13 +41,9 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
             if let lPersons = loadedPersons {
                 arrayOfKeys = [String]()
                 self.persons = [String: PFObject]()
-                self.city = [String: PFObject]()
-                self.job = [String: PFObject]()
                 for person in lPersons {
                     arrayOfKeys!.append(person.objectId! as String)
                     self.persons![person.objectId!] = person
-                    self.city![person.objectId!] = person[CodingKeyPerson.city.rawValue] as? PFObject
-                    self.job![person.objectId!] = person[CodingKeyPerson.job.rawValue] as? PFObject
                 }
             }
             let persons = newEntityCreator("Person", arrayOfKeys)
@@ -64,18 +59,30 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
             retDict[CodingKeyPerson.secondName.rawValue] = person[CodingKeyPerson.secondName.rawValue]
             return (values: retDict, version: 1)
         }
-        retDict["name"] = "Place"
-        if let job = self.job![key as! String] {
-            //retDict["name"] = job[CodingKeyPerson.firstName.rawValue]
-            print("request for values of job")
+        for person in self.persons! {
+            let jobOfPerson = (person.1[CodingKeyPerson.job.rawValue] as! PFObject)
+            if jobOfPerson.objectId == key as? String {
+                retDict[CodingKeyJob.name.rawValue] = jobOfPerson[CodingKeyJob.name.rawValue]
+                return (values: retDict, version: 1)
+            }
+            let cityOfPerson = (person.1[CodingKeyPerson.city.rawValue] as! PFObject)
+            if cityOfPerson.objectId == key as? String {
+                retDict[CodingKeyCity.name.rawValue] = cityOfPerson[CodingKeyCity.name.rawValue]
+                return (values: retDict, version: 1)
+            }
         }
-        if let city = self.city![key as! String] {
-            //retDict["name"] = city["firstName"]
-            print("request for values of city")
-        }
-        return (values: retDict, version: 1)
+        return nil
     }
     
+    func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject? {
+        if let person = self.persons![keyObject] {
+                return person[fieldName].objectId
+        }
+        print("something else")
+        return nil
+    }
+    
+    // Save
     func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {
         if entityName == "Person" {
             self.personForSave = PFObject(className: entityName)
@@ -99,17 +106,6 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
             return (self.cityForSave?.objectId)!
         }
         return []
-    }
-    
-    func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject? {
-        if fieldName == CodingKeyPerson.city.rawValue {
-            return self.city![keyObject]?.objectId
-        }
-        if fieldName == CodingKeyPerson.job.rawValue {
-            return self.job![keyObject]?.objectId
-        }
-        print("something else")
-        return nil
     }
     
     func saveRecord(objectForSave: AnyObject, key: AnyObject) -> AnyObject? {
