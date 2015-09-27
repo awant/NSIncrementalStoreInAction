@@ -7,9 +7,20 @@
 //
 
 import Foundation
+// ObjectID is unique only for a class, but hardly to get duplicated keys (it's not mentioned in docs)
 import Parse
 
 class PersonJobCityStorage: IncrementalStorageProtocol {
+    enum CodingKeyPerson: String {
+        case firstName, secondName, job, city
+    }
+    enum CodingKeyJob: String {
+        case name, persons
+    }
+    enum CodingKeyCity: String {
+        case name, persons
+    }
+    
     var persons: [String: PFObject]?
     var city: [String: PFObject]?
     var job: [String: PFObject]?
@@ -21,8 +32,8 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
     func fetchRecords(entityName: String, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
         if entityName == "Person" {
             let personQuery = PFQuery(className: "Person")
-            personQuery.includeKey("job")
-            personQuery.includeKey("city")
+            personQuery.includeKey(CodingKeyPerson.job.rawValue)
+            personQuery.includeKey(CodingKeyPerson.city.rawValue)
             var loadedPersons: [PFObject]?
             do {
                 loadedPersons = try personQuery.findObjects()
@@ -36,8 +47,8 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
                 for person in lPersons {
                     arrayOfKeys!.append(person.objectId! as String)
                     self.persons![person.objectId!] = person
-                    self.city![person.objectId!] = person["city"] as? PFObject
-                    self.job![person.objectId!] = person["job"] as? PFObject
+                    self.city![person.objectId!] = person[CodingKeyPerson.city.rawValue] as? PFObject
+                    self.job![person.objectId!] = person[CodingKeyPerson.job.rawValue] as? PFObject
                 }
             }
             let persons = newEntityCreator("Person", arrayOfKeys)
@@ -49,17 +60,17 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
     func valuesAndVersion(key: AnyObject) -> (values: [String : AnyObject], version: UInt64)? {
         var retDict = [String : AnyObject]()
         if let person = self.persons![key as! String] {
-            retDict["firstName"] = person["firstName"]
-            retDict["secondName"] = person["secondName"]
+            retDict[CodingKeyPerson.firstName.rawValue] = person[CodingKeyPerson.firstName.rawValue]
+            retDict[CodingKeyPerson.secondName.rawValue] = person[CodingKeyPerson.secondName.rawValue]
             return (values: retDict, version: 1)
         }
         retDict["name"] = "Place"
         if let job = self.job![key as! String] {
-            retDict["name"] = job["firstName"]
+            //retDict["name"] = job[CodingKeyPerson.firstName.rawValue]
             print("request for values of job")
         }
         if let city = self.city![key as! String] {
-            retDict["name"] = city["firstName"]
+            //retDict["name"] = city["firstName"]
             print("request for values of city")
         }
         return (values: retDict, version: 1)
@@ -91,10 +102,10 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
     }
     
     func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject? {
-        if fieldName == "city" {
+        if fieldName == CodingKeyPerson.city.rawValue {
             return self.city![keyObject]?.objectId
         }
-        if fieldName == "job" {
+        if fieldName == CodingKeyPerson.job.rawValue {
             return self.job![keyObject]?.objectId
         }
         print("something else")
@@ -102,14 +113,13 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
     }
 
     func saveRecord(objectForSave: AnyObject, key: AnyObject) -> AnyObject? {
-        // We don't use NSManagedObject in this and I'll change this in the future
         if ((self.personForSave?.objectId)! == key as! String) {
             // And this is because I don't pass relationships
-            self.personForSave!["firstName"] = (objectForSave as! Person).firstName
-            self.personForSave!["secondName"] = (objectForSave as! Person).secondName
+            self.personForSave![CodingKeyPerson.firstName.rawValue] = (objectForSave as! Person).firstName
+            self.personForSave![CodingKeyPerson.secondName.rawValue] = (objectForSave as! Person).secondName
             // And this is because I don't pass relationships
-            self.personForSave!["job"] = self.jobForSave
-            self.personForSave!["city"] = self.cityForSave
+            self.personForSave![CodingKeyPerson.job.rawValue] = self.jobForSave
+            self.personForSave![CodingKeyPerson.city.rawValue] = self.cityForSave
             do {
                 try self.personForSave?.save()
             } catch {}
@@ -117,16 +127,16 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
         }
         if ((self.jobForSave?.objectId)! == key as! String) {
             
-            self.jobForSave!["name"] = (objectForSave as! Job).name
-            self.jobForSave!["persons"] = [self.personForSave!]
+            self.jobForSave![CodingKeyJob.name.rawValue] = (objectForSave as! Job).name
+            self.jobForSave![CodingKeyJob.persons.rawValue] = [self.personForSave!]
             do {
                 try self.jobForSave?.save()
             } catch {}
             return []
         }
         if ((self.cityForSave?.objectId)! == key as! String) {
-            self.cityForSave!["name"] = (objectForSave as! City).name
-            self.cityForSave!["persons"] = [self.personForSave!]
+            self.cityForSave![CodingKeyCity.name.rawValue] = (objectForSave as! City).name
+            self.cityForSave![CodingKeyCity.persons.rawValue] = [self.personForSave!]
             do {
                 try self.cityForSave?.save()
             } catch {}
@@ -143,10 +153,6 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
         return nil
     }
 }
-
-
-
-
 
 
 
