@@ -10,7 +10,9 @@ import Foundation
 // ObjectID is unique only for a class, but hardly to get duplicated keys (it's not mentioned in docs)
 import Parse
 
-class PersonJobCityStorage: IncrementalStorageProtocol {
+class PersonJobCityParseStorage: IncrementalStorageProtocol {
+    var receivedObjects: [String: PFObject]?
+    
     enum CodingKeyPerson: String {
         case firstName, secondName, job, city
     }
@@ -21,45 +23,44 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
         case name, persons
     }
     
-    var persons: [String: PFObject]?
-    
     var personForSave: PFObject?
     var jobForSave: PFObject?
     var cityForSave: PFObject?
     
-    // Fetch
-    func fetchRecords(entityName: String, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
-        if entityName == "Person" {
-            let personQuery = PFQuery(className: "Person")
-            personQuery.includeKey(CodingKeyPerson.job.rawValue)
-            personQuery.includeKey(CodingKeyPerson.city.rawValue)
-            var loadedPersons: [PFObject]?
-            do {
-                loadedPersons = try personQuery.findObjects()
-            } catch {}
-            var arrayOfKeys: [String]?
-            if let lPersons = loadedPersons {
-                arrayOfKeys = [String]()
-                self.persons = [String: PFObject]()
-                for person in lPersons {
-                    arrayOfKeys!.append(person.objectId! as String)
-                    self.persons![person.objectId!] = person
-                }
+    func fetchRecords(entityName: String, relatedEntitiesNames: [String]?, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
+        let query = PFQuery(className: entityName)
+        if let relatedEN = relatedEntitiesNames {
+            for entityName in relatedEN {
+                query.includeKey(entityName)
             }
-            let persons = newEntityCreator("Person", arrayOfKeys)
-            return persons
         }
-        return nil
+        
+        var loadedObjects: [PFObject]?
+        do {
+            loadedObjects = try query.findObjects()
+        } catch {}
+        
+        var arrayOfKeys: [String]?
+        if let lObjects = loadedObjects {
+            arrayOfKeys = [String]()
+            self.receivedObjects = [String: PFObject]()
+            for object in lObjects {
+                arrayOfKeys!.append(object.objectId!)
+                self.receivedObjects![object.objectId!] = object
+            }
+        }
+        return newEntityCreator(entityName, arrayOfKeys)
     }
     
     func valuesAndVersion(key: AnyObject) -> (values: [String : AnyObject], version: UInt64)? {
         var retDict = [String : AnyObject]()
-        if let person = self.persons![key as! String] {
+        
+        if let person = self.receivedObjects![key as! String] {
             retDict[CodingKeyPerson.firstName.rawValue] = person[CodingKeyPerson.firstName.rawValue]
             retDict[CodingKeyPerson.secondName.rawValue] = person[CodingKeyPerson.secondName.rawValue]
             return (values: retDict, version: 1)
         }
-        for person in self.persons! {
+        for person in self.receivedObjects! {
             let jobOfPerson = (person.1[CodingKeyPerson.job.rawValue] as! PFObject)
             if jobOfPerson.objectId == key as? String {
                 retDict[CodingKeyJob.name.rawValue] = jobOfPerson[CodingKeyJob.name.rawValue]
@@ -75,7 +76,7 @@ class PersonJobCityStorage: IncrementalStorageProtocol {
     }
     
     func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject? {
-        if let person = self.persons![keyObject] {
+        if let person = self.receivedObjects![keyObject] {
                 return person[fieldName].objectId
         }
         print("something else")

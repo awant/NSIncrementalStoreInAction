@@ -36,6 +36,8 @@
 		848F9FA21BB315460017BB09 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA11BB315460017BB09 /* SystemConfiguration.framework */; };
 		848F9FA41BB315500017BB09 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA31BB315500017BB09 /* libz.tbd */; };
 		848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA51BB315580017BB09 /* libsqlite3.tbd */; };
+		84D7A56E1BBBEE640075F5B1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D7A56C1BBBEE640075F5B1 /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
+		84D7A56F1BBBEE640075F5B1 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D7A56D1BBBEE640075F5B1 /* Parse.framework */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,8 @@
 		848F9FA11BB315460017BB09 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		848F9FA31BB315500017BB09 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		848F9FA51BB315580017BB09 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		84D7A56C1BBBEE640075F5B1 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		84D7A56D1BBBEE640075F5B1 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,8 +100,10 @@
 				848F9F9E1BB315390017BB09 /* Security.framework in Frameworks */,
 				848F9F9C1BB315310017BB09 /* QuartzCore.framework in Frameworks */,
 				848F9F9A1BB3152A0017BB09 /* CoreLocation.framework in Frameworks */,
+				84D7A56E1BBBEE640075F5B1 /* Bolts.framework in Frameworks */,
 				848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */,
 				840DFE501BB834F500F6E125 /* Bolts.framework in Frameworks */,
+				84D7A56F1BBBEE640075F5B1 /* Parse.framework in Frameworks */,
 				848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */,
 				840DFE511BB834F500F6E125 /* Parse.framework in Frameworks */,
 				848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */,
@@ -137,9 +143,9 @@
 			children = (
 				637CC1E91B795DD2000D85A0 /* AppDelegate.swift */,
 				637CC20C1B795E19000D85A0 /* CoreDataStack.swift */,
+				637CC2121B79794A000D85A0 /* PersistanceStore.swift */,
 				635A83AC1B7A5B1600574461 /* PersonStorage.swift */,
 				840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */,
-				637CC2121B79794A000D85A0 /* PersistanceStore.swift */,
 				637CC1F01B795DD2000D85A0 /* Main.storyboard */,
 				637CC2101B7960F0000D85A0 /* PersonsTVC.swift */,
 				637CC1F31B795DD2000D85A0 /* Images.xcassets */,
@@ -197,6 +203,8 @@
 				848F9FA31BB315500017BB09 /* libz.tbd */,
 				840DFE4E1BB834F500F6E125 /* Bolts.framework */,
 				840DFE4F1BB834F500F6E125 /* Parse.framework */,
+				84D7A56C1BBBEE640075F5B1 /* Bolts.framework */,
+				84D7A56D1BBBEE640075F5B1 /* Parse.framework */,
 				848F9FA11BB315460017BB09 /* SystemConfiguration.framework */,
 				848F9F9F1BB315400017BB09 /* StoreKit.framework */,
 				848F9F9D1BB315390017BB09 /* Security.framework */,

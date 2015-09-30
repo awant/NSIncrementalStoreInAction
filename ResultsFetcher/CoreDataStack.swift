@@ -34,6 +34,7 @@ class CoreDataManager {
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
             // WARNING: This should be changed for work on specific core data - type!
+            // url - where we keep our database locally (can be nil)
             self.persistantStore = try coordinator!.addPersistentStoreWithType(PersistanceStore.type, configuration: nil, URL: url, options: nil) as? PersistanceStore
         } catch {
             // Report any error we got.

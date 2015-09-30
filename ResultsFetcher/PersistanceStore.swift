@@ -19,7 +19,7 @@ protocol IncrementalStorageProtocol {
         :param: newEntityCreator function, which get (entityName, local keys of objects) for create
         :returns: objects from storage (empty for a while)
     */
-    func fetchRecords(entityName: String, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject?
+    func fetchRecords(entityName: String, relatedEntitiesNames: [String]?, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject?
     
     /** 
         Get values and version of object in storage identified by key
@@ -66,10 +66,10 @@ protocol IncrementalStorageProtocol {
     func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject?
 }
 
+
+
 class PersistanceStore: NSIncrementalStore {
-    let storage : IncrementalStorageProtocol = PersonJobCityStorage()
-    
-    
+    let storage : IncrementalStorageProtocol = PersonJobCityParseStorage()
     var correspondenceTable = [String: NSManagedObjectID]()
     
     override class func initialize() {
@@ -111,6 +111,35 @@ class PersistanceStore: NSIncrementalStore {
         }
     }
     
+    func executeFetchRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext) -> AnyObject? {
+        let entityName = (request as! NSFetchRequest).entityName!
+        var relatedEntitiesNames: [String]?
+        if let properties = ((request as! NSFetchRequest).entity?.properties) {
+            relatedEntitiesNames = [String]()
+            for property in properties {
+                if let relProperty = property as? NSRelationshipDescription {
+                    relatedEntitiesNames!.append(relProperty.name)
+                }
+            }
+        }
+        let sD = (request as! NSFetchRequest).sortDescriptors
+        // work with context
+        let managedObjectsCreator: (String, [AnyObject]?) -> AnyObject = { (name, keys) in
+            let entityDescription = NSEntityDescription.entityForName(name, inManagedObjectContext: context)!
+            if let keys = keys {
+                let returningObjects = keys.map {
+                    (let key) -> NSManagedObject in
+                    let objectID = self.newObjectIDForEntity(entityDescription, referenceObject: key)
+                    return context.objectWithID(objectID)
+                }
+                return returningObjects
+            }
+            return []
+        }
+        
+        return self.storage.fetchRecords(entityName, relatedEntitiesNames: relatedEntitiesNames, sortDescriptors: sD, newEntityCreator: managedObjectsCreator)
+    }
+    
     override func obtainPermanentIDsForObjects(array: [NSManagedObject]) throws -> [NSManagedObjectID] {
         var permanentIDs = [NSManagedObjectID]()
         for managedObject in array {
@@ -144,23 +173,5 @@ class PersistanceStore: NSIncrementalStore {
     
     func executeBatchUpdateRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext) -> AnyObject? {
         return nil
-    }
-    
-    func executeFetchRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext) -> AnyObject? {
-        let sD = (request as! NSFetchRequest).sortDescriptors
-        let managedObjectsCreator: (String, [AnyObject]?) -> AnyObject = { (name, keys) in
-            let entityDescription = NSEntityDescription.entityForName(name, inManagedObjectContext: context)!
-            if let keys = keys {
-                let returningObjects = keys.map {
-                    (let key) -> NSManagedObject in
-                    let objectID = self.newObjectIDForEntity(entityDescription, referenceObject: key)
-                    //self.correspondenceTable[key as! String] = objectID
-                    return context.objectWithID(objectID)
-                }
-                return returningObjects
-            }
-            return []
-        }
-        return self.storage.fetchRecords((request as! NSFetchRequest).entityName!, sortDescriptors: sD, newEntityCreator: managedObjectsCreator)
     }
 }
