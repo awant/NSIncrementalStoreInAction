@@ -12,6 +12,8 @@ import Parse
 
 class PersonJobCityParseStorage: IncrementalStorageProtocol {
     var receivedObjects: [String: PFObject]?
+    var relatedEntitiesNames: [String]?
+    
     
     enum CodingKeyPerson: String {
         case firstName, secondName, job, city
@@ -30,6 +32,7 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
     func fetchRecords(entityName: String, relatedEntitiesNames: [String]?, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
         let query = PFQuery(className: entityName)
         if let relatedEN = relatedEntitiesNames {
+            self.relatedEntitiesNames = relatedEntitiesNames
             for entityName in relatedEN {
                 query.includeKey(entityName)
             }
@@ -45,31 +48,27 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
             arrayOfKeys = [String]()
             self.receivedObjects = [String: PFObject]()
             for object in lObjects {
+                print(object.allKeys)
                 arrayOfKeys!.append(object.objectId!)
                 self.receivedObjects![object.objectId!] = object
             }
         }
         return newEntityCreator(entityName, arrayOfKeys)
     }
-    
-    func valuesAndVersion(key: AnyObject) -> (values: [String : AnyObject], version: UInt64)? {
-        var retDict = [String : AnyObject]()
-        
-        if let person = self.receivedObjects![key as! String] {
-            retDict[CodingKeyPerson.firstName.rawValue] = person[CodingKeyPerson.firstName.rawValue]
-            retDict[CodingKeyPerson.secondName.rawValue] = person[CodingKeyPerson.secondName.rawValue]
-            return (values: retDict, version: 1)
+    // field is the property of parseObject, for example: person["name"] = "Name"; "name" is field
+    func valueAndVersion(key: String, fromField field: String) -> AnyObject? {
+        if let receivedObject = self.receivedObjects![key] {
+            return receivedObject[field]
         }
-        for person in self.receivedObjects! {
-            let jobOfPerson = (person.1[CodingKeyPerson.job.rawValue] as! PFObject)
-            if jobOfPerson.objectId == key as? String {
-                retDict[CodingKeyJob.name.rawValue] = jobOfPerson[CodingKeyJob.name.rawValue]
-                return (values: retDict, version: 1)
+        for receivedObject in self.receivedObjects! {
+            guard self.relatedEntitiesNames != nil else {
+                return nil
             }
-            let cityOfPerson = (person.1[CodingKeyPerson.city.rawValue] as! PFObject)
-            if cityOfPerson.objectId == key as? String {
-                retDict[CodingKeyCity.name.rawValue] = cityOfPerson[CodingKeyCity.name.rawValue]
-                return (values: retDict, version: 1)
+            for relatedEntityName in self.relatedEntitiesNames! {
+                let relatedObject = (receivedObject.1[relatedEntityName] as! PFObject)
+                if relatedObject.objectId == key {
+                    return relatedObject[field]
+                }
             }
         }
         return nil

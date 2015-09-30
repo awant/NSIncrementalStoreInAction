@@ -27,7 +27,7 @@ protocol IncrementalStorageProtocol {
         :param: key local identifier of object
         :returns: values and version of object
     */
-    func valuesAndVersion(key: AnyObject) -> (values: [String : AnyObject], version: UInt64)?
+    func valueAndVersion(key: String, fromField field: String) -> AnyObject?
     
     /** 
         Create new empty object in storage and return key of it
@@ -85,10 +85,14 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     override func newValuesForObjectWithID(objectID: NSManagedObjectID, withContext context: NSManagedObjectContext) throws -> NSIncrementalStoreNode {
-        let key: AnyObject = self.referenceObjectForObjectID(objectID)
-        let valuesAndVersion = self.storage.valuesAndVersion(key)
-        self.correspondenceTable[key as! String] = objectID
-        return NSIncrementalStoreNode(objectID: objectID, withValues: valuesAndVersion!.values, version: valuesAndVersion!.version)
+        var values = [String : AnyObject]()
+        let key: String = self.referenceObjectForObjectID(objectID) as! String
+        for property in objectID.entity.properties {
+            if let fieldProperty = property as? NSAttributeDescription {
+                values[fieldProperty.name] = self.storage.valueAndVersion(key, fromField: fieldProperty.name)
+            }
+        }
+        return NSIncrementalStoreNode(objectID: objectID, withValues: values, version: 1)
     }
     
     override func newValueForRelationship(relationship: NSRelationshipDescription, forObjectWithID objectID: NSManagedObjectID, withContext context: NSManagedObjectContext?) throws -> AnyObject {
