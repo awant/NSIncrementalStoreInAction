@@ -43,7 +43,7 @@ protocol IncrementalStorageProtocol {
         :param: key local identifier of object
         :returns: nil, if can't save
     */
-    func saveRecord(objectForSave: AnyObject, key: AnyObject) -> AnyObject?
+    func saveRecord(key: String, dictOfAttribs: [String:AnyObject], dictOfRelats: [String:[String]]) -> AnyObject?
     
     /** 
         Update record in storage and return nil if can't
@@ -131,8 +131,7 @@ class PersistanceStore: NSIncrementalStore {
         let managedObjectsCreator: (String, [AnyObject]?) -> AnyObject = { (name, keys) in
             let entityDescription = NSEntityDescription.entityForName(name, inManagedObjectContext: context)!
             if let keys = keys {
-                let returningObjects = keys.map {
-                    (let key) -> NSManagedObject in
+                let returningObjects = keys.map { (let key) -> NSManagedObject in
                     let objectID = self.newObjectIDForEntity(entityDescription, referenceObject: key)
                     return context.objectWithID(objectID)
                 }
@@ -154,12 +153,25 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     func executeSaveRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext) -> AnyObject? {
+        var dictOfAttribs: [String:AnyObject]?
+        var dictOfRelats: [String:[String]]?
+        
         if let objectsForSave = (request as! NSSaveChangesRequest).insertedObjects {
             for newObject in objectsForSave {
-                // I'm very confused about relationships, but I think the best way is to get their from newObject and pass
-                // relationships in format [String: [ObjectID]] to saveRecord
-                //
-                self.storage.saveRecord(newObject, key: self.referenceObjectForObjectID(newObject.objectID) as! String)
+                dictOfAttribs = [String:AnyObject]()
+                dictOfRelats = [String:[String]]()
+                let key = self.referenceObjectForObjectID(newObject.objectID) as! String
+                for property in newObject.entity.properties {
+                    if let relProperty = property as? NSRelationshipDescription {
+                        dictOfRelats![relProperty.name] =
+                            newObject.objectIDsForRelationshipNamed(relProperty.name).map { (let objectID) -> String in
+                                return (self.referenceObjectForObjectID(objectID) as! String)
+                        }
+                    } else if let attribProperty = property as? NSAttributeDescription {
+                        dictOfAttribs![attribProperty.name] = newObject.valueForKey(attribProperty.name)
+                    }
+                }
+                self.storage.saveRecord(key, dictOfAttribs: dictOfAttribs!, dictOfRelats: dictOfRelats!)
             }
         }
         if let objectsForUpdate = (request as! NSSaveChangesRequest).updatedObjects {

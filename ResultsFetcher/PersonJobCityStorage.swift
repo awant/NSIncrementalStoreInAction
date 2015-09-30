@@ -1,5 +1,5 @@
 //
-//  PersonJobStorage.swift
+//  PersonJobCityParseStorage.swift
 //  ResultsFetcher
 //
 //  Created by Awant on 23.09.15.
@@ -13,6 +13,7 @@ import Parse
 class PersonJobCityParseStorage: IncrementalStorageProtocol {
     var receivedObjects: [String: PFObject]?
     var relatedEntitiesNames: [String]?
+    var objectsForSave = [String:PFObject]()
     
     
     enum CodingKeyPerson: String {
@@ -48,7 +49,6 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
             arrayOfKeys = [String]()
             self.receivedObjects = [String: PFObject]()
             for object in lObjects {
-                print(object.allKeys)
                 arrayOfKeys!.append(object.objectId!)
                 self.receivedObjects![object.objectId!] = object
             }
@@ -75,70 +75,43 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
     }
     
     func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject? {
-        if let person = self.receivedObjects![keyObject] {
-                return person[fieldName].objectId
+        if let receivedObject = self.receivedObjects![keyObject] {
+                return receivedObject[fieldName].objectId
         }
         print("something else")
         return nil
     }
     
-    // Save
     func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {
-        if entityName == "Person" {
-            self.personForSave = PFObject(className: entityName)
-            do {
-                try self.personForSave?.save()
-            } catch {}
-            return (self.personForSave?.objectId)!
-        }
-        if entityName == "Job" {
-            self.jobForSave = PFObject(className: entityName)
-            do {
-                try self.jobForSave?.save()
-            } catch {}
-            return (self.jobForSave?.objectId)!
-        }
-        if entityName == "City" {
-            self.cityForSave = PFObject(className: entityName)
-            do {
-                try self.cityForSave?.save()
-            } catch {}
-            return (self.cityForSave?.objectId)!
-        }
-        return []
+        var newObject = PFObject(className: entityName)
+        do {
+            try newObject.save()
+        } catch {}
+        self.objectsForSave[newObject.objectId!] = newObject
+        return newObject.objectId!
     }
     
-    func saveRecord(objectForSave: AnyObject, key: AnyObject) -> AnyObject? {
-        if ((self.personForSave?.objectId)! == key as! String) {
-            // And this is because I don't pass relationships
-            self.personForSave![CodingKeyPerson.firstName.rawValue] = (objectForSave as! Person).firstName
-            self.personForSave![CodingKeyPerson.secondName.rawValue] = (objectForSave as! Person).secondName
-            // And this is because I don't pass relationships
-            self.personForSave![CodingKeyPerson.job.rawValue] = self.jobForSave
-            self.personForSave![CodingKeyPerson.city.rawValue] = self.cityForSave
-            do {
-                try self.personForSave?.save()
-            } catch {}
-            return []
+    func saveRecord(key: String, dictOfAttribs: [String:AnyObject], dictOfRelats: [String:[String]]) -> AnyObject? {
+        //print(dictOfAttribs)
+        //print(dictOfRelats)
+        for attrib in dictOfAttribs {
+            // we should check for existing
+            objectsForSave[key]![attrib.0] = attrib.1
         }
-        if ((self.jobForSave?.objectId)! == key as! String) {
-            
-            self.jobForSave![CodingKeyJob.name.rawValue] = (objectForSave as! Job).name
-            self.jobForSave![CodingKeyJob.persons.rawValue] = [self.personForSave!]
-            do {
-                try self.jobForSave?.save()
-            } catch {}
-            return []
+        for (field, relateKeys) in dictOfRelats {
+            if relateKeys.count == 1 {
+                self.objectsForSave[key]![field] = self.objectsForSave[relateKeys.first!]
+            } else {
+                self.objectsForSave[key]![field] = relateKeys.map { (let key) -> PFObject in
+                    // we should check for existing
+                    return self.objectsForSave[key]!
+                }
+            }
         }
-        if ((self.cityForSave?.objectId)! == key as! String) {
-            self.cityForSave![CodingKeyCity.name.rawValue] = (objectForSave as! City).name
-            self.cityForSave![CodingKeyCity.persons.rawValue] = [self.personForSave!]
-            do {
-                try self.cityForSave?.save()
-            } catch {}
-            return []
-        }
-        return nil
+        do {
+            try self.objectsForSave[key]!.save()
+        } catch {}
+        return []
     }
     
     func updateRecord(objectForUpdate: AnyObject, key: AnyObject) -> AnyObject? {
