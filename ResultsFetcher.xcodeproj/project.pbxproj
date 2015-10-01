@@ -15,9 +15,27 @@
 		637CC1F71B795DD2000D85A0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 637CC1F51B795DD2000D85A0 /* LaunchScreen.xib */; };
 		637CC2031B795DD2000D85A0 /* ResultsFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */; };
 		637CC20D1B795E19000D85A0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC20C1B795E19000D85A0 /* CoreDataStack.swift */; };
-		637CC20F1B795F56000D85A0 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC20E1B795F56000D85A0 /* Person.swift */; };
 		637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2101B7960F0000D85A0 /* PersonsTVC.swift */; };
 		637CC2131B79794A000D85A0 /* PersistanceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2121B79794A000D85A0 /* PersistanceStore.swift */; };
+		840B91ED1BB2BCD700406062 /* PersonJobCityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */; settings = {ASSET_TAGS = (); }; };
+		840B922D1BB2D4EA00406062 /* City+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B92271BB2D4EA00406062 /* City+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		840B922E1BB2D4EA00406062 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B92281BB2D4EA00406062 /* City.swift */; settings = {ASSET_TAGS = (); }; };
+		840B922F1BB2D4EA00406062 /* Person+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B92291BB2D4EA00406062 /* Person+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		840B92301BB2D4EA00406062 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B922A1BB2D4EA00406062 /* Person.swift */; settings = {ASSET_TAGS = (); }; };
+		840B92311BB2D4EA00406062 /* Job+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B922B1BB2D4EA00406062 /* Job+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		840B92321BB2D4EA00406062 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B922C1BB2D4EA00406062 /* Job.swift */; settings = {ASSET_TAGS = (); }; };
+		840DFE501BB834F500F6E125 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840DFE4E1BB834F500F6E125 /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
+		840DFE511BB834F500F6E125 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840DFE4F1BB834F500F6E125 /* Parse.framework */; settings = {ASSET_TAGS = (); }; };
+		848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F931BB315150017BB09 /* AudioToolbox.framework */; };
+		848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F951BB3151C0017BB09 /* CFNetwork.framework */; };
+		848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F971BB315230017BB09 /* CoreGraphics.framework */; };
+		848F9F9A1BB3152A0017BB09 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F991BB3152A0017BB09 /* CoreLocation.framework */; };
+		848F9F9C1BB315310017BB09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F9B1BB315310017BB09 /* QuartzCore.framework */; };
+		848F9F9E1BB315390017BB09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F9D1BB315390017BB09 /* Security.framework */; };
+		848F9FA01BB315400017BB09 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F9F1BB315400017BB09 /* StoreKit.framework */; };
+		848F9FA21BB315460017BB09 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA11BB315460017BB09 /* SystemConfiguration.framework */; };
+		848F9FA41BB315500017BB09 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA31BB315500017BB09 /* libz.tbd */; };
+		848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA51BB315580017BB09 /* libsqlite3.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,9 +61,27 @@
 		637CC2011B795DD2000D85A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFetcherTests.swift; sourceTree = "<group>"; };
 		637CC20C1B795E19000D85A0 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		637CC20E1B795F56000D85A0 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		637CC2101B7960F0000D85A0 /* PersonsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonsTVC.swift; sourceTree = "<group>"; };
 		637CC2121B79794A000D85A0 /* PersistanceStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistanceStore.swift; sourceTree = "<group>"; };
+		840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonJobCityStorage.swift; sourceTree = "<group>"; };
+		840B92271BB2D4EA00406062 /* City+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "City+CoreDataProperties.swift"; path = "../City+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		840B92281BB2D4EA00406062 /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = City.swift; path = ../City.swift; sourceTree = "<group>"; };
+		840B92291BB2D4EA00406062 /* Person+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Person+CoreDataProperties.swift"; path = "../Person+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		840B922A1BB2D4EA00406062 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Person.swift; path = ../Person.swift; sourceTree = "<group>"; };
+		840B922B1BB2D4EA00406062 /* Job+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Job+CoreDataProperties.swift"; path = "../Job+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		840B922C1BB2D4EA00406062 /* Job.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Job.swift; path = ../Job.swift; sourceTree = "<group>"; };
+		840DFE4E1BB834F500F6E125 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		840DFE4F1BB834F500F6E125 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		848F9F931BB315150017BB09 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		848F9F951BB3151C0017BB09 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		848F9F971BB315230017BB09 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		848F9F991BB3152A0017BB09 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		848F9F9B1BB315310017BB09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		848F9F9D1BB315390017BB09 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		848F9F9F1BB315400017BB09 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		848F9FA11BB315460017BB09 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		848F9FA31BB315500017BB09 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		848F9FA51BB315580017BB09 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +89,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */,
+				848F9FA41BB315500017BB09 /* libz.tbd in Frameworks */,
+				848F9FA21BB315460017BB09 /* SystemConfiguration.framework in Frameworks */,
+				848F9FA01BB315400017BB09 /* StoreKit.framework in Frameworks */,
+				848F9F9E1BB315390017BB09 /* Security.framework in Frameworks */,
+				848F9F9C1BB315310017BB09 /* QuartzCore.framework in Frameworks */,
+				848F9F9A1BB3152A0017BB09 /* CoreLocation.framework in Frameworks */,
+				848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */,
+				840DFE501BB834F500F6E125 /* Bolts.framework in Frameworks */,
+				848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */,
+				840DFE511BB834F500F6E125 /* Parse.framework in Frameworks */,
+				848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,15 +136,17 @@
 			isa = PBXGroup;
 			children = (
 				637CC1E91B795DD2000D85A0 /* AppDelegate.swift */,
-				637CC20E1B795F56000D85A0 /* Person.swift */,
 				637CC20C1B795E19000D85A0 /* CoreDataStack.swift */,
 				635A83AC1B7A5B1600574461 /* PersonStorage.swift */,
+				840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */,
 				637CC2121B79794A000D85A0 /* PersistanceStore.swift */,
 				637CC1F01B795DD2000D85A0 /* Main.storyboard */,
 				637CC2101B7960F0000D85A0 /* PersonsTVC.swift */,
 				637CC1F31B795DD2000D85A0 /* Images.xcassets */,
 				637CC1F51B795DD2000D85A0 /* LaunchScreen.xib */,
 				637CC1EB1B795DD2000D85A0 /* ResultsFetcher.xcdatamodeld */,
+				8431C0681BB1F9DD007DBF2A /* Models */,
+				848F9F921BB314C60017BB09 /* Additional Frameworks */,
 				637CC1E71B795DD2000D85A0 /* Supporting Files */,
 			);
 			path = ResultsFetcher;
@@ -125,6 +175,38 @@
 				637CC2011B795DD2000D85A0 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8431C0681BB1F9DD007DBF2A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				840B92271BB2D4EA00406062 /* City+CoreDataProperties.swift */,
+				840B92281BB2D4EA00406062 /* City.swift */,
+				840B92291BB2D4EA00406062 /* Person+CoreDataProperties.swift */,
+				840B922A1BB2D4EA00406062 /* Person.swift */,
+				840B922B1BB2D4EA00406062 /* Job+CoreDataProperties.swift */,
+				840B922C1BB2D4EA00406062 /* Job.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		848F9F921BB314C60017BB09 /* Additional Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				848F9FA51BB315580017BB09 /* libsqlite3.tbd */,
+				848F9FA31BB315500017BB09 /* libz.tbd */,
+				840DFE4E1BB834F500F6E125 /* Bolts.framework */,
+				840DFE4F1BB834F500F6E125 /* Parse.framework */,
+				848F9FA11BB315460017BB09 /* SystemConfiguration.framework */,
+				848F9F9F1BB315400017BB09 /* StoreKit.framework */,
+				848F9F9D1BB315390017BB09 /* Security.framework */,
+				848F9F9B1BB315310017BB09 /* QuartzCore.framework */,
+				848F9F991BB3152A0017BB09 /* CoreLocation.framework */,
+				848F9F971BB315230017BB09 /* CoreGraphics.framework */,
+				848F9F951BB3151C0017BB09 /* CFNetwork.framework */,
+				848F9F931BB315150017BB09 /* AudioToolbox.framework */,
+			);
+			name = "Additional Frameworks";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,10 +310,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				637CC20F1B795F56000D85A0 /* Person.swift in Sources */,
 				637CC1ED1B795DD2000D85A0 /* ResultsFetcher.xcdatamodeld in Sources */,
 				637CC1EA1B795DD2000D85A0 /* AppDelegate.swift in Sources */,
+				840B922E1BB2D4EA00406062 /* City.swift in Sources */,
+				840B91ED1BB2BCD700406062 /* PersonJobCityStorage.swift in Sources */,
+				840B92321BB2D4EA00406062 /* Job.swift in Sources */,
+				840B92301BB2D4EA00406062 /* Person.swift in Sources */,
+				840B92311BB2D4EA00406062 /* Job+CoreDataProperties.swift in Sources */,
 				637CC2131B79794A000D85A0 /* PersistanceStore.swift in Sources */,
+				840B922D1BB2D4EA00406062 /* City+CoreDataProperties.swift in Sources */,
+				840B922F1BB2D4EA00406062 /* Person+CoreDataProperties.swift in Sources */,
 				637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */,
 				635A83AD1B7A5B1600574461 /* PersonStorage.swift in Sources */,
 				637CC20D1B795E19000D85A0 /* CoreDataStack.swift in Sources */,
@@ -364,6 +452,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ResultsFetcher",
+				);
 				INFOPLIST_FILE = ResultsFetcher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parallels.$(PRODUCT_NAME:rfc1034identifier)";
@@ -375,6 +467,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ResultsFetcher",
+				);
 				INFOPLIST_FILE = ResultsFetcher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parallels.$(PRODUCT_NAME:rfc1034identifier)";
@@ -389,6 +485,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/ResultsFetcher",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -409,6 +506,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/ResultsFetcher",
 				);
 				INFOPLIST_FILE = ResultsFetcherTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

@@ -55,7 +55,7 @@ class _Person: NSObject, NSCoding {
     }
 }
 
-class PersonStorage: IncrementalStorageProtocol {
+class PersonStorage/*: IncrementalStorageProtocol*/ {
     
     var cachePersons = [String: _Person]()
     var persons: [_Person]?
@@ -96,7 +96,7 @@ class PersonStorage: IncrementalStorageProtocol {
         return nil
     }
     
-    func getKeyOfNewObject() -> AnyObject {
+    func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {
         let newPerson = _Person(firstName: "", secondName: "")
         cachePersons[newPerson.identifier.id] = newPerson
         return newPerson.identifier.id
@@ -107,8 +107,8 @@ class PersonStorage: IncrementalStorageProtocol {
             self.persons = [_Person]()
         }
         if let personInCache = self.cachePersons[key as! String] {
-            personInCache.firstName = (objectForSave as! Person).firstName
-            personInCache.secondName = (objectForSave as! Person).secondName
+            personInCache.firstName = (objectForSave as! Person).firstName!
+            personInCache.secondName = (objectForSave as! Person).secondName!
             self.persons!.append(personInCache)
             if (!NSKeyedArchiver.archiveRootObject(persons!, toFile: homeDirectory)) {
                 return nil
@@ -125,8 +125,8 @@ class PersonStorage: IncrementalStorageProtocol {
         }
         for person in self.persons! {
             if person.identifier.id == key as! String {
-                person.firstName = (objectForUpdate as! Person).firstName
-                person.secondName = (objectForUpdate as! Person).secondName
+                person.firstName = (objectForUpdate as! Person).firstName!
+                person.secondName = (objectForUpdate as! Person).secondName!
                 if (!NSKeyedArchiver.archiveRootObject(persons!, toFile: homeDirectory)) {
                     return nil
                 }

@@ -34,7 +34,7 @@ protocol IncrementalStorageProtocol {
     
         :returns: key of new object
     */
-    func getKeyOfNewObject() -> AnyObject
+    func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject
     
     /** 
         Save record in storage and return nil if can't
@@ -62,11 +62,15 @@ protocol IncrementalStorageProtocol {
         :returns: nil, if can't delete
     */
     func deleteRecord(objectForDelete: AnyObject, key: AnyObject) -> AnyObject?
+    
+    func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject?
 }
 
 class PersistanceStore: NSIncrementalStore {
-    let personStorage = PersonStorage()
-    var cache = [NSManagedObjectID: NSObject]()
+    let storage : IncrementalStorageProtocol = PersonJobCityStorage()
+    
+    
+    var correspondenceTable = [String: NSManagedObjectID]()
     
     override class func initialize() {
         NSPersistentStoreCoordinator.registerStoreClass(self, forStoreType: self.type)
@@ -81,15 +85,20 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     override func newValuesForObjectWithID(objectID: NSManagedObjectID, withContext context: NSManagedObjectContext) throws -> NSIncrementalStoreNode {
-        let identifier: AnyObject = self.referenceObjectForObjectID(objectID)
-        let valuesAndVersion = self.personStorage.valuesAndVersion(identifier)
+        let key: AnyObject = self.referenceObjectForObjectID(objectID)
+        let valuesAndVersion = self.storage.valuesAndVersion(key)
+        self.correspondenceTable[key as! String] = objectID
         return NSIncrementalStoreNode(objectID: objectID, withValues: valuesAndVersion!.values, version: valuesAndVersion!.version)
+    }
+    
+    override func newValueForRelationship(relationship: NSRelationshipDescription, forObjectWithID objectID: NSManagedObjectID, withContext context: NSManagedObjectContext?) throws -> AnyObject {
+        let key = self.storage.getKeyOfDestFrom(self.referenceObjectForObjectID(objectID) as! String, to: relationship.name)
+        let objectID = self.newObjectIDForEntity(relationship.destinationEntity!, referenceObject: key!)
+        return  objectID
     }
     
     override func executeRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext?) throws -> AnyObject {
         let requestHandler = requestHandlerForType(request.requestType)
-//        guard let requestHandler = requestHandlerForType(request.requestType) else {
-//        }
         return requestHandler!(request, context!)!
     }
     
@@ -105,26 +114,29 @@ class PersistanceStore: NSIncrementalStore {
     override func obtainPermanentIDsForObjects(array: [NSManagedObject]) throws -> [NSManagedObjectID] {
         var permanentIDs = [NSManagedObjectID]()
         for managedObject in array {
-            let objectID = self.newObjectIDForEntity(managedObject.entity, referenceObject: self.personStorage.getKeyOfNewObject())
+            let objectID = self.newObjectIDForEntity(managedObject.entity, referenceObject: self.storage.getKeyOfNewObjectWithEntityName(managedObject.entity.name!))
             permanentIDs.append(objectID)
         }
         return permanentIDs
     }
     
     func executeSaveRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext) -> AnyObject? {
-        if let personsForSave = (request as! NSSaveChangesRequest).insertedObjects {
-            for newPerson in personsForSave {
-                self.personStorage.saveRecord(newPerson as! Person, key: self.referenceObjectForObjectID(newPerson.objectID) as! String)
+        if let objectsForSave = (request as! NSSaveChangesRequest).insertedObjects {
+            for newObject in objectsForSave {
+                // I'm very confused about relationships, but I think the best way is to get their from newObject and pass
+                // relationships in format [String: [ObjectID]] to saveRecord
+                //
+                self.storage.saveRecord(newObject, key: self.referenceObjectForObjectID(newObject.objectID) as! String)
             }
         }
-        if let personsForUpdate = (request as! NSSaveChangesRequest).updatedObjects {
-            for updatedPerson in personsForUpdate {
-                self.personStorage.updateRecord(updatedPerson as! Person, key: self.referenceObjectForObjectID(updatedPerson.objectID) as! String)
+        if let objectsForUpdate = (request as! NSSaveChangesRequest).updatedObjects {
+            for updatedObject in objectsForUpdate {
+                self.storage.updateRecord(updatedObject, key: self.referenceObjectForObjectID(updatedObject.objectID) as! String)
             }
         }
-        if let personsForDelete = (request as! NSSaveChangesRequest).deletedObjects {
-            for deletedPerson in personsForDelete {
-                self.personStorage.deleteRecord(deletedPerson as! Person, key: self.referenceObjectForObjectID(deletedPerson.objectID) as! String)
+        if let objectsForDelete = (request as! NSSaveChangesRequest).deletedObjects {
+            for deletedObject in objectsForDelete {
+                self.storage.deleteRecord(deletedObject, key: self.referenceObjectForObjectID(deletedObject.objectID) as! String)
             }
         }
         return []
@@ -142,12 +154,13 @@ class PersistanceStore: NSIncrementalStore {
                 let returningObjects = keys.map {
                     (let key) -> NSManagedObject in
                     let objectID = self.newObjectIDForEntity(entityDescription, referenceObject: key)
+                    //self.correspondenceTable[key as! String] = objectID
                     return context.objectWithID(objectID)
                 }
                 return returningObjects
             }
             return []
         }
-        return self.personStorage.fetchRecords((request as! NSFetchRequest).entityName!, sortDescriptors: sD, newEntityCreator: managedObjectsCreator)
+        return self.storage.fetchRecords((request as! NSFetchRequest).entityName!, sortDescriptors: sD, newEntityCreator: managedObjectsCreator)
     }
 }

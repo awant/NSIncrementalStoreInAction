@@ -7,6 +7,11 @@
 //
 
 import UIKit
+// With_Parse
+// In Addition, there are dependencies in building (Additional Frameworks)
+import Parse
+import Bolts
+// End With_Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,18 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-//        
-//        let sleepOperation = NSBlockOperation {
-//            sleep(5)
-//        }
-//        
-//        let saveOperation = NSBlockOperation {
-//            CoreDataManager.sharedManager.testInsertion()
-//        }
-//        
-//        saveOperation.addDependency(sleepOperation)
-//        NSOperationQueue().addOperation(sleepOperation)
-//        NSOperationQueue.mainQueue().addOperation(saveOperation)
+        // With_Parse
+        Parse.enableLocalDatastore()
+        Parse.setApplicationId("GqHHo1WXGpbgJlbDc0iwR8IxuVTxIfBbfsdYpT2q",
+            clientKey: "UkHwQdTkNNvfL39iE4enM2UETEoVSaMefH5AX5gj")
+        // End With_Parse
         return true
     }
 
@@ -33,4 +31,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CoreDataManager.sharedManager.saveContext()
     }
 }
-
