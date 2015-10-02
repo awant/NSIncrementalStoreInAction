@@ -66,8 +66,6 @@ protocol IncrementalStorageProtocol {
     func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject?
 }
 
-
-
 class PersistanceStore: NSIncrementalStore {
     let storage : IncrementalStorageProtocol = PersonJobCityParseStorage()
     var correspondenceTable = [String: NSManagedObjectID]()
@@ -116,17 +114,22 @@ class PersistanceStore: NSIncrementalStore {
     }
     
     func executeFetchRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext) -> AnyObject? {
-        let entityName = (request as! NSFetchRequest).entityName!
+        guard let entityName = (request as? NSFetchRequest)?.entityName else {
+            return nil
+        }
         var relatedEntitiesNames: [String]?
-        if let properties = ((request as! NSFetchRequest).entity?.properties) {
-            relatedEntitiesNames = [String]()
-            for property in properties {
-                if let relProperty = property as? NSRelationshipDescription {
-                    relatedEntitiesNames!.append(relProperty.name)
-                }
+        guard let properties = ((request as? NSFetchRequest)?.entity?.properties) else {
+            return nil
+        }
+        relatedEntitiesNames = [String]()
+        for property in properties {
+            if let relProperty = property as? NSRelationshipDescription {
+                relatedEntitiesNames!.append(relProperty.name)
             }
         }
-        let sD = (request as! NSFetchRequest).sortDescriptors
+        guard let sD = (request as? NSFetchRequest)?.sortDescriptors else {
+            return nil
+        }
         // work with context
         let managedObjectsCreator: (String, [AnyObject]?) -> AnyObject = { (name, keys) in
             let entityDescription = NSEntityDescription.entityForName(name, inManagedObjectContext: context)!

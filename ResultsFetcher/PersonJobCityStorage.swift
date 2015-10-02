@@ -15,17 +15,6 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
     var relatedEntitiesNames: [String]?
     var objectsForSave = [String:PFObject]()
     
-    
-    enum CodingKeyPerson: String {
-        case firstName, secondName, job, city
-    }
-    enum CodingKeyJob: String {
-        case name, persons
-    }
-    enum CodingKeyCity: String {
-        case name, persons
-    }
-    
     var personForSave: PFObject?
     var jobForSave: PFObject?
     var cityForSave: PFObject?
