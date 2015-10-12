@@ -18,14 +18,6 @@
 		637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2101B7960F0000D85A0 /* PersonsTVC.swift */; };
 		637CC2131B79794A000D85A0 /* PersistanceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2121B79794A000D85A0 /* PersistanceStore.swift */; };
 		840B91ED1BB2BCD700406062 /* PersonJobCityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */; settings = {ASSET_TAGS = (); }; };
-		840B922D1BB2D4EA00406062 /* City+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B92271BB2D4EA00406062 /* City+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		840B922E1BB2D4EA00406062 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B92281BB2D4EA00406062 /* City.swift */; settings = {ASSET_TAGS = (); }; };
-		840B922F1BB2D4EA00406062 /* Person+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B92291BB2D4EA00406062 /* Person+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		840B92301BB2D4EA00406062 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B922A1BB2D4EA00406062 /* Person.swift */; settings = {ASSET_TAGS = (); }; };
-		840B92311BB2D4EA00406062 /* Job+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B922B1BB2D4EA00406062 /* Job+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
-		840B92321BB2D4EA00406062 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B922C1BB2D4EA00406062 /* Job.swift */; settings = {ASSET_TAGS = (); }; };
-		840DFE501BB834F500F6E125 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840DFE4E1BB834F500F6E125 /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
-		840DFE511BB834F500F6E125 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840DFE4F1BB834F500F6E125 /* Parse.framework */; settings = {ASSET_TAGS = (); }; };
 		848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F931BB315150017BB09 /* AudioToolbox.framework */; };
 		848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F951BB3151C0017BB09 /* CFNetwork.framework */; };
 		848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F971BB315230017BB09 /* CoreGraphics.framework */; };
@@ -36,8 +28,15 @@
 		848F9FA21BB315460017BB09 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA11BB315460017BB09 /* SystemConfiguration.framework */; };
 		848F9FA41BB315500017BB09 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA31BB315500017BB09 /* libz.tbd */; };
 		848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA51BB315580017BB09 /* libsqlite3.tbd */; };
-		84D7A56E1BBBEE640075F5B1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D7A56C1BBBEE640075F5B1 /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
-		84D7A56F1BBBEE640075F5B1 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D7A56D1BBBEE640075F5B1 /* Parse.framework */; settings = {ASSET_TAGS = (); }; };
+		84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584B1BCC37000005CC62 /* Bolts.framework */; };
+		84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584C1BCC37000005CC62 /* Parse.framework */; };
+		84D877EA1BCBEA8300A7002B /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 84D877E91BCBEA8300A7002B /* Cartfile */; settings = {ASSET_TAGS = (); }; };
+		84D877ED1BCC2CD800A7002B /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EB1BCC2CD800A7002B /* City.swift */; settings = {ASSET_TAGS = (); }; };
+		84D877EE1BCC2CD800A7002B /* City+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EC1BCC2CD800A7002B /* City+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		84D877F11BCC2CE400A7002B /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EF1BCC2CE400A7002B /* Job.swift */; settings = {ASSET_TAGS = (); }; };
+		84D877F21BCC2CE400A7002B /* Job+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F01BCC2CE400A7002B /* Job+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
+		84D877F51BCC2CEC00A7002B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F31BCC2CEC00A7002B /* Person.swift */; settings = {ASSET_TAGS = (); }; };
+		84D877F61BCC2CEC00A7002B /* Person+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F41BCC2CEC00A7002B /* Person+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,14 +65,6 @@
 		637CC2101B7960F0000D85A0 /* PersonsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonsTVC.swift; sourceTree = "<group>"; };
 		637CC2121B79794A000D85A0 /* PersistanceStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistanceStore.swift; sourceTree = "<group>"; };
 		840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonJobCityStorage.swift; sourceTree = "<group>"; };
-		840B92271BB2D4EA00406062 /* City+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "City+CoreDataProperties.swift"; path = "../City+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		840B92281BB2D4EA00406062 /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = City.swift; path = ../City.swift; sourceTree = "<group>"; };
-		840B92291BB2D4EA00406062 /* Person+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Person+CoreDataProperties.swift"; path = "../Person+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		840B922A1BB2D4EA00406062 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Person.swift; path = ../Person.swift; sourceTree = "<group>"; };
-		840B922B1BB2D4EA00406062 /* Job+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Job+CoreDataProperties.swift"; path = "../Job+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		840B922C1BB2D4EA00406062 /* Job.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Job.swift; path = ../Job.swift; sourceTree = "<group>"; };
-		840DFE4E1BB834F500F6E125 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		840DFE4F1BB834F500F6E125 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		848F9F931BB315150017BB09 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		848F9F951BB3151C0017BB09 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		848F9F971BB315230017BB09 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -84,8 +75,16 @@
 		848F9FA11BB315460017BB09 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		848F9FA31BB315500017BB09 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		848F9FA51BB315580017BB09 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		84D7A56C1BBBEE640075F5B1 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		84D7A56D1BBBEE640075F5B1 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		84C658491BCC36EE0005CC62 /* ResultsFetcher */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ResultsFetcher; sourceTree = "<group>"; };
+		84C6584B1BCC37000005CC62 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ResultsFetcher/Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
+		84C6584C1BCC37000005CC62 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ResultsFetcher/Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
+		84D877E91BCBEA8300A7002B /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Cartfile; path = ResultsFetcher/Cartfile; sourceTree = "<group>"; };
+		84D877EB1BCC2CD800A7002B /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		84D877EC1BCC2CD800A7002B /* City+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "City+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84D877EF1BCC2CE400A7002B /* Job.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
+		84D877F01BCC2CE400A7002B /* Job+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Job+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84D877F31BCC2CEC00A7002B /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		84D877F41BCC2CEC00A7002B /* Person+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Person+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +92,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */,
+				84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */,
 				848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */,
 				848F9FA41BB315500017BB09 /* libz.tbd in Frameworks */,
 				848F9FA21BB315460017BB09 /* SystemConfiguration.framework in Frameworks */,
@@ -100,12 +101,8 @@
 				848F9F9E1BB315390017BB09 /* Security.framework in Frameworks */,
 				848F9F9C1BB315310017BB09 /* QuartzCore.framework in Frameworks */,
 				848F9F9A1BB3152A0017BB09 /* CoreLocation.framework in Frameworks */,
-				84D7A56E1BBBEE640075F5B1 /* Bolts.framework in Frameworks */,
 				848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */,
-				840DFE501BB834F500F6E125 /* Bolts.framework in Frameworks */,
-				84D7A56F1BBBEE640075F5B1 /* Parse.framework in Frameworks */,
 				848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */,
-				840DFE511BB834F500F6E125 /* Parse.framework in Frameworks */,
 				848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,6 +120,10 @@
 		637CC1DB1B795DD2000D85A0 = {
 			isa = PBXGroup;
 			children = (
+				84C6584B1BCC37000005CC62 /* Bolts.framework */,
+				84C6584C1BCC37000005CC62 /* Parse.framework */,
+				84C658491BCC36EE0005CC62 /* ResultsFetcher */,
+				84D877E91BCBEA8300A7002B /* Cartfile */,
 				637CC1E61B795DD2000D85A0 /* ResultsFetcher */,
 				637CC1FF1B795DD2000D85A0 /* ResultsFetcherTests */,
 				637CC1E51B795DD2000D85A0 /* Products */,
@@ -186,12 +187,12 @@
 		8431C0681BB1F9DD007DBF2A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				840B92271BB2D4EA00406062 /* City+CoreDataProperties.swift */,
-				840B92281BB2D4EA00406062 /* City.swift */,
-				840B92291BB2D4EA00406062 /* Person+CoreDataProperties.swift */,
-				840B922A1BB2D4EA00406062 /* Person.swift */,
-				840B922B1BB2D4EA00406062 /* Job+CoreDataProperties.swift */,
-				840B922C1BB2D4EA00406062 /* Job.swift */,
+				84D877F31BCC2CEC00A7002B /* Person.swift */,
+				84D877F41BCC2CEC00A7002B /* Person+CoreDataProperties.swift */,
+				84D877EF1BCC2CE400A7002B /* Job.swift */,
+				84D877F01BCC2CE400A7002B /* Job+CoreDataProperties.swift */,
+				84D877EB1BCC2CD800A7002B /* City.swift */,
+				84D877EC1BCC2CD800A7002B /* City+CoreDataProperties.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -201,10 +202,6 @@
 			children = (
 				848F9FA51BB315580017BB09 /* libsqlite3.tbd */,
 				848F9FA31BB315500017BB09 /* libz.tbd */,
-				840DFE4E1BB834F500F6E125 /* Bolts.framework */,
-				840DFE4F1BB834F500F6E125 /* Parse.framework */,
-				84D7A56C1BBBEE640075F5B1 /* Bolts.framework */,
-				84D7A56D1BBBEE640075F5B1 /* Parse.framework */,
 				848F9FA11BB315460017BB09 /* SystemConfiguration.framework */,
 				848F9F9F1BB315400017BB09 /* StoreKit.framework */,
 				848F9F9D1BB315390017BB09 /* Security.framework */,
@@ -227,6 +224,7 @@
 				637CC1E01B795DD2000D85A0 /* Sources */,
 				637CC1E11B795DD2000D85A0 /* Frameworks */,
 				637CC1E21B795DD2000D85A0 /* Resources */,
+				84C658501BCC38B60005CC62 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -300,6 +298,7 @@
 			files = (
 				637CC1F21B795DD2000D85A0 /* Main.storyboard in Resources */,
 				637CC1F71B795DD2000D85A0 /* LaunchScreen.xib in Resources */,
+				84D877EA1BCBEA8300A7002B /* Cartfile in Resources */,
 				637CC1F41B795DD2000D85A0 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,24 +312,42 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		84C658501BCC38B60005CC62 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/ResultsFetcher/Carthage/Build/iOS/Parse.framework",
+				"$(SRCROOT)/ResultsFetcher/Carthage/Build/iOS/Bolts.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		637CC1E01B795DD2000D85A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				637CC1ED1B795DD2000D85A0 /* ResultsFetcher.xcdatamodeld in Sources */,
+				84D877EE1BCC2CD800A7002B /* City+CoreDataProperties.swift in Sources */,
 				637CC1EA1B795DD2000D85A0 /* AppDelegate.swift in Sources */,
-				840B922E1BB2D4EA00406062 /* City.swift in Sources */,
 				840B91ED1BB2BCD700406062 /* PersonJobCityStorage.swift in Sources */,
-				840B92321BB2D4EA00406062 /* Job.swift in Sources */,
-				840B92301BB2D4EA00406062 /* Person.swift in Sources */,
-				840B92311BB2D4EA00406062 /* Job+CoreDataProperties.swift in Sources */,
 				637CC2131B79794A000D85A0 /* PersistanceStore.swift in Sources */,
-				840B922D1BB2D4EA00406062 /* City+CoreDataProperties.swift in Sources */,
-				840B922F1BB2D4EA00406062 /* Person+CoreDataProperties.swift in Sources */,
 				637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */,
+				84D877F51BCC2CEC00A7002B /* Person.swift in Sources */,
 				635A83AD1B7A5B1600574461 /* PersonStorage.swift in Sources */,
+				84D877ED1BCC2CD800A7002B /* City.swift in Sources */,
+				84D877F21BCC2CE400A7002B /* Job+CoreDataProperties.swift in Sources */,
+				84D877F61BCC2CEC00A7002B /* Person+CoreDataProperties.swift in Sources */,
 				637CC20D1B795E19000D85A0 /* CoreDataStack.swift in Sources */,
+				84D877F11BCC2CE400A7002B /* Job.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +409,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -438,6 +456,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -463,6 +482,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ResultsFetcher",
+					"$(PROJECT_DIR)/ResultsFetcher/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ResultsFetcher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -478,6 +498,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ResultsFetcher",
+					"$(PROJECT_DIR)/ResultsFetcher/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ResultsFetcher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
