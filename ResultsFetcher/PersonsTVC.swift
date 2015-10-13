@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Kangaroo
 
 class PersonCell: UITableViewCell {
     var person: Person? {

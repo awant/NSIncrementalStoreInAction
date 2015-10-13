@@ -14,10 +14,7 @@
 		637CC1F41B795DD2000D85A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 637CC1F31B795DD2000D85A0 /* Images.xcassets */; };
 		637CC1F71B795DD2000D85A0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 637CC1F51B795DD2000D85A0 /* LaunchScreen.xib */; };
 		637CC2031B795DD2000D85A0 /* ResultsFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */; };
-		637CC20D1B795E19000D85A0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC20C1B795E19000D85A0 /* CoreDataStack.swift */; };
 		637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2101B7960F0000D85A0 /* PersonsTVC.swift */; };
-		637CC2131B79794A000D85A0 /* PersistanceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2121B79794A000D85A0 /* PersistanceStore.swift */; };
-		840B91ED1BB2BCD700406062 /* PersonJobCityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */; settings = {ASSET_TAGS = (); }; };
 		848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F931BB315150017BB09 /* AudioToolbox.framework */; };
 		848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F951BB3151C0017BB09 /* CFNetwork.framework */; };
 		848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F971BB315230017BB09 /* CoreGraphics.framework */; };
@@ -30,13 +27,11 @@
 		848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA51BB315580017BB09 /* libsqlite3.tbd */; };
 		84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584B1BCC37000005CC62 /* Bolts.framework */; };
 		84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584C1BCC37000005CC62 /* Parse.framework */; };
+		84C658D51BCCF3580005CC62 /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C658D41BCCF34A0005CC62 /* Kangaroo.framework */; };
 		84D877EA1BCBEA8300A7002B /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 84D877E91BCBEA8300A7002B /* Cartfile */; settings = {ASSET_TAGS = (); }; };
 		84D877ED1BCC2CD800A7002B /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EB1BCC2CD800A7002B /* City.swift */; settings = {ASSET_TAGS = (); }; };
-		84D877EE1BCC2CD800A7002B /* City+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EC1BCC2CD800A7002B /* City+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F11BCC2CE400A7002B /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EF1BCC2CE400A7002B /* Job.swift */; settings = {ASSET_TAGS = (); }; };
-		84D877F21BCC2CE400A7002B /* Job+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F01BCC2CE400A7002B /* Job+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F51BCC2CEC00A7002B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F31BCC2CEC00A7002B /* Person.swift */; settings = {ASSET_TAGS = (); }; };
-		84D877F61BCC2CEC00A7002B /* Person+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F41BCC2CEC00A7002B /* Person+CoreDataProperties.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +41,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 637CC1E31B795DD2000D85A0;
 			remoteInfo = ResultsFetcher;
+		};
+		84C658D31BCCF34A0005CC62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84C658CF1BCCF34A0005CC62 /* Kangaroo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84C658C41BCCF3240005CC62;
+			remoteInfo = Kangaroo;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -78,6 +80,7 @@
 		84C658491BCC36EE0005CC62 /* ResultsFetcher */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ResultsFetcher; sourceTree = "<group>"; };
 		84C6584B1BCC37000005CC62 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ResultsFetcher/Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
 		84C6584C1BCC37000005CC62 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ResultsFetcher/Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
+		84C658CF1BCCF34A0005CC62 /* Kangaroo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kangaroo.xcodeproj; path = Kangaroo/Kangaroo.xcodeproj; sourceTree = "<group>"; };
 		84D877E91BCBEA8300A7002B /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Cartfile; path = ResultsFetcher/Cartfile; sourceTree = "<group>"; };
 		84D877EB1BCC2CD800A7002B /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		84D877EC1BCC2CD800A7002B /* City+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "City+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -92,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C658D51BCCF3580005CC62 /* Kangaroo.framework in Frameworks */,
 				84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */,
 				84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */,
 				848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */,
@@ -120,6 +124,7 @@
 		637CC1DB1B795DD2000D85A0 = {
 			isa = PBXGroup;
 			children = (
+				84C658CF1BCCF34A0005CC62 /* Kangaroo.xcodeproj */,
 				84C6584B1BCC37000005CC62 /* Bolts.framework */,
 				84C6584C1BCC37000005CC62 /* Parse.framework */,
 				84C658491BCC36EE0005CC62 /* ResultsFetcher */,
@@ -214,6 +219,14 @@
 			name = "Additional Frameworks";
 			sourceTree = "<group>";
 		};
+		84C658D01BCCF34A0005CC62 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84C658D41BCCF34A0005CC62 /* Kangaroo.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -283,6 +296,12 @@
 			mainGroup = 637CC1DB1B795DD2000D85A0;
 			productRefGroup = 637CC1E51B795DD2000D85A0 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 84C658D01BCCF34A0005CC62 /* Products */;
+					ProjectRef = 84C658CF1BCCF34A0005CC62 /* Kangaroo.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				637CC1E31B795DD2000D85A0 /* ResultsFetcher */,
@@ -290,6 +309,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		84C658D41BCCF34A0005CC62 /* Kangaroo.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Kangaroo.framework;
+			remoteRef = 84C658D31BCCF34A0005CC62 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		637CC1E21B795DD2000D85A0 /* Resources */ = {
@@ -336,17 +365,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				637CC1ED1B795DD2000D85A0 /* ResultsFetcher.xcdatamodeld in Sources */,
-				84D877EE1BCC2CD800A7002B /* City+CoreDataProperties.swift in Sources */,
 				637CC1EA1B795DD2000D85A0 /* AppDelegate.swift in Sources */,
-				840B91ED1BB2BCD700406062 /* PersonJobCityStorage.swift in Sources */,
-				637CC2131B79794A000D85A0 /* PersistanceStore.swift in Sources */,
 				637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */,
 				84D877F51BCC2CEC00A7002B /* Person.swift in Sources */,
 				635A83AD1B7A5B1600574461 /* PersonStorage.swift in Sources */,
 				84D877ED1BCC2CD800A7002B /* City.swift in Sources */,
-				84D877F21BCC2CE400A7002B /* Job+CoreDataProperties.swift in Sources */,
-				84D877F61BCC2CEC00A7002B /* Person+CoreDataProperties.swift in Sources */,
-				637CC20D1B795E19000D85A0 /* CoreDataStack.swift in Sources */,
 				84D877F11BCC2CE400A7002B /* Job.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,6 +12,7 @@ import UIKit
 import Parse
 import Bolts
 // End With_Parse
+import Kangaroo
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -10,7 +10,8 @@ import Foundation
 import CoreData
 
 class Person: NSManagedObject {
-
-// Insert code here to add functionality to your managed object subclass
-
+    @NSManaged var firstName: String?
+    @NSManaged var secondName: String?
+    @NSManaged var job: Job?
+    @NSManaged var city: City?
 }
