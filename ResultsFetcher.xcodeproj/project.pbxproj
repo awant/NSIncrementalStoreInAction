@@ -15,13 +15,13 @@
 		637CC1F71B795DD2000D85A0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 637CC1F51B795DD2000D85A0 /* LaunchScreen.xib */; };
 		637CC2031B795DD2000D85A0 /* ResultsFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */; };
 		637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2101B7960F0000D85A0 /* PersonsTVC.swift */; };
+		844F04141BCD690700DD0E6D /* PersonJobCityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */; };
 		848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F931BB315150017BB09 /* AudioToolbox.framework */; };
 		848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F951BB3151C0017BB09 /* CFNetwork.framework */; };
 		848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F971BB315230017BB09 /* CoreGraphics.framework */; };
 		848F9F9A1BB3152A0017BB09 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F991BB3152A0017BB09 /* CoreLocation.framework */; };
 		848F9F9C1BB315310017BB09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F9B1BB315310017BB09 /* QuartzCore.framework */; };
 		848F9F9E1BB315390017BB09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F9D1BB315390017BB09 /* Security.framework */; };
-		848F9FA01BB315400017BB09 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F9F1BB315400017BB09 /* StoreKit.framework */; };
 		848F9FA21BB315460017BB09 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA11BB315460017BB09 /* SystemConfiguration.framework */; };
 		848F9FA41BB315500017BB09 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA31BB315500017BB09 /* libz.tbd */; };
 		848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA51BB315580017BB09 /* libsqlite3.tbd */; };
@@ -64,7 +64,6 @@
 		848F9F991BB3152A0017BB09 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		848F9F9B1BB315310017BB09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		848F9F9D1BB315390017BB09 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		848F9F9F1BB315400017BB09 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		848F9FA11BB315460017BB09 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		848F9FA31BB315500017BB09 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		848F9FA51BB315580017BB09 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -89,7 +88,6 @@
 				848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */,
 				848F9FA41BB315500017BB09 /* libz.tbd in Frameworks */,
 				848F9FA21BB315460017BB09 /* SystemConfiguration.framework in Frameworks */,
-				848F9FA01BB315400017BB09 /* StoreKit.framework in Frameworks */,
 				848F9F9E1BB315390017BB09 /* Security.framework in Frameworks */,
 				848F9F9C1BB315310017BB09 /* QuartzCore.framework in Frameworks */,
 				848F9F9A1BB3152A0017BB09 /* CoreLocation.framework in Frameworks */,
@@ -194,7 +192,6 @@
 				848F9FA51BB315580017BB09 /* libsqlite3.tbd */,
 				848F9FA31BB315500017BB09 /* libz.tbd */,
 				848F9FA11BB315460017BB09 /* SystemConfiguration.framework */,
-				848F9F9F1BB315400017BB09 /* StoreKit.framework */,
 				848F9F9D1BB315390017BB09 /* Security.framework */,
 				848F9F9B1BB315310017BB09 /* QuartzCore.framework */,
 				848F9F991BB3152A0017BB09 /* CoreLocation.framework */,
@@ -257,6 +254,12 @@
 				TargetAttributes = {
 					637CC1E31B795DD2000D85A0 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = U28C8RU59A;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					637CC1FB1B795DD2000D85A0 = {
 						CreatedOnToolsVersion = 6.4;
@@ -339,6 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844F04141BCD690700DD0E6D /* PersonJobCityStorage.swift in Sources */,
 				637CC1ED1B795DD2000D85A0 /* ResultsFetcher.xcdatamodeld in Sources */,
 				637CC1EA1B795DD2000D85A0 /* AppDelegate.swift in Sources */,
 				637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */,
