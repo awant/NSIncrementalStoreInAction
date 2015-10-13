@@ -138,6 +138,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84C658CC1BCCF3240005CC62 /* Build configuration list for PBXNativeTarget "Kangaroo" */;
 			buildPhases = (
+				84C287FB1BCD0D8B000EBB1B /* ShellScript */,
 				84C658BF1BCCF3240005CC62 /* Sources */,
 				84C658C01BCCF3240005CC62 /* Frameworks */,
 				84C658C11BCCF3240005CC62 /* Headers */,
@@ -196,6 +197,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		84C287FB1BCD0D8B000EBB1B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -d \"Carthage/Build/iOS/Parse.framework\" ]; then\n    echo \"Parse.framework exists\"\nelse\n    carthage update --platform iOS\nfi";
+		};
 		84C658F71BCCF9E20005CC62 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

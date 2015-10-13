@@ -234,6 +234,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 637CC2061B795DD2000D85A0 /* Build configuration list for PBXNativeTarget "ResultsFetcher" */;
 			buildPhases = (
+				84C658F91BCD05310005CC62 /* ShellScript */,
 				637CC1E01B795DD2000D85A0 /* Sources */,
 				637CC1E11B795DD2000D85A0 /* Frameworks */,
 				637CC1E21B795DD2000D85A0 /* Resources */,
@@ -357,6 +358,19 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
+		84C658F91BCD05310005CC62 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -d \"ResultsFetcher/Carthage/Build/iOS/Parse.framework\" ]; then\n    echo \"Parse.framework exists\"\nelse\n    cd ResultsFetcher\n    carthage update --platform iOS\nfi";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -450,7 +464,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -490,7 +504,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -508,6 +522,7 @@
 					"$(PROJECT_DIR)/ResultsFetcher/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ResultsFetcher/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parallels.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -524,6 +539,7 @@
 					"$(PROJECT_DIR)/ResultsFetcher/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ResultsFetcher/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parallels.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
