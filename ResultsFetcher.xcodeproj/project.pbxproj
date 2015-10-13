@@ -16,6 +16,7 @@
 		637CC2031B795DD2000D85A0 /* ResultsFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */; };
 		637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2101B7960F0000D85A0 /* PersonsTVC.swift */; };
 		844F04141BCD690700DD0E6D /* PersonJobCityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */; };
+		844F04161BCD6B9900DD0E6D /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844F04151BCD6B9900DD0E6D /* Kangaroo.framework */; };
 		848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F931BB315150017BB09 /* AudioToolbox.framework */; };
 		848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F951BB3151C0017BB09 /* CFNetwork.framework */; };
 		848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F971BB315230017BB09 /* CoreGraphics.framework */; };
@@ -58,6 +59,7 @@
 		637CC2101B7960F0000D85A0 /* PersonsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonsTVC.swift; sourceTree = "<group>"; };
 		637CC2121B79794A000D85A0 /* PersistanceStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistanceStore.swift; sourceTree = "<group>"; };
 		840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonJobCityStorage.swift; sourceTree = "<group>"; };
+		844F04151BCD6B9900DD0E6D /* Kangaroo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kangaroo.framework; path = ResultsFetcher/Carthage/Build/iOS/Kangaroo.framework; sourceTree = "<group>"; };
 		848F9F931BB315150017BB09 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		848F9F951BB3151C0017BB09 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		848F9F971BB315230017BB09 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -83,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844F04161BCD6B9900DD0E6D /* Kangaroo.framework in Frameworks */,
 				84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */,
 				84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */,
 				848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */,
@@ -110,6 +113,7 @@
 		637CC1DB1B795DD2000D85A0 = {
 			isa = PBXGroup;
 			children = (
+				844F04151BCD6B9900DD0E6D /* Kangaroo.framework */,
 				84C6584B1BCC37000005CC62 /* Bolts.framework */,
 				84C6584C1BCC37000005CC62 /* Parse.framework */,
 				84C658491BCC36EE0005CC62 /* ResultsFetcher */,
@@ -209,7 +213,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 637CC2061B795DD2000D85A0 /* Build configuration list for PBXNativeTarget "ResultsFetcher" */;
 			buildPhases = (
-				84C658F91BCD05310005CC62 /* ShellScript */,
 				637CC1E01B795DD2000D85A0 /* Sources */,
 				637CC1E11B795DD2000D85A0 /* Frameworks */,
 				637CC1E21B795DD2000D85A0 /* Resources */,
@@ -315,25 +318,13 @@
 			inputPaths = (
 				"$(SRCROOT)/ResultsFetcher/Carthage/Build/iOS/Parse.framework",
 				"$(SRCROOT)/ResultsFetcher/Carthage/Build/iOS/Bolts.framework",
+				"$(SRCROOT)/ResultsFetcher/Carthage/Build/iOS/Kangaroo.framework",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		84C658F91BCD05310005CC62 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ -d \"ResultsFetcher/Carthage/Build/iOS/Parse.framework\" ]; then\n    echo \"Parse.framework exists\"\nelse\n    cd ResultsFetcher\n    carthage update --platform iOS\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
