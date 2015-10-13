@@ -27,8 +27,6 @@
 		848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA51BB315580017BB09 /* libsqlite3.tbd */; };
 		84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584B1BCC37000005CC62 /* Bolts.framework */; };
 		84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584C1BCC37000005CC62 /* Parse.framework */; };
-		84C658D51BCCF3580005CC62 /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C658D41BCCF34A0005CC62 /* Kangaroo.framework */; };
-		84D877EA1BCBEA8300A7002B /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 84D877E91BCBEA8300A7002B /* Cartfile */; settings = {ASSET_TAGS = (); }; };
 		84D877ED1BCC2CD800A7002B /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EB1BCC2CD800A7002B /* City.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F11BCC2CE400A7002B /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EF1BCC2CE400A7002B /* Job.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F51BCC2CEC00A7002B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F31BCC2CEC00A7002B /* Person.swift */; settings = {ASSET_TAGS = (); }; };
@@ -41,13 +39,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 637CC1E31B795DD2000D85A0;
 			remoteInfo = ResultsFetcher;
-		};
-		84C658D31BCCF34A0005CC62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84C658CF1BCCF34A0005CC62 /* Kangaroo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 84C658C41BCCF3240005CC62;
-			remoteInfo = Kangaroo;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -80,8 +71,6 @@
 		84C658491BCC36EE0005CC62 /* ResultsFetcher */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ResultsFetcher; sourceTree = "<group>"; };
 		84C6584B1BCC37000005CC62 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ResultsFetcher/Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
 		84C6584C1BCC37000005CC62 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ResultsFetcher/Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
-		84C658CF1BCCF34A0005CC62 /* Kangaroo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kangaroo.xcodeproj; path = Kangaroo/Kangaroo.xcodeproj; sourceTree = "<group>"; };
-		84D877E91BCBEA8300A7002B /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Cartfile; path = ResultsFetcher/Cartfile; sourceTree = "<group>"; };
 		84D877EB1BCC2CD800A7002B /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		84D877EC1BCC2CD800A7002B /* City+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "City+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		84D877EF1BCC2CE400A7002B /* Job.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
@@ -95,7 +84,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84C658D51BCCF3580005CC62 /* Kangaroo.framework in Frameworks */,
 				84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */,
 				84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */,
 				848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */,
@@ -124,11 +112,9 @@
 		637CC1DB1B795DD2000D85A0 = {
 			isa = PBXGroup;
 			children = (
-				84C658CF1BCCF34A0005CC62 /* Kangaroo.xcodeproj */,
 				84C6584B1BCC37000005CC62 /* Bolts.framework */,
 				84C6584C1BCC37000005CC62 /* Parse.framework */,
 				84C658491BCC36EE0005CC62 /* ResultsFetcher */,
-				84D877E91BCBEA8300A7002B /* Cartfile */,
 				637CC1E61B795DD2000D85A0 /* ResultsFetcher */,
 				637CC1FF1B795DD2000D85A0 /* ResultsFetcherTests */,
 				637CC1E51B795DD2000D85A0 /* Products */,
@@ -219,14 +205,6 @@
 			name = "Additional Frameworks";
 			sourceTree = "<group>";
 		};
-		84C658D01BCCF34A0005CC62 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				84C658D41BCCF34A0005CC62 /* Kangaroo.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -297,12 +275,6 @@
 			mainGroup = 637CC1DB1B795DD2000D85A0;
 			productRefGroup = 637CC1E51B795DD2000D85A0 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 84C658D01BCCF34A0005CC62 /* Products */;
-					ProjectRef = 84C658CF1BCCF34A0005CC62 /* Kangaroo.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				637CC1E31B795DD2000D85A0 /* ResultsFetcher */,
@@ -311,16 +283,6 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		84C658D41BCCF34A0005CC62 /* Kangaroo.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Kangaroo.framework;
-			remoteRef = 84C658D31BCCF34A0005CC62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
 		637CC1E21B795DD2000D85A0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
@@ -328,7 +290,6 @@
 			files = (
 				637CC1F21B795DD2000D85A0 /* Main.storyboard in Resources */,
 				637CC1F71B795DD2000D85A0 /* LaunchScreen.xib in Resources */,
-				84D877EA1BCBEA8300A7002B /* Cartfile in Resources */,
 				637CC1F41B795DD2000D85A0 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
