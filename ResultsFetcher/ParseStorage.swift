@@ -1,5 +1,5 @@
 //
-//  PersonJobCityParseStorage.swift
+//  ParseStorage.swift
 //  ResultsFetcher
 //
 //  Created by Awant on 23.09.15.

@@ -15,7 +15,7 @@
 		637CC1F71B795DD2000D85A0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 637CC1F51B795DD2000D85A0 /* LaunchScreen.xib */; };
 		637CC2031B795DD2000D85A0 /* ResultsFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */; };
 		637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2101B7960F0000D85A0 /* PersonsTVC.swift */; };
-		844F04141BCD690700DD0E6D /* PersonJobCityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */; };
+		844F04141BCD690700DD0E6D /* ParseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B91EC1BB2BCD700406062 /* ParseStorage.swift */; };
 		844F04161BCD6B9900DD0E6D /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844F04151BCD6B9900DD0E6D /* Kangaroo.framework */; };
 		848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F931BB315150017BB09 /* AudioToolbox.framework */; };
 		848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F951BB3151C0017BB09 /* CFNetwork.framework */; };
@@ -55,10 +55,8 @@
 		637CC1FC1B795DD2000D85A0 /* ResultsFetcherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResultsFetcherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		637CC2011B795DD2000D85A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFetcherTests.swift; sourceTree = "<group>"; };
-		637CC20C1B795E19000D85A0 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		637CC2101B7960F0000D85A0 /* PersonsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonsTVC.swift; sourceTree = "<group>"; };
-		637CC2121B79794A000D85A0 /* PersistanceStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistanceStore.swift; sourceTree = "<group>"; };
-		840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonJobCityStorage.swift; sourceTree = "<group>"; };
+		840B91EC1BB2BCD700406062 /* ParseStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseStorage.swift; sourceTree = "<group>"; };
 		844F04151BCD6B9900DD0E6D /* Kangaroo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kangaroo.framework; path = ResultsFetcher/Carthage/Build/iOS/Kangaroo.framework; sourceTree = "<group>"; };
 		848F9F931BB315150017BB09 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		848F9F951BB3151C0017BB09 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -136,9 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				637CC1E91B795DD2000D85A0 /* AppDelegate.swift */,
-				637CC20C1B795E19000D85A0 /* CoreDataStack.swift */,
-				637CC2121B79794A000D85A0 /* PersistanceStore.swift */,
-				840B91EC1BB2BCD700406062 /* PersonJobCityStorage.swift */,
+				840B91EC1BB2BCD700406062 /* ParseStorage.swift */,
 				635A83AC1B7A5B1600574461 /* PersonStorage.swift */,
 				637CC1F01B795DD2000D85A0 /* Main.storyboard */,
 				637CC2101B7960F0000D85A0 /* PersonsTVC.swift */,
@@ -333,7 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				844F04141BCD690700DD0E6D /* PersonJobCityStorage.swift in Sources */,
+				844F04141BCD690700DD0E6D /* ParseStorage.swift in Sources */,
 				637CC1ED1B795DD2000D85A0 /* ResultsFetcher.xcdatamodeld in Sources */,
 				637CC1EA1B795DD2000D85A0 /* AppDelegate.swift in Sources */,
 				637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */,
