@@ -1,3 +1,2 @@
 github "BoltsFramework/Bolts-iOS"
 github "ParsePlatform/Parse-SDK-iOS-OSX"
-git "https://roman.m@jira.mipt.parallels.ru/stash/scm/aar/kangaroo.git" "master"

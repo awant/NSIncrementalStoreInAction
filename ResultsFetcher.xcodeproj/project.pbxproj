@@ -16,7 +16,6 @@
 		637CC2031B795DD2000D85A0 /* ResultsFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */; };
 		637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2101B7960F0000D85A0 /* PersonsTVC.swift */; };
 		844F04141BCD690700DD0E6D /* ParseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B91EC1BB2BCD700406062 /* ParseStorage.swift */; };
-		844F04161BCD6B9900DD0E6D /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844F04151BCD6B9900DD0E6D /* Kangaroo.framework */; };
 		848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F931BB315150017BB09 /* AudioToolbox.framework */; };
 		848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F951BB3151C0017BB09 /* CFNetwork.framework */; };
 		848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F971BB315230017BB09 /* CoreGraphics.framework */; };
@@ -28,6 +27,7 @@
 		848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA51BB315580017BB09 /* libsqlite3.tbd */; };
 		84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584B1BCC37000005CC62 /* Bolts.framework */; };
 		84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584C1BCC37000005CC62 /* Parse.framework */; };
+		84D3B1921BD66DA100EC8839 /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D3B1911BD66D7C00EC8839 /* Kangaroo.framework */; };
 		84D877ED1BCC2CD800A7002B /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EB1BCC2CD800A7002B /* City.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F11BCC2CE400A7002B /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EF1BCC2CE400A7002B /* Job.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F51BCC2CEC00A7002B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F31BCC2CEC00A7002B /* Person.swift */; settings = {ASSET_TAGS = (); }; };
@@ -40,6 +40,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 637CC1E31B795DD2000D85A0;
 			remoteInfo = ResultsFetcher;
+		};
+		84D3B1901BD66D7C00EC8839 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84D3B18C1BD66D7C00EC8839 /* Kangaroo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84C658C41BCCF3240005CC62;
+			remoteInfo = Kangaroo;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -57,7 +64,6 @@
 		637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFetcherTests.swift; sourceTree = "<group>"; };
 		637CC2101B7960F0000D85A0 /* PersonsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonsTVC.swift; sourceTree = "<group>"; };
 		840B91EC1BB2BCD700406062 /* ParseStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseStorage.swift; sourceTree = "<group>"; };
-		844F04151BCD6B9900DD0E6D /* Kangaroo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kangaroo.framework; path = ResultsFetcher/Carthage/Build/iOS/Kangaroo.framework; sourceTree = "<group>"; };
 		848F9F931BB315150017BB09 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		848F9F951BB3151C0017BB09 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		848F9F971BB315230017BB09 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -70,6 +76,7 @@
 		84C658491BCC36EE0005CC62 /* ResultsFetcher */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ResultsFetcher; sourceTree = "<group>"; };
 		84C6584B1BCC37000005CC62 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ResultsFetcher/Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
 		84C6584C1BCC37000005CC62 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ResultsFetcher/Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
+		84D3B18C1BD66D7C00EC8839 /* Kangaroo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kangaroo.xcodeproj; path = ../kangaroo/Kangaroo.xcodeproj; sourceTree = "<group>"; };
 		84D877EB1BCC2CD800A7002B /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		84D877EC1BCC2CD800A7002B /* City+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "City+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		84D877EF1BCC2CE400A7002B /* Job.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
@@ -83,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				844F04161BCD6B9900DD0E6D /* Kangaroo.framework in Frameworks */,
+				84D3B1921BD66DA100EC8839 /* Kangaroo.framework in Frameworks */,
 				84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */,
 				84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */,
 				848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */,
@@ -111,7 +118,7 @@
 		637CC1DB1B795DD2000D85A0 = {
 			isa = PBXGroup;
 			children = (
-				844F04151BCD6B9900DD0E6D /* Kangaroo.framework */,
+				84D3B18C1BD66D7C00EC8839 /* Kangaroo.xcodeproj */,
 				84C6584B1BCC37000005CC62 /* Bolts.framework */,
 				84C6584C1BCC37000005CC62 /* Parse.framework */,
 				84C658491BCC36EE0005CC62 /* ResultsFetcher */,
@@ -202,6 +209,14 @@
 			name = "Additional Frameworks";
 			sourceTree = "<group>";
 		};
+		84D3B18D1BD66D7C00EC8839 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84D3B1911BD66D7C00EC8839 /* Kangaroo.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -253,7 +268,7 @@
 				TargetAttributes = {
 					637CC1E31B795DD2000D85A0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = U28C8RU59A;
+						DevelopmentTeam = L9Q862K2CW;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -277,6 +292,12 @@
 			mainGroup = 637CC1DB1B795DD2000D85A0;
 			productRefGroup = 637CC1E51B795DD2000D85A0 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 84D3B18D1BD66D7C00EC8839 /* Products */;
+					ProjectRef = 84D3B18C1BD66D7C00EC8839 /* Kangaroo.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				637CC1E31B795DD2000D85A0 /* ResultsFetcher */,
@@ -284,6 +305,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		84D3B1911BD66D7C00EC8839 /* Kangaroo.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Kangaroo.framework;
+			remoteRef = 84D3B1901BD66D7C00EC8839 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		637CC1E21B795DD2000D85A0 /* Resources */ = {
@@ -314,7 +345,6 @@
 			inputPaths = (
 				"$(SRCROOT)/ResultsFetcher/Carthage/Build/iOS/Parse.framework",
 				"$(SRCROOT)/ResultsFetcher/Carthage/Build/iOS/Bolts.framework",
-				"$(SRCROOT)/ResultsFetcher/Carthage/Build/iOS/Kangaroo.framework",
 			);
 			outputPaths = (
 			);
@@ -468,6 +498,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ResultsFetcher",
@@ -476,7 +507,7 @@
 				INFOPLIST_FILE = ResultsFetcher/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.parallels.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mipt.ResultsFetcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -485,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ResultsFetcher",
@@ -493,7 +525,7 @@
 				INFOPLIST_FILE = ResultsFetcher/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.parallels.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mipt.ResultsFetcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
