@@ -27,9 +27,9 @@
 		848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA51BB315580017BB09 /* libsqlite3.tbd */; };
 		84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584B1BCC37000005CC62 /* Bolts.framework */; };
 		84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584C1BCC37000005CC62 /* Parse.framework */; };
-		84D3B1921BD66DA100EC8839 /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D3B1911BD66D7C00EC8839 /* Kangaroo.framework */; };
 		84D3B1941BD670DD00EC8839 /* CloudStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D3B1931BD670DD00EC8839 /* CloudStorage.swift */; settings = {ASSET_TAGS = (); }; };
 		84D3B1991BD682E900EC8839 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D3B1981BD682E900EC8839 /* CloudKit.framework */; };
+		84D3B19B1BD68F6100EC8839 /* Kangaroo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D3B1911BD66D7C00EC8839 /* Kangaroo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		84D877ED1BCC2CD800A7002B /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EB1BCC2CD800A7002B /* City.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F11BCC2CE400A7002B /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EF1BCC2CE400A7002B /* Job.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F51BCC2CEC00A7002B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F31BCC2CEC00A7002B /* Person.swift */; settings = {ASSET_TAGS = (); }; };
@@ -50,7 +50,28 @@
 			remoteGlobalIDString = 84C658C41BCCF3240005CC62;
 			remoteInfo = Kangaroo;
 		};
+		84D3B19C1BD68F6100EC8839 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84D3B18C1BD66D7C00EC8839 /* Kangaroo.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 84C658C31BCCF3240005CC62;
+			remoteInfo = Kangaroo;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		84D3B19E1BD68F6100EC8839 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				84D3B19B1BD68F6100EC8839 /* Kangaroo.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		635A83AC1B7A5B1600574461 /* PersonStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonStorage.swift; sourceTree = "<group>"; };
@@ -95,7 +116,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D3B1921BD66DA100EC8839 /* Kangaroo.framework in Frameworks */,
 				84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */,
 				84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */,
 				848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */,
@@ -237,10 +257,12 @@
 				637CC1E11B795DD2000D85A0 /* Frameworks */,
 				637CC1E21B795DD2000D85A0 /* Resources */,
 				84C658501BCC38B60005CC62 /* ShellScript */,
+				84D3B19E1BD68F6100EC8839 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				84D3B19D1BD68F6100EC8839 /* PBXTargetDependency */,
 			);
 			name = ResultsFetcher;
 			productName = ResultsFetcher;
@@ -399,6 +421,11 @@
 			target = 637CC1E31B795DD2000D85A0 /* ResultsFetcher */;
 			targetProxy = 637CC1FD1B795DD2000D85A0 /* PBXContainerItemProxy */;
 		};
+		84D3B19D1BD68F6100EC8839 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Kangaroo;
+			targetProxy = 84D3B19C1BD68F6100EC8839 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -441,6 +468,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -488,6 +516,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -514,6 +543,7 @@
 				CODE_SIGN_ENTITLEMENTS = ResultsFetcher/ResultsFetcher.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ResultsFetcher",
@@ -535,6 +565,7 @@
 				CODE_SIGN_ENTITLEMENTS = ResultsFetcher/ResultsFetcher.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ResultsFetcher",

@@ -16,10 +16,6 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
     var relatedEntitiesNames: [String]?
     var objectsForSave = [String:PFObject]()
     
-    var personForSave: PFObject?
-    var jobForSave: PFObject?
-    var cityForSave: PFObject?
-    
     func fetchRecords(entityName: String, relatedEntitiesNames: [String]?, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
         let query = PFQuery(className: entityName)
         if let relatedEN = relatedEntitiesNames {
@@ -85,7 +81,7 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
         //print(dictOfAttribs)
         //print(dictOfRelats)
         for attrib in dictOfAttribs {
-            // we should check for existing
+            // TODO: we should check for existing
             objectsForSave[key]![attrib.0] = attrib.1
         }
         for (field, relateKeys) in dictOfRelats {
@@ -93,7 +89,7 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
                 self.objectsForSave[key]![field] = self.objectsForSave[relateKeys.first!]
             } else {
                 self.objectsForSave[key]![field] = relateKeys.map { (let key) -> PFObject in
-                    // we should check for existing
+                    //TODO: we should check for existing
                     return self.objectsForSave[key]!
                 }
             }
