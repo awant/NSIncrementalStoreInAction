@@ -28,8 +28,8 @@
 		84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584B1BCC37000005CC62 /* Bolts.framework */; };
 		84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584C1BCC37000005CC62 /* Parse.framework */; };
 		84D3B1941BD670DD00EC8839 /* CloudStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D3B1931BD670DD00EC8839 /* CloudStorage.swift */; settings = {ASSET_TAGS = (); }; };
-		84D3B1991BD682E900EC8839 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D3B1981BD682E900EC8839 /* CloudKit.framework */; };
 		84D3B19B1BD68F6100EC8839 /* Kangaroo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D3B1911BD66D7C00EC8839 /* Kangaroo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84D3B1A11BD7DF8500EC8839 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D3B1A01BD7DF8500EC8839 /* CloudKit.framework */; };
 		84D877ED1BCC2CD800A7002B /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EB1BCC2CD800A7002B /* City.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F11BCC2CE400A7002B /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877EF1BCC2CE400A7002B /* Job.swift */; settings = {ASSET_TAGS = (); }; };
 		84D877F51BCC2CEC00A7002B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D877F31BCC2CEC00A7002B /* Person.swift */; settings = {ASSET_TAGS = (); }; };
@@ -102,7 +102,7 @@
 		84D3B18C1BD66D7C00EC8839 /* Kangaroo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kangaroo.xcodeproj; path = ../kangaroo/Kangaroo.xcodeproj; sourceTree = "<group>"; };
 		84D3B1931BD670DD00EC8839 /* CloudStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudStorage.swift; sourceTree = "<group>"; };
 		84D3B1951BD6742C00EC8839 /* ResultsFetcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ResultsFetcher.entitlements; sourceTree = "<group>"; };
-		84D3B1981BD682E900EC8839 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		84D3B1A01BD7DF8500EC8839 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		84D877EB1BCC2CD800A7002B /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		84D877EC1BCC2CD800A7002B /* City+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "City+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		84D877EF1BCC2CE400A7002B /* Job.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
@@ -123,9 +123,9 @@
 				848F9FA21BB315460017BB09 /* SystemConfiguration.framework in Frameworks */,
 				848F9F9E1BB315390017BB09 /* Security.framework in Frameworks */,
 				848F9F9C1BB315310017BB09 /* QuartzCore.framework in Frameworks */,
-				84D3B1991BD682E900EC8839 /* CloudKit.framework in Frameworks */,
 				848F9F9A1BB3152A0017BB09 /* CoreLocation.framework in Frameworks */,
 				848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */,
+				84D3B1A11BD7DF8500EC8839 /* CloudKit.framework in Frameworks */,
 				848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */,
 				848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */,
 			);
@@ -144,7 +144,7 @@
 		637CC1DB1B795DD2000D85A0 = {
 			isa = PBXGroup;
 			children = (
-				84D3B1981BD682E900EC8839 /* CloudKit.framework */,
+				84D3B1A01BD7DF8500EC8839 /* CloudKit.framework */,
 				84D3B18C1BD66D7C00EC8839 /* Kangaroo.xcodeproj */,
 				84C6584B1BCC37000005CC62 /* Bolts.framework */,
 				84C6584C1BCC37000005CC62 /* Parse.framework */,

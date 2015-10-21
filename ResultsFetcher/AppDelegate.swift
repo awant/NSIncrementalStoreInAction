@@ -25,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.setApplicationId("GqHHo1WXGpbgJlbDc0iwR8IxuVTxIfBbfsdYpT2q",
             clientKey: "UkHwQdTkNNvfL39iE4enM2UETEoVSaMefH5AX5gj")
         // End With_Parse
-        CoreDataManager.sharedManager.storage = PersonJobCityParseStorage()
+        // CoreDataManager.sharedManager.storage = PersonJobCityParseStorage()
+        CoreDataManager.sharedManager.storage = CloudStorage()
         return true
     }
 
