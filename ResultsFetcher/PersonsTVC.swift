@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Kangaroo
 
 class PersonCell: UITableViewCell {
     var person: Person? {
@@ -58,7 +59,6 @@ class PersonVC: UIViewController {
     }
     
     @IBAction func saveButtonPressed(sender: UIButton) {
-        print("saveButtonPressed")
         let moc = CoreDataManager.sharedManager.managedObjectContext
         if self.person == nil {
             self.person = NSEntityDescription.insertNewObjectForEntityForName("Person", inManagedObjectContext: moc) as? Person
