@@ -25,6 +25,7 @@
 		848F9FA21BB315460017BB09 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA11BB315460017BB09 /* SystemConfiguration.framework */; };
 		848F9FA41BB315500017BB09 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA31BB315500017BB09 /* libz.tbd */; };
 		848F9FA61BB315580017BB09 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9FA51BB315580017BB09 /* libsqlite3.tbd */; };
+		84A5A24D1BDFD1EB00E8168D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A5A24C1BDFD1EB00E8168D /* CoreDataStack.swift */; settings = {ASSET_TAGS = (); }; };
 		84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584B1BCC37000005CC62 /* Bolts.framework */; };
 		84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584C1BCC37000005CC62 /* Parse.framework */; };
 		84D3B1941BD670DD00EC8839 /* CloudStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D3B1931BD670DD00EC8839 /* CloudStorage.swift */; settings = {ASSET_TAGS = (); }; };
@@ -96,6 +97,7 @@
 		848F9FA11BB315460017BB09 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		848F9FA31BB315500017BB09 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		848F9FA51BB315580017BB09 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		84A5A24C1BDFD1EB00E8168D /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		84C658491BCC36EE0005CC62 /* ResultsFetcher */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ResultsFetcher; sourceTree = "<group>"; };
 		84C6584B1BCC37000005CC62 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ResultsFetcher/Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
 		84C6584C1BCC37000005CC62 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ResultsFetcher/Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				84D3B1951BD6742C00EC8839 /* ResultsFetcher.entitlements */,
+				84A5A24C1BDFD1EB00E8168D /* CoreDataStack.swift */,
 				637CC1E91B795DD2000D85A0 /* AppDelegate.swift */,
 				840B91EC1BB2BCD700406062 /* ParseStorage.swift */,
 				84D3B1931BD670DD00EC8839 /* CloudStorage.swift */,
@@ -398,6 +401,7 @@
 				637CC1EA1B795DD2000D85A0 /* AppDelegate.swift in Sources */,
 				637CC2111B7960F0000D85A0 /* PersonsTVC.swift in Sources */,
 				84D877F51BCC2CEC00A7002B /* Person.swift in Sources */,
+				84A5A24D1BDFD1EB00E8168D /* CoreDataStack.swift in Sources */,
 				635A83AD1B7A5B1600574461 /* PersonStorage.swift in Sources */,
 				84D3B1941BD670DD00EC8839 /* CloudStorage.swift in Sources */,
 				84D877ED1BCC2CD800A7002B /* City.swift in Sources */,

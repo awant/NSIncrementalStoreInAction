@@ -88,14 +88,6 @@ class PersonVC: UIViewController {
     }
 }
 
-extension CoreDataManager {
-    func fetchedResultsController(entityName: String, cacheName: String, sortDescriptors: [NSSortDescriptor]) -> NSFetchedResultsController {
-        let fetchRequest = NSFetchRequest(entityName: entityName)
-        fetchRequest.sortDescriptors = sortDescriptors
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext, sectionNameKeyPath: nil, cacheName: cacheName)
-    }
-}
-
 class PersonsTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     var fetchresultsController: NSFetchedResultsController?
 

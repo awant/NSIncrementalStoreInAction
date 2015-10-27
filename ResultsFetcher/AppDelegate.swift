@@ -18,6 +18,7 @@ import Kangaroo
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // With_Parse
@@ -25,8 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.setApplicationId("GqHHo1WXGpbgJlbDc0iwR8IxuVTxIfBbfsdYpT2q",
             clientKey: "UkHwQdTkNNvfL39iE4enM2UETEoVSaMefH5AX5gj")
         // End With_Parse
-        // CoreDataManager.sharedManager.storage = PersonJobCityParseStorage()
-        CoreDataManager.sharedManager.storage = CloudStorage()
+        
+        // Init CloudStorage()
+        do {
+            try PersistanceStoreRegistry.register(CloudStorage(), coordinator: CoreDataManager.sharedManager.coordinator!, fileURL: CoreDataManager.sharedManager.url!)
+        } catch _ { print("smth went wrong") }
         return true
     }
 
