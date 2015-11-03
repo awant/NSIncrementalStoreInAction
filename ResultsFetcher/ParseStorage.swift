@@ -11,7 +11,7 @@ import Foundation
 import Parse
 import Kangaroo
 
-class PersonJobCityParseStorage: IncrementalStorageProtocol {
+class PersonJobCityParseStorage /*: IncrementalStorageProtocol */ {
     var receivedObjects: [String: PFObject]?
     var relatedEntitiesNames: [String]?
     var objectsForSave = [String:PFObject]()
@@ -60,7 +60,7 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
         return nil
     }
     
-    func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject? {
+    func getKeysOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject? {
         if let receivedObject = self.receivedObjects![keyObject] {
                 return receivedObject[fieldName].objectId
         }
@@ -69,7 +69,7 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
     }
     
     func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {
-        var newObject = PFObject(className: entityName)
+        let newObject = PFObject(className: entityName)
         do {
             try newObject.save()
         } catch {}

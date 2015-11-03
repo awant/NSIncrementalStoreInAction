@@ -7,11 +7,9 @@
 //
 
 import UIKit
-// With_Parse
-// In Addition, there are dependencies in building (Additional Frameworks)
 import Parse
 import Bolts
-// End With_Parse
+import GenericCoreData
 import Kangaroo
 
 @UIApplicationMain
@@ -22,19 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // With_Parse
-        Parse.enableLocalDatastore()
+        //Parse.enableLocalDatastore()
         Parse.setApplicationId("GqHHo1WXGpbgJlbDc0iwR8IxuVTxIfBbfsdYpT2q",
             clientKey: "UkHwQdTkNNvfL39iE4enM2UETEoVSaMefH5AX5gj")
         // End With_Parse
-        
-        // Init CloudStorage()
-        do {
-            try PersistanceStoreRegistry.register(CloudStorage(), coordinator: CoreDataManager.sharedManager.coordinator!, fileURL: CoreDataManager.sharedManager.url!)
-        } catch _ { print("smth went wrong") }
         return true
     }
 
     func applicationWillTerminate(application: UIApplication) {
-        CoreDataManager.sharedManager.saveContext()
+        //CoreDataManager.sharedManager.saveContext()
     }
 }

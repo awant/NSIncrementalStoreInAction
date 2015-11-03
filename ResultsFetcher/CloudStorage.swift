@@ -12,79 +12,105 @@ import Kangaroo
 
 class CloudStorage : IncrementalStorageProtocol {
     let publicDB = CKContainer.defaultContainer().publicCloudDatabase
-    
+    var artistId: CKRecordID!
     var objectsForSave = [String:CKRecord]()
+    var objects = [String:CKRecordID]()
     
-    func fetchRecords(entityName: String, relatedEntitiesNames: [String]?, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
+    func predicateProcessing(basicPredicateInString: String) -> NSPredicate {
+        var wordsOfPredicate = basicPredicateInString.componentsSeparatedByString(" ")
+        var objectsForPredicate = [CKRecordID]()
+        for i in 0...wordsOfPredicate.count-1 {
+            if let recordId = self.objects[wordsOfPredicate[i]] {
+                objectsForPredicate.append(recordId)
+                wordsOfPredicate[i] = "%@"
+            }
+        }
+        return NSPredicate(format: wordsOfPredicate.joinWithSeparator(" "), argumentArray: objectsForPredicate)
+    }
+    
+    func fetchRecords(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: [String] -> [AnyObject]) -> AnyObject? {
+        let fetchGroup = dispatch_group_create()
         
-        var block = true
         var arrayOfKeys: [String]?
         
-        let emptyPredicate = NSPredicate(value: true)
-        let query = CKQuery(recordType: entityName, predicate: emptyPredicate)
-        //query.sortDescriptors = sortDescriptors
+        var validPredicate = predicate
+        if predicate == nil {
+            validPredicate = NSPredicate(value: true)
+        }
+        let query = CKQuery(recordType: entityName, predicate: validPredicate!)
+        query.sortDescriptors = sortDescriptors
         
+        dispatch_group_enter(fetchGroup)
         publicDB.performQuery(query, inZoneWithID: nil) { (results, error) -> Void in
             guard let results = results else {
                 print("results = nil")
                 return
             }
+            
             arrayOfKeys = results.map { (let record) -> String in
+                self.objects[record.recordID.recordName] = record.recordID
                 return record.recordID.recordName
             }
-            block = false
+            dispatch_group_leave(fetchGroup)
         }
+        dispatch_group_wait(fetchGroup, DISPATCH_TIME_FOREVER)
         
-        while (block) {}
-        return newEntityCreator(entityName, arrayOfKeys)
+        return newEntityCreator(arrayOfKeys!)
     }
     
     func valueAndVersion(key: String, fromField field: String) -> AnyObject? {
+        let getValuesGroup = dispatch_group_create()
         
-        var block = true
         var receivedObject: AnyObject?
-        
         let recordID = CKRecordID(recordName: key)
+        dispatch_group_enter(getValuesGroup)
         publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
             guard let fetchedRecord = fetchedRecord else {
                 print("error in valueAndVersion, error = \(error)")
                 return
             }
             receivedObject = fetchedRecord[field]!
-            block = false
+            dispatch_group_leave(getValuesGroup)
         }
-        while (block) {}
-        print("receivedObject = \(receivedObject)")
+        dispatch_group_wait(getValuesGroup, DISPATCH_TIME_FOREVER)
         return receivedObject
     }
     
-    func getKeyOfDestFrom(keyObject: String, to fieldName: String) -> AnyObject? {
+    func getKeyOfDestFrom(keyObject: String, to fieldName: String) -> AnyObject {
+        let relationshipsGroup = dispatch_group_create()
         
-        var block = true
-        var receivedObjectID: AnyObject?
-        
+        var receivedObjectIDs: AnyObject?
         let recordID = CKRecordID(recordName: keyObject)
+        dispatch_group_enter(relationshipsGroup)
         publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
             guard let fetchedRecord = fetchedRecord else {
                 print("error in getKeyOfDestFrom, error = \(error)")
                 return
             }
-            receivedObjectID = (fetchedRecord[fieldName] as! CKReference).recordID.recordName
-            block = false
+            if let receivedReference = fetchedRecord[fieldName] as? CKReference {
+                self.objects[receivedReference.recordID.recordName] = receivedReference.recordID
+                receivedObjectIDs = receivedReference.recordID.recordName
+            } else {
+                let receivedReferencesArray = fetchedRecord[fieldName] as! [CKReference]
+                receivedObjectIDs = receivedReferencesArray.map { (let reference) -> String in
+                    self.objects[reference.recordID.recordName] = reference.recordID
+                    return reference.recordID.recordName
+                }
+            }
+            dispatch_group_leave(relationshipsGroup)
         }
         
-        while (block) {}
-        print("receivedObjectID = \(receivedObjectID)")
-        return receivedObjectID
+        dispatch_group_wait(relationshipsGroup, DISPATCH_TIME_FOREVER)
+        return receivedObjectIDs!
     }
     
-    
     func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {
+        let newKeyGroup = dispatch_group_create()
         
-        var block = true
         var newObjectID: AnyObject?
         
         let newRecord = CKRecord(recordType: entityName)
+        dispatch_group_enter(newKeyGroup)
         publicDB.saveRecord(newRecord) { savedRecord, error in
             guard let savedRecord = savedRecord else {
                 print("error in getKeyOfNewObjectWithEntityName, error = \(error)")
@@ -92,16 +118,14 @@ class CloudStorage : IncrementalStorageProtocol {
             }
             newObjectID = savedRecord.recordID.recordName
             self.objectsForSave[savedRecord.recordID.recordName] = savedRecord
-            block = false
+            dispatch_group_leave(newKeyGroup)
         }
-        while (block) {}
+        dispatch_group_wait(newKeyGroup, DISPATCH_TIME_FOREVER)
         
         return newObjectID!
     }
-    
-    func saveRecord(key: String, dictOfAttribs: [String:AnyObject], dictOfRelats: [String:[String]]) -> AnyObject? {
-        
-        var block = true
+    func saveRecord(key: String, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
+        let saveGroup = dispatch_group_create()
         
         for attrib in dictOfAttribs {
             // TODO: We should be sure that attrib.1 has String type
@@ -118,24 +142,25 @@ class CloudStorage : IncrementalStorageProtocol {
 //                }
             }
         }
+        dispatch_group_enter(saveGroup)
         publicDB.saveRecord(self.objectsForSave[key]!) { savedObject, savedError in
-            guard let savedObject = savedObject else {
-                print("error = \(savedError)")
+            guard let _ = savedObject else {
+                print("error = \(saveGroup)")
                 return
             }
-            block = false
+            dispatch_group_leave(saveGroup)
         }
-        while (block) {}
+        dispatch_group_wait(saveGroup, DISPATCH_TIME_FOREVER)
         print("record was saved")
-        return []
+        return
     }
     
-    func updateRecord(objectForUpdate: AnyObject, key: AnyObject) -> AnyObject? {
-        return nil
+    func updateRecord(objectForUpdate: AnyObject, key: AnyObject, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
+        return
     }
     
-    func deleteRecord(objectForDelete: AnyObject, key: AnyObject) -> AnyObject? {
-        return nil
+    func deleteRecord(objectForDelete: AnyObject, key: AnyObject) {
+        return
     }
 }
 
