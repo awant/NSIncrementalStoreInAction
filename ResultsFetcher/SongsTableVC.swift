@@ -40,6 +40,7 @@ class SongsTableVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "album = %@", (album?.objectID)!)
         let sds = [NSSortDescriptor(key: "name", ascending: true)]
         viewModel = FetchedListViewModel(tableView: tableView, predicate: predicate, sortDescriptors: sds, sectionNameKeyPath: nil, cacheType: .RandomCache)
@@ -68,8 +69,8 @@ class SongsTableVC: UITableViewController {
             let vcs = (segue.destinationViewController as! TextTabBarController).viewControllers
             let engVC = (vcs![0]  as! EngTextVC)
             let rusVC = (vcs![1] as! RusTextVC)
-            engVC.text = viewModel.item(pathForSelectedRow!)?.songEng
-            rusVC.text = viewModel.item(pathForSelectedRow!)?.songRus
+            engVC.text = viewModel.item(pathForSelectedRow!)?.textEng
+            rusVC.text = viewModel.item(pathForSelectedRow!)?.textRus
         }
     }
 }

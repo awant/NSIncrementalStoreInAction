@@ -23,11 +23,17 @@ class AlbumVC: UIViewController {
 
 class AlbumTableVCell: UITableViewCell {
     
-    //@IBOutlet weak var albumImage: UIImageView!
+    @IBOutlet weak var albumImageView: UIImageView!
     @IBOutlet weak var albumField: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        albumImageView.layer.borderWidth = 1.0
+        albumImageView.layer.masksToBounds = false
+        albumImageView.layer.borderColor = UIColor.whiteColor().CGColor
+        albumImageView.layer.cornerRadius = 13
+        albumImageView.layer.cornerRadius = albumImageView.frame.size.height/2
+        albumImageView.clipsToBounds = true
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -37,14 +43,21 @@ class AlbumTableVCell: UITableViewCell {
 
 class AlbumsTableVC: UITableViewController {
     var viewModel: FetchedListViewModel<Album, AppConfig>!
+    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
+    
     var artist: Artist?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "artist = %@", (artist?.objectID)!)
         let sds = [NSSortDescriptor(key: "name", ascending: true)]
         viewModel = FetchedListViewModel(tableView: tableView, predicate: predicate, sortDescriptors: sds, sectionNameKeyPath: nil, cacheType: .RandomCache)
-        viewModel.performFetch()
+        coreDataManager.executeAsyncRequest(nil, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (asdf: [Album]) -> Void in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.viewModel.performFetch()
+            }
+        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,7 +70,9 @@ class AlbumsTableVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.textLabel?.text = viewModel.item(indexPath)?.name
+        let cell = cell as! AlbumTableVCell
+        cell.albumField?.text = viewModel.item(indexPath)?.name
+        cell.albumImageView.image = UIImage(data: viewModel.item(indexPath)!.image!)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

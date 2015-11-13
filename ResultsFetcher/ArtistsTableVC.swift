@@ -8,6 +8,7 @@
 
 import UIKit
 import GenericCoreData
+import CloudKit
 
 class ArtistVC: UIViewController {
     var viewModel: FetchedListViewModel<Artist, AppConfig>!
@@ -24,14 +25,19 @@ class ArtistVC: UIViewController {
     }
 }
 
-
 class ArtistTableVCell: UITableViewCell {
     
-    //@IBOutlet weak var artistImage: UIImageView!
+    @IBOutlet weak var artistImageView: UIImageView!
     @IBOutlet weak var artistField: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        artistImageView.layer.borderWidth = 1.0
+        artistImageView.layer.masksToBounds = false
+        artistImageView.layer.borderColor = UIColor.whiteColor().CGColor
+        artistImageView.layer.cornerRadius = 13
+        artistImageView.layer.cornerRadius = artistImageView.frame.size.height/2
+        artistImageView.clipsToBounds = true
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -40,17 +46,25 @@ class ArtistTableVCell: UITableViewCell {
 }
 
 class ArtistsTableVC: UITableViewController {
-    var viewModel: FetchedListViewModel<Artist, AppConfig>!
+    var artists: [Artist]?
+    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
+    
+    override func viewDidAppear(animated: Bool) {
+        self.tableView.rowHeight = 80
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let sds = [NSSortDescriptor(key: "name", ascending: true)]
-        viewModel = FetchedListViewModel(tableView: tableView, predicate: nil, sortDescriptors: sds, sectionNameKeyPath: nil, cacheType: .RandomCache)
-        viewModel.performFetch()
+        coreDataManager.executeAsyncRequest(nil, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (artists: [Artist]) -> Void in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.artists = artists
+                self.tableView.reloadData()
+            }
+        }
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return self.artists?.count ?? 0
     }
 
     
@@ -58,8 +72,15 @@ class ArtistsTableVC: UITableViewController {
         return tableView.dequeueReusableCellWithIdentifier("ArtistCellId")!
     }
     
+    
+    
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.textLabel?.text = viewModel.item(indexPath)?.name
+        let cell = cell as! ArtistTableVCell
+        guard let artist = self.artists?[indexPath.row] else {
+            return
+        }
+        cell.artistField?.text = artist.name
+        cell.artistImageView.image = UIImage(data: artist.image!)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -69,10 +90,8 @@ class ArtistsTableVC: UITableViewController {
         }
         
         if segue.identifier == "toAlbums" {
-            (segue.destinationViewController as! AlbumsTableVC).artist = viewModel.item(pathForSelectedRow!)
+            (segue.destinationViewController as! AlbumsTableVC).artist = self.artists![(pathForSelectedRow?.row)!]
         }
     }
 }
-
-
 

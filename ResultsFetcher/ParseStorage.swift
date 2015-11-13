@@ -11,7 +11,7 @@ import Foundation
 import Parse
 import Kangaroo
 
-class PersonJobCityParseStorage /*: IncrementalStorageProtocol */ {
+class ParseStorage /*: IncrementalStorageProtocol */ {
     var receivedObjects: [String: PFObject]?
     var relatedEntitiesNames: [String]?
     var objectsForSave = [String:PFObject]()
@@ -108,3 +108,9 @@ class PersonJobCityParseStorage /*: IncrementalStorageProtocol */ {
         return nil
     }
 }
+
+
+
+
+
+

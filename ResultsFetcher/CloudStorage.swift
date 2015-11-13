@@ -28,10 +28,11 @@ class CloudStorage : IncrementalStorageProtocol {
         return NSPredicate(format: wordsOfPredicate.joinWithSeparator(" "), argumentArray: objectsForPredicate)
     }
     
-    func fetchRecords(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: [String] -> [AnyObject]) -> AnyObject? {
-        let fetchGroup = dispatch_group_create()
+    func fetchRecordIDs<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T] {
+        print("fetchRecordIDs")
         
-        var arrayOfKeys: [String]?
+        let fetchGroup = dispatch_group_create()
+        var arrayOfKeys: [T]?
         
         var validPredicate = predicate
         if predicate == nil {
@@ -47,15 +48,14 @@ class CloudStorage : IncrementalStorageProtocol {
                 return
             }
             
-            arrayOfKeys = results.map { (let record) -> String in
+            arrayOfKeys = results.map { (let record) -> T in
                 self.objects[record.recordID.recordName] = record.recordID
-                return record.recordID.recordName
+                return record.recordID.recordName as! T
             }
             dispatch_group_leave(fetchGroup)
         }
         dispatch_group_wait(fetchGroup, DISPATCH_TIME_FOREVER)
-        
-        return newEntityCreator(arrayOfKeys!)
+        return arrayOfKeys!
     }
     
     func valueAndVersion(key: String, fromField field: String) -> AnyObject? {
@@ -69,7 +69,20 @@ class CloudStorage : IncrementalStorageProtocol {
                 print("error in valueAndVersion, error = \(error)")
                 return
             }
-            receivedObject = fetchedRecord[field]!
+            if (field == "image") {
+                let asset = fetchedRecord[field] as! CKAsset
+                receivedObject = NSData(contentsOfURL: asset.fileURL)
+            } else if (field == "textEng") || (field == "textRus") {
+                let asset = fetchedRecord[field] as! CKAsset
+                do {
+                    receivedObject = try String(contentsOfURL: asset.fileURL)
+                }
+                catch {
+                    receivedObject = ""
+                }
+            } else {
+                receivedObject = fetchedRecord[field]!
+            }
             dispatch_group_leave(getValuesGroup)
         }
         dispatch_group_wait(getValuesGroup, DISPATCH_TIME_FOREVER)
@@ -156,11 +169,29 @@ class CloudStorage : IncrementalStorageProtocol {
     }
     
     func updateRecord(objectForUpdate: AnyObject, key: AnyObject, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
+        print("updateRecord")
         return
     }
     
     func deleteRecord(objectForDelete: AnyObject, key: AnyObject) {
+        print("deleteRecord")
         return
+    }
+    
+    func subscribeToUpdates() {
+        let subscription = CKSubscription(recordType: "Artist", predicate: NSPredicate(format: "TRUEPREDICATE"), options: CKSubscriptionOptions.FiresOnRecordCreation)
+        let notificationInfo = CKNotificationInfo()
+        notificationInfo.alertLocalizationKey = "New artist"
+        notificationInfo.shouldBadge = true;
+        subscription.notificationInfo = notificationInfo
+        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+        publicDB.saveSubscription(subscription, completionHandler: { (subscription, error) in
+            if error != nil {
+                print("\(error)")
+                print("error in subscription")
+                return
+            }
+        })
     }
 }
 
