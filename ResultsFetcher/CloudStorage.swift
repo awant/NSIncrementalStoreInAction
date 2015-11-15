@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 import Kangaroo
 
-class CashedObjects {
+class CachediCloudObjects {
     var fetchedObjects = [String:CKRecord]()
     
     func addObject(object: CKRecord, withkey key: String) {
@@ -24,7 +24,7 @@ class CloudStorage : IncrementalStorageProtocol {
     var objectsForSave = [String:CKRecord]()
     var objects = [String:CKRecordID]()
     
-    var cache = CashedObjects()
+    var cache = CachediCloudObjects()
     
     func predicateProcessing(basicPredicateInString: String) -> NSPredicate {
         var wordsOfPredicate = basicPredicateInString.componentsSeparatedByString(" ")
@@ -39,7 +39,6 @@ class CloudStorage : IncrementalStorageProtocol {
     }
     
     func fetchRecordIDs<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T] {
-        print("fetchRecordIDs")
         
         let fetchGroup = dispatch_group_create()
         var arrayOfKeys: [T]?
@@ -62,7 +61,6 @@ class CloudStorage : IncrementalStorageProtocol {
             dispatch_group_leave(fetchGroup)
         }
         dispatch_group_wait(fetchGroup, DISPATCH_TIME_FOREVER)
-        print("fetchRecordIDs2")
         return arrayOfKeys!
     }
     
@@ -199,21 +197,21 @@ class CloudStorage : IncrementalStorageProtocol {
         return
     }
     
-    func subscribeToUpdates() {
-        let subscription = CKSubscription(recordType: "Artist", predicate: NSPredicate(format: "TRUEPREDICATE"), options: CKSubscriptionOptions.FiresOnRecordCreation)
-        let notificationInfo = CKNotificationInfo()
-        notificationInfo.alertLocalizationKey = "New artist"
-        notificationInfo.shouldBadge = true;
-        subscription.notificationInfo = notificationInfo
-        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
-        publicDB.saveSubscription(subscription, completionHandler: { (subscription, error) in
-            if error != nil {
-                print("\(error)")
-                print("error in subscription")
-                return
-            }
-        })
-    }
+//    func subscribeToUpdates() {
+//        let subscription = CKSubscription(recordType: "Artist", predicate: NSPredicate(format: "TRUEPREDICATE"), options: CKSubscriptionOptions.FiresOnRecordCreation)
+//        let notificationInfo = CKNotificationInfo()
+//        notificationInfo.alertLocalizationKey = "New artist"
+//        notificationInfo.shouldBadge = true;
+//        subscription.notificationInfo = notificationInfo
+//        let publicDB = CKContainer.defaultContainer().publicCloudDatabase
+//        publicDB.saveSubscription(subscription, completionHandler: { (subscription, error) in
+//            if error != nil {
+//                print("\(error)")
+//                print("error in subscription")
+//                return
+//            }
+//        })
+//    }
 }
 
 
