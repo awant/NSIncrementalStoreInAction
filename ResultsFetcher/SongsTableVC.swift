@@ -35,20 +35,24 @@ class SongTableVCell: UITableViewCell {
 }
 
 class SongsTableVC: UITableViewController {
-    var viewModel: FetchedListViewModel<Song, AppConfig>!
+    var songs: [Song]?
+    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
     var album: Album?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "album = %@", (album?.objectID)!)
-        let sds = [NSSortDescriptor(key: "name", ascending: true)]
-        viewModel = FetchedListViewModel(tableView: tableView, predicate: predicate, sortDescriptors: sds, sectionNameKeyPath: nil, cacheType: .RandomCache)
-        viewModel.performFetch()
+        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (songs: [Song]) -> Void in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.songs = songs
+                self.tableView.reloadData()
+            }
+        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return self.songs?.count ?? 0
     }
     
     
@@ -57,7 +61,12 @@ class SongsTableVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.textLabel?.text = viewModel.item(indexPath)?.name
+        
+        let cell = cell as! SongTableVCell
+        guard let song = self.songs?[indexPath.row] else {
+            return
+        }
+        cell.songField?.text = song.name
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -69,8 +78,8 @@ class SongsTableVC: UITableViewController {
             let vcs = (segue.destinationViewController as! TextTabBarController).viewControllers
             let engVC = (vcs![0]  as! EngTextVC)
             let rusVC = (vcs![1] as! RusTextVC)
-            engVC.text = viewModel.item(pathForSelectedRow!)?.textEng
-            rusVC.text = viewModel.item(pathForSelectedRow!)?.textRus
+            engVC.text = self.songs![pathForSelectedRow!.row].textEng
+            rusVC.text = self.songs![pathForSelectedRow!.row].textRus
         }
     }
 }

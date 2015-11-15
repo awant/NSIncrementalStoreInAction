@@ -42,7 +42,7 @@ class AlbumTableVCell: UITableViewCell {
 }
 
 class AlbumsTableVC: UITableViewController {
-    var viewModel: FetchedListViewModel<Album, AppConfig>!
+    var albums: [Album]?
     let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
     
     var artist: Artist?
@@ -51,28 +51,30 @@ class AlbumsTableVC: UITableViewController {
         super.viewDidLoad()
         self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "artist = %@", (artist?.objectID)!)
-        let sds = [NSSortDescriptor(key: "name", ascending: true)]
-        viewModel = FetchedListViewModel(tableView: tableView, predicate: predicate, sortDescriptors: sds, sectionNameKeyPath: nil, cacheType: .RandomCache)
-        coreDataManager.executeAsyncRequest(nil, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (asdf: [Album]) -> Void in
+        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (albums: [Album]) -> Void in
             dispatch_async(dispatch_get_main_queue()) {
-                self.viewModel.performFetch()
+                self.albums = albums
+                self.tableView.reloadData()
             }
         }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return self.albums?.count ?? 0
     }
-    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         return tableView.dequeueReusableCellWithIdentifier("AlbumCellId")!
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        
         let cell = cell as! AlbumTableVCell
-        cell.albumField?.text = viewModel.item(indexPath)?.name
-        cell.albumImageView.image = UIImage(data: viewModel.item(indexPath)!.image!)
+        guard let album = self.albums?[indexPath.row] else {
+            return
+        }
+        cell.albumField?.text = album.name
+        cell.albumImageView.image = UIImage(data: album.image!)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -82,7 +84,7 @@ class AlbumsTableVC: UITableViewController {
         }
         
         if segue.identifier == "toSongs" {
-            (segue.destinationViewController as! SongsTableVC).album = viewModel.item(pathForSelectedRow!)
+            (segue.destinationViewController as! SongsTableVC).album = self.albums![(pathForSelectedRow?.row)!]
         }
     }
 }

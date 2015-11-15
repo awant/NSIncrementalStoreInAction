@@ -10,11 +10,21 @@ import Foundation
 import CloudKit
 import Kangaroo
 
+class CashedObjects {
+    var fetchedObjects = [String:CKRecord]()
+    
+    func addObject(object: CKRecord, withkey key: String) {
+        fetchedObjects[key] = object
+    }
+}
+
 class CloudStorage : IncrementalStorageProtocol {
     let publicDB = CKContainer.defaultContainer().publicCloudDatabase
     var artistId: CKRecordID!
     var objectsForSave = [String:CKRecord]()
     var objects = [String:CKRecordID]()
+    
+    var cache = CashedObjects()
     
     func predicateProcessing(basicPredicateInString: String) -> NSPredicate {
         var wordsOfPredicate = basicPredicateInString.componentsSeparatedByString(" ")
@@ -34,11 +44,8 @@ class CloudStorage : IncrementalStorageProtocol {
         let fetchGroup = dispatch_group_create()
         var arrayOfKeys: [T]?
         
-        var validPredicate = predicate
-        if predicate == nil {
-            validPredicate = NSPredicate(value: true)
-        }
-        let query = CKQuery(recordType: entityName, predicate: validPredicate!)
+        let validPredicate = predicate ?? NSPredicate(value: true)
+        let query = CKQuery(recordType: entityName, predicate: validPredicate)
         query.sortDescriptors = sortDescriptors
         
         dispatch_group_enter(fetchGroup)
@@ -47,21 +54,46 @@ class CloudStorage : IncrementalStorageProtocol {
                 print("results = nil")
                 return
             }
-            
             arrayOfKeys = results.map { (let record) -> T in
                 self.objects[record.recordID.recordName] = record.recordID
+                self.cache.addObject(record, withkey: record.recordID.recordName)
                 return record.recordID.recordName as! T
             }
             dispatch_group_leave(fetchGroup)
         }
         dispatch_group_wait(fetchGroup, DISPATCH_TIME_FOREVER)
+        print("fetchRecordIDs2")
         return arrayOfKeys!
     }
     
+    func getReceivedObject(fetchedRecord: CKRecord, field: String) -> AnyObject? {
+        
+        switch field {
+            case "image":
+                let asset = fetchedRecord[field] as! CKAsset
+                return NSData(contentsOfURL: asset.fileURL)
+            
+            case "textEng", "textRus":
+                let asset = fetchedRecord[field] as! CKAsset
+                do {
+                    return try String(contentsOfURL: asset.fileURL)
+                }
+                catch {
+                    return ""
+                }
+            
+            default:
+                return fetchedRecord[field]!
+        }
+    }
+    
     func valueAndVersion(key: String, fromField field: String) -> AnyObject? {
-        let getValuesGroup = dispatch_group_create()
+        if let fetchedRecord = self.cache.fetchedObjects[key] {
+            return getReceivedObject(fetchedRecord, field: field)
+        }
         
         var receivedObject: AnyObject?
+        let getValuesGroup = dispatch_group_create()
         let recordID = CKRecordID(recordName: key)
         dispatch_group_enter(getValuesGroup)
         publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
@@ -69,30 +101,34 @@ class CloudStorage : IncrementalStorageProtocol {
                 print("error in valueAndVersion, error = \(error)")
                 return
             }
-            if (field == "image") {
-                let asset = fetchedRecord[field] as! CKAsset
-                receivedObject = NSData(contentsOfURL: asset.fileURL)
-            } else if (field == "textEng") || (field == "textRus") {
-                let asset = fetchedRecord[field] as! CKAsset
-                do {
-                    receivedObject = try String(contentsOfURL: asset.fileURL)
-                }
-                catch {
-                    receivedObject = ""
-                }
-            } else {
-                receivedObject = fetchedRecord[field]!
-            }
+            self.cache.addObject(fetchedRecord, withkey: fetchedRecord.recordID.recordName)
+            receivedObject = self.getReceivedObject(fetchedRecord, field: field)
             dispatch_group_leave(getValuesGroup)
         }
         dispatch_group_wait(getValuesGroup, DISPATCH_TIME_FOREVER)
         return receivedObject
     }
     
+    func getReceivedObjectIDs(fetchedRecord: CKRecord, fieldName: String) -> AnyObject {
+        if let receivedReference = fetchedRecord[fieldName] as? CKReference {
+            self.objects[receivedReference.recordID.recordName] = receivedReference.recordID
+            return receivedReference.recordID.recordName
+        } else {
+            let receivedReferencesArray = fetchedRecord[fieldName] as! [CKReference]
+            return receivedReferencesArray.map { (let reference) -> String in
+                self.objects[reference.recordID.recordName] = reference.recordID
+                return reference.recordID.recordName
+            }
+        }
+    }
+    
     func getKeyOfDestFrom(keyObject: String, to fieldName: String) -> AnyObject {
-        let relationshipsGroup = dispatch_group_create()
+        if let fetchedRecord = self.cache.fetchedObjects[keyObject] {
+            getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
+        }
         
         var receivedObjectIDs: AnyObject?
+        let relationshipsGroup = dispatch_group_create()
         let recordID = CKRecordID(recordName: keyObject)
         dispatch_group_enter(relationshipsGroup)
         publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
@@ -100,16 +136,8 @@ class CloudStorage : IncrementalStorageProtocol {
                 print("error in getKeyOfDestFrom, error = \(error)")
                 return
             }
-            if let receivedReference = fetchedRecord[fieldName] as? CKReference {
-                self.objects[receivedReference.recordID.recordName] = receivedReference.recordID
-                receivedObjectIDs = receivedReference.recordID.recordName
-            } else {
-                let receivedReferencesArray = fetchedRecord[fieldName] as! [CKReference]
-                receivedObjectIDs = receivedReferencesArray.map { (let reference) -> String in
-                    self.objects[reference.recordID.recordName] = reference.recordID
-                    return reference.recordID.recordName
-                }
-            }
+            self.cache.addObject(fetchedRecord, withkey: fetchedRecord.recordID.recordName)
+            receivedObjectIDs = self.getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
             dispatch_group_leave(relationshipsGroup)
         }
         
@@ -141,7 +169,6 @@ class CloudStorage : IncrementalStorageProtocol {
         let saveGroup = dispatch_group_create()
         
         for attrib in dictOfAttribs {
-            // TODO: We should be sure that attrib.1 has String type
             self.objectsForSave[key]![attrib.0] = attrib.1 as! String
         }
         for (field, relateKeys) in dictOfRelats {
@@ -149,10 +176,6 @@ class CloudStorage : IncrementalStorageProtocol {
                 self.objectsForSave[key]![field] = CKReference(record: self.objectsForSave[relateKeys.first!]!, action: .None)
             } else {
                 print("try to save many referencies")
-//                self.objectsForSave[key]![field] = relateKeys.map { (let key) -> PFObject in
-//                    // TODO: we should check for existing
-//                    return self.objectsForSave[key]!
-//                }
             }
         }
         dispatch_group_enter(saveGroup)
@@ -164,7 +187,6 @@ class CloudStorage : IncrementalStorageProtocol {
             dispatch_group_leave(saveGroup)
         }
         dispatch_group_wait(saveGroup, DISPATCH_TIME_FOREVER)
-        print("record was saved")
         return
     }
     
@@ -174,7 +196,6 @@ class CloudStorage : IncrementalStorageProtocol {
     }
     
     func deleteRecord(objectForDelete: AnyObject, key: AnyObject) {
-        print("deleteRecord")
         return
     }
     
