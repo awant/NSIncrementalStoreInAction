@@ -22,6 +22,6 @@ class AppConfig: CoreDataConfig {
     class func configurateStoreCoordinator(coordinator: NSPersistentStoreCoordinator) throws {
         let applicationDocumentsDirectory = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last!
         let url = applicationDocumentsDirectory.URLByAppendingPathComponent("ResultsFetcher.sqlite")
-        try PersistanceStoreRegistry.register(CloudStorage(), coordinator: coordinator, fileURL: url)
+        try PersistanceStoreRegistry.register(ParseStorage(), coordinator: coordinator, fileURL: url)
     }
 }
