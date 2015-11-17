@@ -10,49 +10,51 @@ import UIKit
 import GenericCoreData
 
 class SongVC: UIViewController {
-    
     @IBOutlet var songNameTF: UITextField!
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    @IBAction func saveButtonPressed(sender: UIButton) {
-    }
 }
 
 class SongTableVCell: UITableViewCell {
-    
     @IBOutlet weak var songField: UILabel!
+}
+
+enum SupportedLanguages {
+    case English
+    case Russian
+}
+
+class SongConfigObject {
+    var song: Song!
+    var texts: [SupportedLanguages: String]!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    init(song: Song) {
+        self.song = song
+        texts = [SupportedLanguages: String]()
+        texts[.English] = song.textEng
+        texts[.Russian] = song.textRus
     }
 }
 
 class SongsTableVC: UITableViewController {
-    var songs: [Song]?
+    var songCO: SongConfigObject!
     let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
     var album: Album?
+    var songs = [Song]()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "album = %@", (album?.objectID)!)
-        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (songs: [Song]) -> Void in
+        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { [weak self] (songs: [Song]) -> Void in
             dispatch_async(dispatch_get_main_queue()) {
-                self.songs = songs
-                self.tableView.reloadData()
+                self?.songs.appendContentsOf(songs)
+                self?.tableView.reloadData()
             }
         }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.songs?.count ?? 0
+        return songs.count
     }
     
     
@@ -61,25 +63,24 @@ class SongsTableVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        
         let cell = cell as! SongTableVCell
-        guard let song = self.songs?[indexPath.row] else {
+        guard let songName = self.songs[indexPath.row].name else {
             return
         }
-        cell.songField?.text = song.name
+        cell.songField?.text = songName
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let pathForSelectedRow = tableView.indexPathForSelectedRow
-        if segue.identifier == "toSongVC" {
-        }
         
         if segue.identifier == "toTexts" {
-            let vcs = (segue.destinationViewController as! TextTabBarController).viewControllers
-            let engVC = (vcs![0]  as! EngTextVC)
-            let rusVC = (vcs![1] as! RusTextVC)
-            engVC.text = self.songs![pathForSelectedRow!.row].textEng
-            rusVC.text = self.songs![pathForSelectedRow!.row].textRus
+            let vc = segue.destinationViewController as! SongTextVC
+            vc.songCO = SongConfigObject(song: songs[(pathForSelectedRow?.row)!])
         }
     }
 }
+
+
+
+
+

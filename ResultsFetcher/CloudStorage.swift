@@ -39,8 +39,6 @@ class CloudStorage : IncrementalStorageProtocol {
     }
     
     func fetchRecordIDs<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T] {
-        print("fetchRecordIDs")
-        
         let fetchGroup = dispatch_group_create()
         var arrayOfKeys: [T]?
         
@@ -51,7 +49,10 @@ class CloudStorage : IncrementalStorageProtocol {
         dispatch_group_enter(fetchGroup)
         publicDB.performQuery(query, inZoneWithID: nil) { (results, error) -> Void in
             guard let results = results else {
-                print("results = nil")
+                return
+            }
+            if let error = error {
+                print("error: \(error)")
                 return
             }
             arrayOfKeys = results.map { (let record) -> T in
@@ -62,7 +63,6 @@ class CloudStorage : IncrementalStorageProtocol {
             dispatch_group_leave(fetchGroup)
         }
         dispatch_group_wait(fetchGroup, DISPATCH_TIME_FOREVER)
-        print("fetchRecordIDs2")
         return arrayOfKeys!
     }
     

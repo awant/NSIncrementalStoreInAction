@@ -9,18 +9,6 @@
 import UIKit
 import GenericCoreData
 
-class AlbumVC: UIViewController {
-    
-    @IBOutlet var albumNameTF: UITextField!
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    @IBAction func saveButtonPressed(sender: UIButton) {
-    }
-}
-
 class AlbumTableVCell: UITableViewCell {
     
     @IBOutlet weak var albumImageView: UIImageView!
@@ -34,10 +22,6 @@ class AlbumTableVCell: UITableViewCell {
         albumImageView.layer.cornerRadius = 13
         albumImageView.layer.cornerRadius = albumImageView.frame.size.height/2
         albumImageView.clipsToBounds = true
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
 }
 
@@ -79,9 +63,6 @@ class AlbumsTableVC: UITableViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let pathForSelectedRow = tableView.indexPathForSelectedRow
-        
-        if segue.identifier == "toAlbumVC" {
-        }
         
         if segue.identifier == "toSongs" {
             (segue.destinationViewController as! SongsTableVC).album = self.albums![(pathForSelectedRow?.row)!]

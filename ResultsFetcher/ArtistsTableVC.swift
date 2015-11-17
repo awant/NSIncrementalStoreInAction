@@ -10,21 +10,6 @@ import UIKit
 import GenericCoreData
 import CloudKit
 
-class ArtistVC: UIViewController {
-    var viewModel: FetchedListViewModel<Artist, AppConfig>!
-    var artist: Artist?
-    
-    @IBOutlet var artistNameTF: UITextField!
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.artistNameTF.text = self.artist?.name
-    }
-
-    @IBAction func saveButtonPressed(sender: UIButton) {
-    }
-}
-
 class ArtistTableVCell: UITableViewCell {
     
     @IBOutlet weak var artistImageView: UIImageView!
@@ -38,10 +23,6 @@ class ArtistTableVCell: UITableViewCell {
         artistImageView.layer.cornerRadius = 13
         artistImageView.layer.cornerRadius = artistImageView.frame.size.height/2
         artistImageView.clipsToBounds = true
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
 }
 
@@ -85,9 +66,6 @@ class ArtistsTableVC: UITableViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let pathForSelectedRow = tableView.indexPathForSelectedRow
-        
-        if segue.identifier == "toArtistVC" {
-        }
         
         if segue.identifier == "toAlbums" {
             (segue.destinationViewController as! AlbumsTableVC).artist = self.artists![(pathForSelectedRow?.row)!]
