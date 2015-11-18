@@ -33,16 +33,21 @@ class CloudStorage : IncrementalStorageProtocol {
             if let recordId = self.objects[wordsOfPredicate[i]] {
                 objectsForPredicate.append(recordId)
                 wordsOfPredicate[i] = "%@"
+                return NSPredicate(format: wordsOfPredicate.joinWithSeparator(" "), argumentArray: objectsForPredicate)
             }
         }
-        return NSPredicate(format: wordsOfPredicate.joinWithSeparator(" "), argumentArray: objectsForPredicate)
+        return NSPredicate(format: "FALSEPREDICATE")
     }
     
     func fetchRecordIDs<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T] {
+        print("fetch from iCloud")
         let fetchGroup = dispatch_group_create()
         var arrayOfKeys: [T]?
         
         let validPredicate = predicate ?? NSPredicate(value: true)
+        if validPredicate.predicateFormat == NSPredicate(format: "FALSEPREDICATE").predicateFormat {
+            return []
+        }
         let query = CKQuery(recordType: entityName, predicate: validPredicate)
         query.sortDescriptors = sortDescriptors
         
@@ -92,21 +97,21 @@ class CloudStorage : IncrementalStorageProtocol {
             return getReceivedObject(fetchedRecord, field: field)
         }
         
-        var receivedObject: AnyObject?
-        let getValuesGroup = dispatch_group_create()
-        let recordID = CKRecordID(recordName: key)
-        dispatch_group_enter(getValuesGroup)
-        publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
-            guard let fetchedRecord = fetchedRecord else {
-                print("error in valueAndVersion, error = \(error)")
-                return
-            }
-            self.cache.addObject(fetchedRecord, withkey: fetchedRecord.recordID.recordName)
-            receivedObject = self.getReceivedObject(fetchedRecord, field: field)
-            dispatch_group_leave(getValuesGroup)
-        }
-        dispatch_group_wait(getValuesGroup, DISPATCH_TIME_FOREVER)
-        return receivedObject
+//        var receivedObject: AnyObject?
+//        let getValuesGroup = dispatch_group_create()
+//        let recordID = CKRecordID(recordName: key)
+//        dispatch_group_enter(getValuesGroup)
+//        publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
+//            guard let fetchedRecord = fetchedRecord else {
+//                print("error in valueAndVersion, error = \(error)")
+//                return
+//            }
+//            self.cache.addObject(fetchedRecord, withkey: fetchedRecord.recordID.recordName)
+//            receivedObject = self.getReceivedObject(fetchedRecord, field: field)
+//            dispatch_group_leave(getValuesGroup)
+//        }
+//        dispatch_group_wait(getValuesGroup, DISPATCH_TIME_FOREVER)
+        return nil
     }
     
     func getReceivedObjectIDs(fetchedRecord: CKRecord, fieldName: String) -> AnyObject {
@@ -126,23 +131,23 @@ class CloudStorage : IncrementalStorageProtocol {
         if let fetchedRecord = self.cache.fetchedObjects[keyObject] {
             getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
         }
-        
-        var receivedObjectIDs: AnyObject?
-        let relationshipsGroup = dispatch_group_create()
-        let recordID = CKRecordID(recordName: keyObject)
-        dispatch_group_enter(relationshipsGroup)
-        publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
-            guard let fetchedRecord = fetchedRecord else {
-                print("error in getKeyOfDestFrom, error = \(error)")
-                return
-            }
-            self.cache.addObject(fetchedRecord, withkey: fetchedRecord.recordID.recordName)
-            receivedObjectIDs = self.getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
-            dispatch_group_leave(relationshipsGroup)
-        }
-        
-        dispatch_group_wait(relationshipsGroup, DISPATCH_TIME_FOREVER)
-        return receivedObjectIDs!
+//        var receivedObjectIDs: AnyObject?
+//        let relationshipsGroup = dispatch_group_create()
+//        let recordID = CKRecordID(recordName: keyObject)
+//        dispatch_group_enter(relationshipsGroup)
+//        publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
+//            guard let fetchedRecord = fetchedRecord else {
+//                print("error in getKeyOfDestFrom, error = \(error)")
+//                return
+//            }
+//            self.cache.addObject(fetchedRecord, withkey: fetchedRecord.recordID.recordName)
+//            receivedObjectIDs = self.getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
+//            dispatch_group_leave(relationshipsGroup)
+//        }
+//        
+//        dispatch_group_wait(relationshipsGroup, DISPATCH_TIME_FOREVER)
+//        return receivedObjectIDs!
+        return []
     }
     
     func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {

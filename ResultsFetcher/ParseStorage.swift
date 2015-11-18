@@ -19,16 +19,36 @@ class CachedParseObjects {
     }
 }
 
-
 class ParseStorage : IncrementalStorageProtocol  {
     var receivedObjects: [String: PFObject]?
     var relatedEntitiesNames: [String]?
     var objectsForSave = [String:PFObject]()
     var cache = CachedParseObjects()
     
+    func predicateProcessing(basicPredicateInString: String) -> NSPredicate {
+        var wordsOfPredicate = basicPredicateInString.componentsSeparatedByString(" ")
+        
+        for i in 0...wordsOfPredicate.count-1 {
+            if let recordObject = self.cache.fetchedObjects[wordsOfPredicate[i]] {
+                let recordName = recordObject["name"] as! String
+                wordsOfPredicate[i-2] = "keyWord"
+                wordsOfPredicate[i] = "'" + recordName + "'"
+                return NSPredicate(format: wordsOfPredicate.joinWithSeparator(" "))
+            }
+        }
+        return NSPredicate(format: "FALSEPREDICATE")
+    }
+    
     
     func fetchRecordIDs<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T] {
-        let query = PFQuery(className: entityName)
+        print("fetch from Parse")
+        if let predicate = predicate {
+            if predicate.predicateFormat == NSPredicate(format: "FALSEPREDICATE").predicateFormat {
+                return []
+            }
+        }
+        
+        let query = PFQuery(className: entityName, predicate: predicate)
         do {
             return try query.findObjects().map{ (let record) -> T in
                 cache.addObject(record, withkey: record.objectId!)
