@@ -96,21 +96,6 @@ class CloudStorage : IncrementalStorageProtocol {
         if let fetchedRecord = self.cache.fetchedObjects[key] {
             return getReceivedObject(fetchedRecord, field: field)
         }
-        
-//        var receivedObject: AnyObject?
-//        let getValuesGroup = dispatch_group_create()
-//        let recordID = CKRecordID(recordName: key)
-//        dispatch_group_enter(getValuesGroup)
-//        publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
-//            guard let fetchedRecord = fetchedRecord else {
-//                print("error in valueAndVersion, error = \(error)")
-//                return
-//            }
-//            self.cache.addObject(fetchedRecord, withkey: fetchedRecord.recordID.recordName)
-//            receivedObject = self.getReceivedObject(fetchedRecord, field: field)
-//            dispatch_group_leave(getValuesGroup)
-//        }
-//        dispatch_group_wait(getValuesGroup, DISPATCH_TIME_FOREVER)
         return nil
     }
     
@@ -131,22 +116,6 @@ class CloudStorage : IncrementalStorageProtocol {
         if let fetchedRecord = self.cache.fetchedObjects[keyObject] {
             getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
         }
-//        var receivedObjectIDs: AnyObject?
-//        let relationshipsGroup = dispatch_group_create()
-//        let recordID = CKRecordID(recordName: keyObject)
-//        dispatch_group_enter(relationshipsGroup)
-//        publicDB.fetchRecordWithID(recordID) { fetchedRecord, error in
-//            guard let fetchedRecord = fetchedRecord else {
-//                print("error in getKeyOfDestFrom, error = \(error)")
-//                return
-//            }
-//            self.cache.addObject(fetchedRecord, withkey: fetchedRecord.recordID.recordName)
-//            receivedObjectIDs = self.getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
-//            dispatch_group_leave(relationshipsGroup)
-//        }
-//        
-//        dispatch_group_wait(relationshipsGroup, DISPATCH_TIME_FOREVER)
-//        return receivedObjectIDs!
         return []
     }
     
@@ -204,5 +173,48 @@ class CloudStorage : IncrementalStorageProtocol {
         return
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
