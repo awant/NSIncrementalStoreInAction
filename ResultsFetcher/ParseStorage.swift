@@ -11,65 +11,112 @@ import Foundation
 import Parse
 import Kangaroo
 
-class PersonJobCityParseStorage: IncrementalStorageProtocol {
+class CachedParseObjects {
+    var fetchedObjects = [String:PFObject]()
+    
+    func addObject(object: PFObject, withkey key: String) {
+        fetchedObjects[key] = object
+    }
+}
+
+class ParseStorage : IncrementalStorageProtocol  {
     var receivedObjects: [String: PFObject]?
     var relatedEntitiesNames: [String]?
     var objectsForSave = [String:PFObject]()
+    var cache = CachedParseObjects()
     
-    func fetchRecords(entityName: String, relatedEntitiesNames: [String]?, sortDescriptors: [NSSortDescriptor]?, newEntityCreator: (String, [AnyObject]?) -> AnyObject) -> AnyObject? {
-        let query = PFQuery(className: entityName)
-        if let relatedEN = relatedEntitiesNames {
-            self.relatedEntitiesNames = relatedEntitiesNames
-            for entityName in relatedEN {
-                query.includeKey(entityName)
+    func predicateProcessing(basicPredicateInString: String) -> NSPredicate {
+        var wordsOfPredicate = basicPredicateInString.componentsSeparatedByString(" ")
+        
+        for i in 0...wordsOfPredicate.count-1 {
+            if let recordObject = self.cache.fetchedObjects[wordsOfPredicate[i]] {
+                let recordName = recordObject["name"] as! String
+                wordsOfPredicate[i-2] = "keyWord"
+                wordsOfPredicate[i] = "'" + recordName + "'"
+                return NSPredicate(format: wordsOfPredicate.joinWithSeparator(" "))
+            }
+        }
+        return NSPredicate(format: "FALSEPREDICATE")
+    }
+    
+    
+    func fetchRecordIDs<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T] {
+        print("fetch from Parse")
+        if let predicate = predicate {
+            if predicate.predicateFormat == NSPredicate(format: "FALSEPREDICATE").predicateFormat {
+                return []
             }
         }
         
-        var loadedObjects: [PFObject]?
+        let query = PFQuery(className: entityName, predicate: predicate)
         do {
-            loadedObjects = try query.findObjects()
-        } catch {}
+            return try query.findObjects().map{ (let record) -> T in
+                cache.addObject(record, withkey: record.objectId!)
+                return record.objectId! as! T
+            }
+        } catch { print("Can't find objects") }
+        return []
+    }
+    
+    // TODO: cache for data
+    func getReceivedObject(fetchedRecord: PFObject, field: String) -> AnyObject? {
         
-        var arrayOfKeys: [String]?
-        if let lObjects = loadedObjects {
-            arrayOfKeys = [String]()
-            self.receivedObjects = [String: PFObject]()
-            for object in lObjects {
-                arrayOfKeys!.append(object.objectId!)
-                self.receivedObjects![object.objectId!] = object
+        switch field {
+        case "image":
+            let userImageFile = fetchedRecord[field] as! PFFile
+            do {
+                return try userImageFile.getData()
+            } catch {}
+            
+        case "textEng", "textRus":
+            let text = fetchedRecord[field] as! PFFile
+            do {
+                return String(data: (try text.getData()), encoding: NSUTF8StringEncoding)
             }
+            catch {
+                return ""
+            }
+            
+        default:
+            return fetchedRecord[field]!
         }
-        return newEntityCreator(entityName, arrayOfKeys)
+        return nil
     }
-    // field is the property of parseObject, for example: person["name"] = "Name"; "name" is field
+    
     func valueAndVersion(key: String, fromField field: String) -> AnyObject? {
-        if let receivedObject = self.receivedObjects![key] {
-            return receivedObject[field]
-        }
-        for receivedObject in self.receivedObjects! {
-            guard self.relatedEntitiesNames != nil else {
-                return nil
-            }
-            for relatedEntityName in self.relatedEntitiesNames! {
-                let relatedObject = (receivedObject.1[relatedEntityName] as! PFObject)
-                if relatedObject.objectId == key {
-                    return relatedObject[field]
-                }
-            }
+        if let fetchedRecord = self.cache.fetchedObjects[key] {
+            return getReceivedObject(fetchedRecord, field: field)
         }
         return nil
     }
     
-    func getKeyOfDestFrom(keyObject: String , to fieldName: String) -> AnyObject? {
-        if let receivedObject = self.receivedObjects![keyObject] {
-                return receivedObject[fieldName].objectId
+    func getReceivedObjectIDs(fetchedRecord: PFObject, fieldName: String) -> AnyObject {
+        
+        if let receivedReference = fetchedRecord[fieldName] as? PFRelation {
+            let query = receivedReference.query()
+            do {
+                return (try query!.findObjects().first! as PFObject).objectId!
+            } catch { print("Can't find object") }
+        } else {
+            let receivedReferencesArray = fetchedRecord[fieldName] as! [PFObject]
+            return receivedReferencesArray.map { (let reference) -> String in
+                return reference.objectId!
+            }
         }
-        print("something else")
-        return nil
+        return []
     }
     
+    func getKeyOfDestFrom(keyObject: String, to fieldName: String) -> AnyObject {
+        if let fetchedRecord = self.cache.fetchedObjects[keyObject] {
+            return getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
+        }
+        return []
+    }
+    
+    
+    // TODO:
     func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {
-        var newObject = PFObject(className: entityName)
+        let newObject = PFObject(className: entityName)
         do {
             try newObject.save()
         } catch {}
@@ -77,11 +124,9 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
         return newObject.objectId!
     }
     
-    func saveRecord(key: String, dictOfAttribs: [String:AnyObject], dictOfRelats: [String:[String]]) -> AnyObject? {
-        //print(dictOfAttribs)
-        //print(dictOfRelats)
+    // TODO:
+    func saveRecord(key: String, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
         for attrib in dictOfAttribs {
-            // TODO: we should check for existing
             objectsForSave[key]![attrib.0] = attrib.1
         }
         for (field, relateKeys) in dictOfRelats {
@@ -89,7 +134,6 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
                 self.objectsForSave[key]![field] = self.objectsForSave[relateKeys.first!]
             } else {
                 self.objectsForSave[key]![field] = relateKeys.map { (let key) -> PFObject in
-                    //TODO: we should check for existing
                     return self.objectsForSave[key]!
                 }
             }
@@ -97,14 +141,63 @@ class PersonJobCityParseStorage: IncrementalStorageProtocol {
         do {
             try self.objectsForSave[key]!.save()
         } catch {}
-        return []
     }
     
-    func updateRecord(objectForUpdate: AnyObject, key: AnyObject) -> AnyObject? {
-        return nil
+    // TODO:
+    func updateRecord(objectForUpdate: AnyObject, key: AnyObject, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
+        print("updateRecord")
+        return
     }
     
-    func deleteRecord(objectForDelete: AnyObject, key: AnyObject) -> AnyObject? {
-        return nil
+    // TODO:
+    func deleteRecord(objectForDelete: AnyObject, key: AnyObject) {
+        return
     }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

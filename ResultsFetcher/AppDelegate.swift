@@ -7,34 +7,78 @@
 //
 
 import UIKit
-// With_Parse
-// In Addition, there are dependencies in building (Additional Frameworks)
 import Parse
 import Bolts
-// End With_Parse
+import GenericCoreData
 import Kangaroo
+
+import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // With_Parse
-        Parse.enableLocalDatastore()
+        //Parse.enableLocalDatastore()
         Parse.setApplicationId("GqHHo1WXGpbgJlbDc0iwR8IxuVTxIfBbfsdYpT2q",
             clientKey: "UkHwQdTkNNvfL39iE4enM2UETEoVSaMefH5AX5gj")
         // End With_Parse
         
-        // Init CloudStorage()
-        do {
-            try PersistanceStoreRegistry.register(CloudStorage(), coordinator: CoreDataManager.sharedManager.coordinator!, fileURL: CoreDataManager.sharedManager.url!)
-        } catch _ { print("smth went wrong") }
+        // Example - Register for push notifications
+//        let notificationSettings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil)
+//        application.registerUserNotificationSettings(notificationSettings)
+//        application.registerForRemoteNotifications()
+        //
         return true
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+//        print("didReceiveRemoteNotification")
+//        let cloudKitNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String: NSObject])
+//        if cloudKitNotification.notificationType == CKNotificationType.Query {
+//            let recordId = (cloudKitNotification as! CKQueryNotification).recordID
+//            NSNotificationCenter.defaultCenter().postNotificationName("updateRoot", object: nil)
+//        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
-        CoreDataManager.sharedManager.saveContext()
+        //CoreDataManager.sharedManager.saveContext()
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

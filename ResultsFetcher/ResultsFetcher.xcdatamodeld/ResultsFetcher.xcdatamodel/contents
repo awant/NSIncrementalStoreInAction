@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="14F27" minimumToolsVersion="Automatic">
-    <entity name="City" representedClassName=".City" syncable="YES">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="14F27" minimumToolsVersion="Automatic">
+    <entity name="Album" representedClassName=".Album" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="persons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Person" inverseName="city" inverseEntity="Person" syncable="YES"/>
+        <relationship name="artist" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Artist" inverseName="albums" inverseEntity="Artist" syncable="YES"/>
+        <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="album" inverseEntity="Song" syncable="YES"/>
     </entity>
-    <entity name="Job" representedClassName=".Job" syncable="YES">
+    <entity name="Artist" representedClassName=".Artist" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="persons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Person" inverseName="job" inverseEntity="Person" syncable="YES"/>
+        <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="artist" inverseEntity="Album" syncable="YES"/>
     </entity>
-    <entity name="Person" representedClassName="ResultsFetcher.Person" syncable="YES">
-        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="secondName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="persons" inverseEntity="City" syncable="YES"/>
-        <relationship name="job" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Job" inverseName="persons" inverseEntity="Job" syncable="YES"/>
+    <entity name="Song" representedClassName=".Song" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="textEng" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="textRus" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="songs" inverseEntity="Album" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Job" positionX="99" positionY="72" width="128" height="73"/>
-        <element name="Person" positionX="-135" positionY="-105" width="128" height="105"/>
-        <element name="City" positionX="106" positionY="-21" width="128" height="73"/>
+        <element name="Album" positionX="-189" positionY="-18" width="128" height="103"/>
+        <element name="Artist" positionX="-378" positionY="-93" width="128" height="88"/>
+        <element name="Song" positionX="9" positionY="63" width="128" height="103"/>
     </elements>
 </model>
