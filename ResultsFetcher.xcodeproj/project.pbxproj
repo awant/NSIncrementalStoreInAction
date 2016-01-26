@@ -7,17 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		635A83AD1B7A5B1600574461 /* PersonStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A83AC1B7A5B1600574461 /* PersonStorage.swift */; };
 		637CC1EA1B795DD2000D85A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC1E91B795DD2000D85A0 /* AppDelegate.swift */; };
 		637CC1ED1B795DD2000D85A0 /* ResultsFetcher.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 637CC1EB1B795DD2000D85A0 /* ResultsFetcher.xcdatamodeld */; };
 		637CC1F21B795DD2000D85A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 637CC1F01B795DD2000D85A0 /* Main.storyboard */; };
 		637CC1F41B795DD2000D85A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 637CC1F31B795DD2000D85A0 /* Images.xcassets */; };
 		637CC1F71B795DD2000D85A0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 637CC1F51B795DD2000D85A0 /* LaunchScreen.xib */; };
 		637CC2031B795DD2000D85A0 /* ResultsFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */; };
-		8439A7181BE0E37A00CC4BDF /* GenericCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8439A7171BE0E33100CC4BDF /* GenericCoreData.framework */; };
-		8439A7191BE0E37A00CC4BDF /* GenericCoreData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8439A7171BE0E33100CC4BDF /* GenericCoreData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8439A71C1BE0E37E00CC4BDF /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8439A70B1BE0E31400CC4BDF /* Kangaroo.framework */; };
-		8439A71D1BE0E37E00CC4BDF /* Kangaroo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8439A70B1BE0E31400CC4BDF /* Kangaroo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8439A7241BE0EA6300CC4BDF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8439A7231BE0EA6300CC4BDF /* CloudKit.framework */; };
 		8439A7261BE0F29600CC4BDF /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439A7251BE0F29600CC4BDF /* AppConfig.swift */; };
 		8439A72F1BE1077C00CC4BDF /* ArtistsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439A72E1BE1077C00CC4BDF /* ArtistsTableVC.swift */; };
@@ -25,8 +20,6 @@
 		843AE1391BE94C00005A54FF /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AE1331BE94C00005A54FF /* Artist.swift */; };
 		843AE13B1BE94C00005A54FF /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AE1351BE94C00005A54FF /* Song.swift */; };
 		843AE13D1BE94DC2005A54FF /* SongsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AE13C1BE94DC2005A54FF /* SongsTableVC.swift */; };
-		843AE1621BE9522C005A54FF /* TextVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AE1611BE9522C005A54FF /* TextVCs.swift */; };
-		843AE1661BE95BEC005A54FF /* TextTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AE1651BE95BEC005A54FF /* TextTabBarController.swift */; };
 		844F04141BCD690700DD0E6D /* ParseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B91EC1BB2BCD700406062 /* ParseStorage.swift */; };
 		848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F931BB315150017BB09 /* AudioToolbox.framework */; };
 		848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848F9F951BB3151C0017BB09 /* CFNetwork.framework */; };
@@ -41,6 +34,14 @@
 		84C6584D1BCC37000005CC62 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584B1BCC37000005CC62 /* Bolts.framework */; };
 		84C6584E1BCC37000005CC62 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6584C1BCC37000005CC62 /* Parse.framework */; };
 		84D3B1941BD670DD00EC8839 /* CloudStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D3B1931BD670DD00EC8839 /* CloudStorage.swift */; };
+		84D5B95B1C57AE3A00EBD6BC /* GenericCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D5B95A1C57A90000EBD6BC /* GenericCoreData.framework */; };
+		84D5B95C1C57AE3A00EBD6BC /* GenericCoreData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D5B95A1C57A90000EBD6BC /* GenericCoreData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84D5B95F1C57AE3A00EBD6BC /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D5B9541C57A8F500EBD6BC /* Kangaroo.framework */; };
+		84D5B9601C57AE3A00EBD6BC /* Kangaroo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D5B9541C57A8F500EBD6BC /* Kangaroo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84D5B9661C57AEF700EBD6BC /* Album+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D5B9631C57AEF700EBD6BC /* Album+CoreDataProperties.swift */; };
+		84D5B9671C57AEF700EBD6BC /* Artist+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D5B9641C57AEF700EBD6BC /* Artist+CoreDataProperties.swift */; };
+		84D5B9681C57AEF700EBD6BC /* Song+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D5B9651C57AEF700EBD6BC /* Song+CoreDataProperties.swift */; };
+		84D5B96A1C57AF2100EBD6BC /* SongTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D5B9691C57AF2100EBD6BC /* SongTextVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,30 +52,30 @@
 			remoteGlobalIDString = 637CC1E31B795DD2000D85A0;
 			remoteInfo = ResultsFetcher;
 		};
-		8439A70A1BE0E31400CC4BDF /* PBXContainerItemProxy */ = {
+		84D5B9531C57A8F500EBD6BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8439A7061BE0E31400CC4BDF /* Kangaroo.xcodeproj */;
+			containerPortal = 84D5B94F1C57A8F500EBD6BC /* Kangaroo.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 84C658C41BCCF3240005CC62;
 			remoteInfo = Kangaroo;
 		};
-		8439A7161BE0E33100CC4BDF /* PBXContainerItemProxy */ = {
+		84D5B9591C57A90000EBD6BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8439A7121BE0E33100CC4BDF /* GenericCoreData.xcodeproj */;
+			containerPortal = 84D5B9551C57A90000EBD6BC /* GenericCoreData.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 63E8C3311BDE34D300808A74;
 			remoteInfo = GenericCoreData;
 		};
-		8439A71A1BE0E37A00CC4BDF /* PBXContainerItemProxy */ = {
+		84D5B95D1C57AE3A00EBD6BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8439A7121BE0E33100CC4BDF /* GenericCoreData.xcodeproj */;
+			containerPortal = 84D5B9551C57A90000EBD6BC /* GenericCoreData.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 63E8C3301BDE34D300808A74;
 			remoteInfo = GenericCoreData;
 		};
-		8439A71E1BE0E37E00CC4BDF /* PBXContainerItemProxy */ = {
+		84D5B9611C57AE3A00EBD6BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8439A7061BE0E31400CC4BDF /* Kangaroo.xcodeproj */;
+			containerPortal = 84D5B94F1C57A8F500EBD6BC /* Kangaroo.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 84C658C31BCCF3240005CC62;
 			remoteInfo = Kangaroo;
@@ -88,8 +89,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8439A71D1BE0E37E00CC4BDF /* Kangaroo.framework in Embed Frameworks */,
-				8439A7191BE0E37A00CC4BDF /* GenericCoreData.framework in Embed Frameworks */,
+				84D5B9601C57AE3A00EBD6BC /* Kangaroo.framework in Embed Frameworks */,
+				84D5B95C1C57AE3A00EBD6BC /* GenericCoreData.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,7 +98,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		635A83AC1B7A5B1600574461 /* PersonStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonStorage.swift; sourceTree = "<group>"; };
 		637CC1E41B795DD2000D85A0 /* ResultsFetcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ResultsFetcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		637CC1E81B795DD2000D85A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		637CC1E91B795DD2000D85A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -109,8 +109,6 @@
 		637CC2011B795DD2000D85A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		637CC2021B795DD2000D85A0 /* ResultsFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsFetcherTests.swift; sourceTree = "<group>"; };
 		840B91EC1BB2BCD700406062 /* ParseStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseStorage.swift; sourceTree = "<group>"; };
-		8439A7061BE0E31400CC4BDF /* Kangaroo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kangaroo.xcodeproj; path = ../kangaroo/Kangaroo.xcodeproj; sourceTree = "<group>"; };
-		8439A7121BE0E33100CC4BDF /* GenericCoreData.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GenericCoreData.xcodeproj; path = ../GenericCoreData/GenericCoreData.xcodeproj; sourceTree = "<group>"; };
 		8439A7231BE0EA6300CC4BDF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8439A7251BE0F29600CC4BDF /* AppConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		8439A72E1BE1077C00CC4BDF /* ArtistsTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistsTableVC.swift; sourceTree = "<group>"; };
@@ -118,8 +116,6 @@
 		843AE1331BE94C00005A54FF /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		843AE1351BE94C00005A54FF /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		843AE13C1BE94DC2005A54FF /* SongsTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongsTableVC.swift; sourceTree = "<group>"; };
-		843AE1611BE9522C005A54FF /* TextVCs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextVCs.swift; sourceTree = "<group>"; };
-		843AE1651BE95BEC005A54FF /* TextTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextTabBarController.swift; sourceTree = "<group>"; };
 		848F9F931BB315150017BB09 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		848F9F951BB3151C0017BB09 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		848F9F971BB315230017BB09 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -135,6 +131,12 @@
 		84C6584C1BCC37000005CC62 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ResultsFetcher/Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
 		84D3B1931BD670DD00EC8839 /* CloudStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudStorage.swift; sourceTree = "<group>"; };
 		84D3B1951BD6742C00EC8839 /* ResultsFetcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ResultsFetcher.entitlements; sourceTree = "<group>"; };
+		84D5B94F1C57A8F500EBD6BC /* Kangaroo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kangaroo.xcodeproj; path = "../../finalProjects/kangaroo-mipt/Kangaroo/Kangaroo.xcodeproj"; sourceTree = "<group>"; };
+		84D5B9551C57A90000EBD6BC /* GenericCoreData.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GenericCoreData.xcodeproj; path = ../../finalProjects/GenericCoreData/GenericCoreData.xcodeproj; sourceTree = "<group>"; };
+		84D5B9631C57AEF700EBD6BC /* Album+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Album+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84D5B9641C57AEF700EBD6BC /* Artist+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Artist+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84D5B9651C57AEF700EBD6BC /* Song+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84D5B9691C57AF2100EBD6BC /* SongTextVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongTextVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,9 +154,9 @@
 				8439A7241BE0EA6300CC4BDF /* CloudKit.framework in Frameworks */,
 				848F9F9A1BB3152A0017BB09 /* CoreLocation.framework in Frameworks */,
 				848F9F981BB315230017BB09 /* CoreGraphics.framework in Frameworks */,
-				8439A7181BE0E37A00CC4BDF /* GenericCoreData.framework in Frameworks */,
+				84D5B95B1C57AE3A00EBD6BC /* GenericCoreData.framework in Frameworks */,
 				848F9F961BB3151C0017BB09 /* CFNetwork.framework in Frameworks */,
-				8439A71C1BE0E37E00CC4BDF /* Kangaroo.framework in Frameworks */,
+				84D5B95F1C57AE3A00EBD6BC /* Kangaroo.framework in Frameworks */,
 				848F9F941BB315150017BB09 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,8 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				8439A7231BE0EA6300CC4BDF /* CloudKit.framework */,
-				8439A7121BE0E33100CC4BDF /* GenericCoreData.xcodeproj */,
-				8439A7061BE0E31400CC4BDF /* Kangaroo.xcodeproj */,
+				84D5B9551C57A90000EBD6BC /* GenericCoreData.xcodeproj */,
+				84D5B94F1C57A8F500EBD6BC /* Kangaroo.xcodeproj */,
 				84C6584B1BCC37000005CC62 /* Bolts.framework */,
 				84C6584C1BCC37000005CC62 /* Parse.framework */,
 				84C658491BCC36EE0005CC62 /* ResultsFetcher */,
@@ -247,30 +249,13 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		8439A7071BE0E31400CC4BDF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8439A70B1BE0E31400CC4BDF /* Kangaroo.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		8439A7131BE0E33100CC4BDF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8439A7171BE0E33100CC4BDF /* GenericCoreData.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		8439A72D1BE1071500CC4BDF /* VCs */ = {
 			isa = PBXGroup;
 			children = (
-				843AE1651BE95BEC005A54FF /* TextTabBarController.swift */,
+				84D5B9691C57AF2100EBD6BC /* SongTextVC.swift */,
 				8439A72E1BE1077C00CC4BDF /* ArtistsTableVC.swift */,
 				84945F261BE580F700B5D87D /* AlbumsTableVC.swift */,
 				843AE13C1BE94DC2005A54FF /* SongsTableVC.swift */,
-				843AE1611BE9522C005A54FF /* TextVCs.swift */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -278,9 +263,11 @@
 		843AE1601BE951DA005A54FF /* Storages */ = {
 			isa = PBXGroup;
 			children = (
+				84D5B9631C57AEF700EBD6BC /* Album+CoreDataProperties.swift */,
+				84D5B9641C57AEF700EBD6BC /* Artist+CoreDataProperties.swift */,
+				84D5B9651C57AEF700EBD6BC /* Song+CoreDataProperties.swift */,
 				840B91EC1BB2BCD700406062 /* ParseStorage.swift */,
 				84D3B1931BD670DD00EC8839 /* CloudStorage.swift */,
-				635A83AC1B7A5B1600574461 /* PersonStorage.swift */,
 			);
 			name = Storages;
 			sourceTree = "<group>";
@@ -301,6 +288,22 @@
 			name = "Additional Frameworks";
 			sourceTree = "<group>";
 		};
+		84D5B9501C57A8F500EBD6BC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84D5B9541C57A8F500EBD6BC /* Kangaroo.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84D5B9561C57A90000EBD6BC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84D5B95A1C57A90000EBD6BC /* GenericCoreData.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -317,8 +320,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				8439A71B1BE0E37A00CC4BDF /* PBXTargetDependency */,
-				8439A71F1BE0E37E00CC4BDF /* PBXTargetDependency */,
+				84D5B95E1C57AE3A00EBD6BC /* PBXTargetDependency */,
+				84D5B9621C57AE3A00EBD6BC /* PBXTargetDependency */,
 			);
 			name = ResultsFetcher;
 			productName = ResultsFetcher;
@@ -384,12 +387,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 8439A7131BE0E33100CC4BDF /* Products */;
-					ProjectRef = 8439A7121BE0E33100CC4BDF /* GenericCoreData.xcodeproj */;
+					ProductGroup = 84D5B9561C57A90000EBD6BC /* Products */;
+					ProjectRef = 84D5B9551C57A90000EBD6BC /* GenericCoreData.xcodeproj */;
 				},
 				{
-					ProductGroup = 8439A7071BE0E31400CC4BDF /* Products */;
-					ProjectRef = 8439A7061BE0E31400CC4BDF /* Kangaroo.xcodeproj */;
+					ProductGroup = 84D5B9501C57A8F500EBD6BC /* Products */;
+					ProjectRef = 84D5B94F1C57A8F500EBD6BC /* Kangaroo.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -401,18 +404,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		8439A70B1BE0E31400CC4BDF /* Kangaroo.framework */ = {
+		84D5B9541C57A8F500EBD6BC /* Kangaroo.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Kangaroo.framework;
-			remoteRef = 8439A70A1BE0E31400CC4BDF /* PBXContainerItemProxy */;
+			remoteRef = 84D5B9531C57A8F500EBD6BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		8439A7171BE0E33100CC4BDF /* GenericCoreData.framework */ = {
+		84D5B95A1C57A90000EBD6BC /* GenericCoreData.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = GenericCoreData.framework;
-			remoteRef = 8439A7161BE0E33100CC4BDF /* PBXContainerItemProxy */;
+			remoteRef = 84D5B9591C57A90000EBD6BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -462,16 +465,17 @@
 			files = (
 				844F04141BCD690700DD0E6D /* ParseStorage.swift in Sources */,
 				637CC1ED1B795DD2000D85A0 /* ResultsFetcher.xcdatamodeld in Sources */,
+				84D5B9681C57AEF700EBD6BC /* Song+CoreDataProperties.swift in Sources */,
 				8439A7261BE0F29600CC4BDF /* AppConfig.swift in Sources */,
-				843AE1661BE95BEC005A54FF /* TextTabBarController.swift in Sources */,
 				637CC1EA1B795DD2000D85A0 /* AppDelegate.swift in Sources */,
 				843AE13D1BE94DC2005A54FF /* SongsTableVC.swift in Sources */,
 				843AE1391BE94C00005A54FF /* Artist.swift in Sources */,
-				843AE1621BE9522C005A54FF /* TextVCs.swift in Sources */,
 				84945F271BE580F700B5D87D /* AlbumsTableVC.swift in Sources */,
 				8439A72F1BE1077C00CC4BDF /* ArtistsTableVC.swift in Sources */,
 				843AE13B1BE94C00005A54FF /* Song.swift in Sources */,
-				635A83AD1B7A5B1600574461 /* PersonStorage.swift in Sources */,
+				84D5B96A1C57AF2100EBD6BC /* SongTextVC.swift in Sources */,
+				84D5B9671C57AEF700EBD6BC /* Artist+CoreDataProperties.swift in Sources */,
+				84D5B9661C57AEF700EBD6BC /* Album+CoreDataProperties.swift in Sources */,
 				84D3B1941BD670DD00EC8839 /* CloudStorage.swift in Sources */,
 				843AE1371BE94C00005A54FF /* Album.swift in Sources */,
 			);
@@ -493,15 +497,15 @@
 			target = 637CC1E31B795DD2000D85A0 /* ResultsFetcher */;
 			targetProxy = 637CC1FD1B795DD2000D85A0 /* PBXContainerItemProxy */;
 		};
-		8439A71B1BE0E37A00CC4BDF /* PBXTargetDependency */ = {
+		84D5B95E1C57AE3A00EBD6BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = GenericCoreData;
-			targetProxy = 8439A71A1BE0E37A00CC4BDF /* PBXContainerItemProxy */;
+			targetProxy = 84D5B95D1C57AE3A00EBD6BC /* PBXContainerItemProxy */;
 		};
-		8439A71F1BE0E37E00CC4BDF /* PBXTargetDependency */ = {
+		84D5B9621C57AE3A00EBD6BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Kangaroo;
-			targetProxy = 8439A71E1BE0E37E00CC4BDF /* PBXContainerItemProxy */;
+			targetProxy = 84D5B9611C57AE3A00EBD6BC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

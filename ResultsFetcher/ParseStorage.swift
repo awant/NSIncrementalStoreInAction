@@ -95,7 +95,7 @@ class ParseStorage : IncrementalStorageProtocol  {
         if let receivedReference = fetchedRecord[fieldName] as? PFRelation {
             let query = receivedReference.query()
             do {
-                return (try query!.findObjects().first! as PFObject).objectId!
+                return (try query.findObjects().first! as PFObject).objectId!
             } catch { print("Can't find object") }
         } else {
             let receivedReferencesArray = fetchedRecord[fieldName] as! [PFObject]
