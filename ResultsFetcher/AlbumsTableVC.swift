@@ -33,7 +33,7 @@ class AlbumsTableVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = 80
-        let predicate = NSPredicate(format: "artist = %@", (artist?.objectID)!)
+//        let predicate = NSPredicate(format: "artist = %@", (artist?.objectID)!)
 //        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (albums: [Album]) -> Void in
 //            dispatch_async(dispatch_get_main_queue()) {
 //                self.albums = albums
