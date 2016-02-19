@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GenericCoreData
+import Kangaroo
 import CloudKit
 
 class ArtistTableVCell: UITableViewCell {
@@ -28,7 +28,7 @@ class ArtistTableVCell: UITableViewCell {
 
 class ArtistsTableVC: UITableViewController {
     var artists: [Artist]?
-    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
+    var coreDataManager = SimpleCoreDataManager<AppConfig>()
     
     override func viewDidAppear(animated: Bool) {
         self.tableView.rowHeight = 80
@@ -36,12 +36,25 @@ class ArtistsTableVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        coreDataManager.executeAsyncRequest(nil, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (artists: [Artist]) -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                self.artists = artists
-                self.tableView.reloadData()
-            }
+        
+        coreDataManager.executeAsyncFetchRequest(nil, sortDescriptors: nil) { (artists: [Artist]) -> Void in
+            self.artists = artists
+            self.tableView.reloadData()
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name: fNotificationName, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func updateTable(notification: NSNotification) {
+        print("Update table")
+        self.artists! += (notification.userInfo![fNewObjectsName] as! [Artist])
+        self.tableView.reloadData()
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

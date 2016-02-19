@@ -18,7 +18,7 @@ class CachediCloudObjects {
     }
 }
 
-class CloudStorage : IncrementalStorageProtocol {
+class CloudStorage /*: IncrementalStorageProtocol */ {
     let publicDB = CKContainer.defaultContainer().publicCloudDatabase
     var artistId: CKRecordID!
     var objectsForSave = [String:CKRecord]()

@@ -18,5 +18,4 @@ extension Album {
     @NSManaged var image: NSData?
     @NSManaged var artist: Artist?
     @NSManaged var songs: NSSet?
-
 }

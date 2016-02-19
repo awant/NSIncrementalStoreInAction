@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import GenericCoreData
 
 class SongVC: UIViewController {
     @IBOutlet var songNameTF: UITextField!
@@ -36,7 +35,7 @@ class SongConfigObject {
 
 class SongsTableVC: UITableViewController {
     var songCO: SongConfigObject!
-    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
+//    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
     var album: Album?
     var songs = [Song]()
     
@@ -45,12 +44,12 @@ class SongsTableVC: UITableViewController {
         super.viewDidLoad()
         self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "album = %@", (album?.objectID)!)
-        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { [weak self] (songs: [Song]) -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.songs.appendContentsOf(songs)
-                self?.tableView.reloadData()
-            }
-        }
+//        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { [weak self] (songs: [Song]) -> Void in
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self?.songs.appendContentsOf(songs)
+//                self?.tableView.reloadData()
+//            }
+//        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import GenericCoreData
 
 class AlbumTableVCell: UITableViewCell {
     
@@ -27,7 +26,7 @@ class AlbumTableVCell: UITableViewCell {
 
 class AlbumsTableVC: UITableViewController {
     var albums: [Album]?
-    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
+    //let coreDataManager = CoreDataManager<AppConfig>()
     
     var artist: Artist?
     
@@ -35,12 +34,12 @@ class AlbumsTableVC: UITableViewController {
         super.viewDidLoad()
         self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "artist = %@", (artist?.objectID)!)
-        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (albums: [Album]) -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                self.albums = albums
-                self.tableView.reloadData()
-            }
-        }
+//        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (albums: [Album]) -> Void in
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.albums = albums
+//                self.tableView.reloadData()
+//            }
+//        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
