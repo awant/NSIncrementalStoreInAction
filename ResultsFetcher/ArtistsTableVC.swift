@@ -44,10 +44,12 @@ class ArtistsTableVC: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name: fNotificationName, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
