@@ -54,7 +54,6 @@ class ArtistsTableVC: UITableViewController {
     }
     
     func updateTable(notification: NSNotification) {
-        print("Update table")
         self.artists! += (notification.userInfo![fNewObjectsName] as! [Artist])
         self.tableView.reloadData()
     }
