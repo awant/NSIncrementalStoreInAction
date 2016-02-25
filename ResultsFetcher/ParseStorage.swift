@@ -10,14 +10,6 @@ import Foundation
 import Parse
 import Kangaroo
 
-class CachedParseObjects {
-    var fetchedObjects = [String:PFObject]()
-    
-    func addObject(object: PFObject, withkey key: String) {
-        fetchedObjects[key] = object
-    }
-}
-
 enum FetchError: ErrorType {
     case InvalidFieldOfRecord
 }
@@ -29,7 +21,6 @@ class ParseStorage : IncrementalStorageProtocol  {
     var receivedObjects: [String: PFObject]?
     var relatedEntitiesNames: [String]?
     var objectsForSave = [String:PFObject]()
-    var cache = CachedParseObjects()
     
     func convertFile(file: PFFile, _ field: String) -> AnyObject {
         switch field {
@@ -89,35 +80,5 @@ class ParseStorage : IncrementalStorageProtocol  {
     
     var fetchNotificationName: String = fNotificationName
     var newObjectsName: String = fNewObjectsName
-    
-//    // TODO:
-//    func saveRecord(key: String, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
-//        for attrib in dictOfAttribs {
-//            objectsForSave[key]![attrib.0] = attrib.1
-//        }
-//        for (field, relateKeys) in dictOfRelats {
-//            if relateKeys.count == 1 {
-//                self.objectsForSave[key]![field] = self.objectsForSave[relateKeys.first!]
-//            } else {
-//                self.objectsForSave[key]![field] = relateKeys.map { (let key) -> PFObject in
-//                    return self.objectsForSave[key]!
-//                }
-//            }
-//        }
-//        do {
-//            try self.objectsForSave[key]!.save()
-//        } catch {}
-//    }
-//    
-//    // TODO:
-//    func updateRecord(objectForUpdate: AnyObject, key: AnyObject, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
-//        print("updateRecord")
-//        return
-//    }
-//    
-//    // TODO:
-//    func deleteRecord(objectForDelete: AnyObject, key: AnyObject) {
-//        return
-//    }
     
 }

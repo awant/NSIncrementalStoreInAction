@@ -19,7 +19,7 @@ class AppConfig: CoreDataConfig {
     }
     
     class func configurateStoreCoordinator(coordinator: NSPersistentStoreCoordinator) throws {
-        // try PersistanceStoreRegistry.register(CloudStorage(), coordinator: coordinator)
-        try PersistanceStoreRegistry.register(ParseStorage(), coordinator: coordinator, cacheState: .LocalCache)
+        try PersistanceStoreRegistry.register(CloudStorage(), coordinator: coordinator, cacheState: .LocalCache)
+//        try PersistanceStoreRegistry.register(ParseStorage(), coordinator: coordinator, cacheState: .LocalCache)
     }
 }

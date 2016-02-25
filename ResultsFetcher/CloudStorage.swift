@@ -10,6 +10,9 @@ import Foundation
 import CloudKit
 import Kangaroo
 
+var fNotificationNameiCloud: String = "records were obtained"
+var fNewObjectsNameiCloud: String = "new objects"
+
 class CachediCloudObjects {
     var fetchedObjects = [String:CKRecord]()
     
@@ -18,203 +21,76 @@ class CachediCloudObjects {
     }
 }
 
-class CloudStorage /*: IncrementalStorageProtocol */ {
+class CloudStorage: IncrementalStorageProtocol {
+    
     let publicDB = CKContainer.defaultContainer().publicCloudDatabase
-    var artistId: CKRecordID!
-    var objectsForSave = [String:CKRecord]()
-    var objects = [String:CKRecordID]()
     
-    var cache = CachediCloudObjects()
-    
-    func predicateProcessing(basicPredicateInString: String) -> NSPredicate {
-        var wordsOfPredicate = basicPredicateInString.componentsSeparatedByString(" ")
-        var objectsForPredicate = [CKRecordID]()
-        for i in 0...wordsOfPredicate.count-1 {
-            if let recordId = self.objects[wordsOfPredicate[i]] {
-                objectsForPredicate.append(recordId)
-                wordsOfPredicate[i] = "%@"
-                return NSPredicate(format: wordsOfPredicate.joinWithSeparator(" "), argumentArray: objectsForPredicate)
-            }
-        }
-        return NSPredicate(format: "FALSEPREDICATE")
-    }
-    
-    func fetchRecordIDs<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T] {
-        print("fetch from iCloud")
-        let fetchGroup = dispatch_group_create()
-        var arrayOfKeys: [T]?
+    func fetchRecords<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T:[String:AnyObject]] {
+        var fetchedRecords = [T : [String : AnyObject]]()
         
-        let validPredicate = predicate ?? NSPredicate(value: true)
-        if validPredicate.predicateFormat == NSPredicate(format: "FALSEPREDICATE").predicateFormat {
-            return []
-        }
-        let query = CKQuery(recordType: entityName, predicate: validPredicate)
+        let query = CKQuery(recordType: entityName, predicate: (predicate != nil ? predicate! : NSPredicate(value: true)))
         query.sortDescriptors = sortDescriptors
         
+        let fetchGroup = dispatch_group_create()
         dispatch_group_enter(fetchGroup)
-        publicDB.performQuery(query, inZoneWithID: nil) { (results, error) -> Void in
-            guard let results = results else {
+        publicDB.performQuery(query, inZoneWithID: nil) { (records, error) -> Void in
+            guard let records = records else {
                 return
             }
             if let error = error {
                 print("error: \(error)")
                 return
             }
-            arrayOfKeys = results.map { (let record) -> T in
-                self.objects[record.recordID.recordName] = record.recordID
-                self.cache.addObject(record, withkey: record.recordID.recordName)
-                return record.recordID.recordName as! T
+            for record in records {
+                var internalRecords = [String : AnyObject]()
+                for key in record.allKeys() {
+                    internalRecords[key] = try! self.getRecordOfRecord(record, fromField: key)
+                }
+                fetchedRecords[record.recordID.recordName as! T] = internalRecords
             }
             dispatch_group_leave(fetchGroup)
         }
         dispatch_group_wait(fetchGroup, DISPATCH_TIME_FOREVER)
-        return arrayOfKeys!
-    }
-    
-    func getReceivedObject(fetchedRecord: CKRecord, field: String) -> AnyObject? {
         
-        switch field {
-            case "image":
-                let asset = fetchedRecord[field] as! CKAsset
-                return NSData(contentsOfURL: asset.fileURL)
-            
-            case "textEng", "textRus":
-                let asset = fetchedRecord[field] as! CKAsset
-                do {
-                    return try String(contentsOfURL: asset.fileURL)
-                }
-                catch {
-                    return ""
-                }
-            
-            default:
-                return fetchedRecord[field]!
-        }
+        return fetchedRecords
     }
     
-    func valueAndVersion(key: String, fromField field: String) -> AnyObject? {
-        if let fetchedRecord = self.cache.fetchedObjects[key] {
-            return getReceivedObject(fetchedRecord, field: field)
+    func getRecordOfRecord(fetchedRerord: CKRecord, fromField field: String) throws -> AnyObject {
+        guard let rudeRecord = fetchedRerord[field] else {
+            throw FetchError.InvalidFieldOfRecord
         }
-        return nil
-    }
-    
-    func getReceivedObjectIDs(fetchedRecord: CKRecord, fieldName: String) -> AnyObject {
-        if let receivedReference = fetchedRecord[fieldName] as? CKReference {
-            self.objects[receivedReference.recordID.recordName] = receivedReference.recordID
-            return receivedReference.recordID.recordName
+        
+        if let file = rudeRecord as? CKAsset {
+            return convertFile(file, field)
+        } else if let relationship = rudeRecord as? CKReference {
+            return relationship.recordID.recordName
+        } else if let arrayOfRecords = rudeRecord as? [CKReference] {
+            let setOfRecords = NSMutableSet()
+            for record in arrayOfRecords {
+                setOfRecords.addObject(record.recordID.recordName)
+            }
+            return setOfRecords
         } else {
-            let receivedReferencesArray = fetchedRecord[fieldName] as! [CKReference]
-            return receivedReferencesArray.map { (let reference) -> String in
-                self.objects[reference.recordID.recordName] = reference.recordID
-                return reference.recordID.recordName
-            }
+            return rudeRecord
         }
     }
     
-    func getKeyOfDestFrom(keyObject: String, to fieldName: String) -> AnyObject {
-        if let fetchedRecord = self.cache.fetchedObjects[keyObject] {
-            getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
+    func convertFile(file: CKAsset, _ field: String) -> AnyObject {
+        switch field {
+        case "image":
+            return NSData(contentsOfURL: file.fileURL)!
+        case "textEng", "textRus":
+            return try! String(contentsOfURL: file.fileURL)
+        default:
+            NSLog("Can't match this file")
+            abort()
         }
-        return []
     }
     
-    func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {
-        let newKeyGroup = dispatch_group_create()
-        
-        var newObjectID: AnyObject?
-        
-        let newRecord = CKRecord(recordType: entityName)
-        dispatch_group_enter(newKeyGroup)
-        publicDB.saveRecord(newRecord) { savedRecord, error in
-            guard let savedRecord = savedRecord else {
-                print("error in getKeyOfNewObjectWithEntityName, error = \(error)")
-                return
-            }
-            newObjectID = savedRecord.recordID.recordName
-            self.objectsForSave[savedRecord.recordID.recordName] = savedRecord
-            dispatch_group_leave(newKeyGroup)
-        }
-        dispatch_group_wait(newKeyGroup, DISPATCH_TIME_FOREVER)
-        
-        return newObjectID!
-    }
-    func saveRecord(key: String, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
-        let saveGroup = dispatch_group_create()
-        
-        for attrib in dictOfAttribs {
-            self.objectsForSave[key]![attrib.0] = attrib.1 as! String
-        }
-        for (field, relateKeys) in dictOfRelats {
-            if relateKeys.count == 1 {
-                self.objectsForSave[key]![field] = CKReference(record: self.objectsForSave[relateKeys.first!]!, action: .None)
-            } else {
-                print("try to save many referencies")
-            }
-        }
-        dispatch_group_enter(saveGroup)
-        publicDB.saveRecord(self.objectsForSave[key]!) { savedObject, savedError in
-            guard let _ = savedObject else {
-                print("error = \(saveGroup)")
-                return
-            }
-            dispatch_group_leave(saveGroup)
-        }
-        dispatch_group_wait(saveGroup, DISPATCH_TIME_FOREVER)
-        return
-    }
     
-    func updateRecord(objectForUpdate: AnyObject, key: AnyObject, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
-        print("updateRecord")
-        return
-    }
+    // For notifications about fetching from remote cloud
+    var fetchNotificationName: String = fNotificationNameiCloud
+    var newObjectsName: String = fNewObjectsNameiCloud
     
-    func deleteRecord(objectForDelete: AnyObject, key: AnyObject) {
-        return
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
