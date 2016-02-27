@@ -18,9 +18,9 @@ var fNotificationName: String = "records were obtained"
 var fNewObjectsName: String = "new objects"
 
 class ParseStorage : IncrementalStorageProtocol  {
-    var receivedObjects: [String: PFObject]?
-    var relatedEntitiesNames: [String]?
-    var objectsForSave = [String:PFObject]()
+//    var receivedObjects: [String: PFObject]?
+//    var relatedEntitiesNames: [String]?
+//    var objectsForSave = [String:PFObject]()
     
     func convertFile(file: PFFile, _ field: String) -> AnyObject {
         switch field {
@@ -65,9 +65,8 @@ class ParseStorage : IncrementalStorageProtocol  {
     func fetchRecords<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T:[String:AnyObject]] {
         var fetchedRecords = [T:[String:AnyObject]]()
         
-        let records: [PFObject]
-        let query = PFQuery(className: entityName)
-        records = try! query.findObjects()
+        let query = PFQuery(className: entityName, predicate: predicate)
+        let records = try! query.findObjects()
         for record in records {
             var internalRecords = [String : AnyObject]()
             for key in record.allKeys {
@@ -80,5 +79,4 @@ class ParseStorage : IncrementalStorageProtocol  {
     
     var fetchNotificationName: String = fNotificationName
     var newObjectsName: String = fNewObjectsName
-    
 }
