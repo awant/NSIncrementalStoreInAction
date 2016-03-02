@@ -10,8 +10,18 @@ import Foundation
 import CloudKit
 import Kangaroo
 
-var fNotificationNameiCloud: String = "records were obtained"
-var fNewObjectsNameiCloud: String = "new objects"
+// There is one problem with CloudStorage.
+// CKRecordID isn't hashable and can't be key of dictionary
+// We use recordName instead of CKRecordID
+// But when we use recordName
+// We can substitute only recordName in NSPredicate
+// But it is wrong for iCloud. It have to be CKRecordID
+// So
+// 1) Use function which translate recordName to CKRecordID
+// 2) Find a way how to pass CKRecordID and recordName at the same time
+
+var RecordsWereRecievedFromiCloudNotification: String = "records were obtained"
+var nameOfNewObjectsFromiCloud: String = "new objects"
 
 class CachediCloudObjects {
     var fetchedObjects = [String:CKRecord]()
@@ -25,6 +35,7 @@ class CloudStorage: IncrementalStorageProtocol {
     
     let publicDB = CKContainer.defaultContainer().publicCloudDatabase
     
+    // MARK: IncrementalStorageProtocol
     func fetchRecords<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T:[String:AnyObject]] {
         var fetchedRecords = [T : [String : AnyObject]]()
         
@@ -55,6 +66,16 @@ class CloudStorage: IncrementalStorageProtocol {
         return fetchedRecords
     }
     
+    func saveRecords(dictOfRecords: [(name: String, atributes: [String: AnyObject])]) {
+        
+    }
+    
+    
+    // MARK: Notifications in IncrementalStorageProtocol
+    var RecordsWereReceivedNotification: String = RecordsWereRecievedFromiCloudNotification
+    var newObjectsName: String = nameOfNewObjectsFromiCloud
+    
+    // MARK: Supporting methods
     func getRecordOfRecord(fetchedRerord: CKRecord, fromField field: String) throws -> AnyObject {
         guard let rudeRecord = fetchedRerord[field] else {
             throw FetchError.InvalidFieldOfRecord
@@ -86,13 +107,6 @@ class CloudStorage: IncrementalStorageProtocol {
             abort()
         }
     }
-    
-    
-    // For notifications about fetching from remote cloud
-    var fetchNotificationName: String = fNotificationNameiCloud
-    var newObjectsName: String = fNewObjectsNameiCloud
-    
 }
-
 
 

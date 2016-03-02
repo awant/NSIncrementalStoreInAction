@@ -31,16 +31,16 @@ class ArtistsTableVC: UITableViewController {
     var coreDataManager = SimpleCoreDataManager<AppConfig>()
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         self.tableView.rowHeight = 80
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
         coreDataManager.executeAsyncFetchRequest(nil, sortDescriptors: nil) { (artists: [Artist]) -> Void in
             self.artists = artists
             self.tableView.reloadData()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     override func viewWillAppear(animated: Bool) {

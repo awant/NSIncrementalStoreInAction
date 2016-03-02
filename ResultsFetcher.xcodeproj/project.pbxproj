@@ -38,6 +38,7 @@
 		84D5B9671C57AEF700EBD6BC /* Artist+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D5B9641C57AEF700EBD6BC /* Artist+CoreDataProperties.swift */; };
 		84D5B9681C57AEF700EBD6BC /* Song+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D5B9651C57AEF700EBD6BC /* Song+CoreDataProperties.swift */; };
 		84D5B96A1C57AF2100EBD6BC /* SongTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D5B9691C57AF2100EBD6BC /* SongTextVC.swift */; };
+		84F417E11C8257990061C0E2 /* NewArtistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F417E01C8257990061C0E2 /* NewArtistVC.swift */; };
 		84F5E0C31C6B362900510A29 /* Kangaroo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F4AC621C61A4D000218994 /* Kangaroo.framework */; };
 		84F5E0C41C6B362900510A29 /* Kangaroo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84F4AC621C61A4D000218994 /* Kangaroo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -118,6 +119,7 @@
 		84D5B9641C57AEF700EBD6BC /* Artist+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Artist+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		84D5B9651C57AEF700EBD6BC /* Song+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		84D5B9691C57AF2100EBD6BC /* SongTextVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongTextVC.swift; sourceTree = "<group>"; };
+		84F417E01C8257990061C0E2 /* NewArtistVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewArtistVC.swift; sourceTree = "<group>"; };
 		84F4AC5D1C61A4D000218994 /* Kangaroo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kangaroo.xcodeproj; path = "../kangaroo-stash/Kangaroo.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -239,6 +241,7 @@
 				8439A72E1BE1077C00CC4BDF /* ArtistsTableVC.swift */,
 				84945F261BE580F700B5D87D /* AlbumsTableVC.swift */,
 				843AE13C1BE94DC2005A54FF /* SongsTableVC.swift */,
+				84F417E01C8257990061C0E2 /* NewArtistVC.swift */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				8439A7261BE0F29600CC4BDF /* AppConfig.swift in Sources */,
 				637CC1EA1B795DD2000D85A0 /* AppDelegate.swift in Sources */,
 				843AE13D1BE94DC2005A54FF /* SongsTableVC.swift in Sources */,
+				84F417E11C8257990061C0E2 /* NewArtistVC.swift in Sources */,
 				843AE1391BE94C00005A54FF /* Artist.swift in Sources */,
 				84945F271BE580F700B5D87D /* AlbumsTableVC.swift in Sources */,
 				8439A72F1BE1077C00CC4BDF /* ArtistsTableVC.swift in Sources */,

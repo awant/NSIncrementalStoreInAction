@@ -36,22 +36,23 @@ class AlbumsTableVC: UITableViewController {
         self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "artist = %@", (artist?.objectID)!)
         
-        coreDataManager.executeAsyncFetchRequest(predicate, sortDescriptors: nil) { (albums: [Album]) -> Void in
-            self.albums = albums
-            self.tableView.reloadData()
+        coreDataManager.executeAsyncFetchRequest(predicate, sortDescriptors: nil) { [weak self] (albums: [Album]) -> Void in
+            self!.albums = albums
+            self!.tableView.reloadData()
         }
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name: fNotificationName, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func updateTable(notification: NSNotification) {
-        print("Update table")
         self.albums! += (notification.userInfo![fNewObjectsName] as! [Album])
         self.tableView.reloadData()
     }
