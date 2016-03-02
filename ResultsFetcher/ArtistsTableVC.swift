@@ -67,8 +67,6 @@ class ArtistsTableVC: UITableViewController {
         return tableView.dequeueReusableCellWithIdentifier("ArtistCellId")!
     }
     
-    
-    
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let cell = cell as! ArtistTableVCell
         guard let artist = self.artists?[indexPath.row] else {
