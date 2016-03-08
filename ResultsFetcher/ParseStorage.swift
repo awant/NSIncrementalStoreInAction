@@ -2,202 +2,109 @@
 //  ParseStorage.swift
 //  ResultsFetcher
 //
-//  Created by Awant on 23.09.15.
+//  Created by Roman Marakulin on 23.09.15.
 //  Copyright © 2015 Artemiy Sobolev. All rights reserved.
 //
 
 import Foundation
-// ObjectID is unique only for a class, but hardly to get duplicated keys (it's not mentioned in docs)
 import Parse
 import Kangaroo
 
-class CachedParseObjects {
-    var fetchedObjects = [String:PFObject]()
-    
-    func addObject(object: PFObject, withkey key: String) {
-        fetchedObjects[key] = object
-    }
+enum FetchError: ErrorType {
+    case InvalidFieldOfRecord
 }
+
+var fNotificationName: String = "records were obtained"
+var fNewObjectsName: String = "new objects"
 
 class ParseStorage : IncrementalStorageProtocol  {
-    var receivedObjects: [String: PFObject]?
-    var relatedEntitiesNames: [String]?
-    var objectsForSave = [String:PFObject]()
-    var cache = CachedParseObjects()
     
-    func predicateProcessing(basicPredicateInString: String) -> NSPredicate {
-        var wordsOfPredicate = basicPredicateInString.componentsSeparatedByString(" ")
-        
-        for i in 0...wordsOfPredicate.count-1 {
-            if let recordObject = self.cache.fetchedObjects[wordsOfPredicate[i]] {
-                let recordName = recordObject["name"] as! String
-                wordsOfPredicate[i-2] = "keyWord"
-                wordsOfPredicate[i] = "'" + recordName + "'"
-                return NSPredicate(format: wordsOfPredicate.joinWithSeparator(" "))
-            }
-        }
-        return NSPredicate(format: "FALSEPREDICATE")
-    }
+    // MARK: IncrementalStorageProtocol
     
-    
-    func fetchRecordIDs<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T] {
-        print("fetch from Parse")
-        if let predicate = predicate {
-            if predicate.predicateFormat == NSPredicate(format: "FALSEPREDICATE").predicateFormat {
-                return []
-            }
-        }
+    // Return dictionary with format:
+    // id: Record (id should be unique)
+    // Record is dictionary with format:
+    // fieldName: AnyObject
+    // if fieldName is relationship
+    // AnyObject can be array of ids
+    // or just an id
+    func fetchRecords<T: Hashable>(entityName: String, predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?) -> [T:[String:AnyObject]] {
+        var fetchedRecords = [T:[String:AnyObject]]()
         
         let query = PFQuery(className: entityName, predicate: predicate)
-        do {
-            return try query.findObjects().map{ (let record) -> T in
-                cache.addObject(record, withkey: record.objectId!)
-                return record.objectId! as! T
+        let records = try! query.findObjects()
+        for record in records {
+            var internalRecords = [String : AnyObject]()
+            for key in record.allKeys {
+                internalRecords[key] = try! self.getRecordOfRecord(record, fromField: key)
             }
-        } catch { print("Can't find objects") }
-        return []
+            fetchedRecords[record.objectId as! T] = internalRecords
+        }
+        return fetchedRecords
     }
     
-    // TODO: cache for data
-    func getReceivedObject(fetchedRecord: PFObject, field: String) -> AnyObject? {
-        
+    func saveRecords(dictOfRecords: [(name: String, atributes: [String: AnyObject])]) {
+        for (newRecordName, attributes) in dictOfRecords {
+            let newRecord = PFObject(className: newRecordName)
+            for (attribName, attrib) in attributes {
+                newRecord[attribName] = convertToFileIfNeeded(attribName, attrib: attrib)
+            }
+            try! newRecord.save()
+        }
+    }
+    
+    
+    // MARK: Notifications in IncrementalStorageProtocol
+    var RecordsWereReceivedNotification: String = RecordsWereRecievedFromiCloudNotification
+    var newObjectsName: String = nameOfNewObjectsFromiCloud
+    
+    // MARK: Supporting methods
+    
+    func convertFile(file: PFFile, _ field: String) -> AnyObject {
         switch field {
         case "image":
-            let userImageFile = fetchedRecord[field] as! PFFile
-            do {
-                return try userImageFile.getData()
-            } catch {}
-            
+            return try! file.getData()
         case "textEng", "textRus":
-            let text = fetchedRecord[field] as! PFFile
-            do {
-                return String(data: (try text.getData()), encoding: NSUTF8StringEncoding)
-            }
-            catch {
-                return ""
-            }
-            
+            return String(data: (try! file.getData()), encoding: NSUTF8StringEncoding)!
         default:
-            return fetchedRecord[field]!
+            NSLog("Can't match this file")
+            abort()
         }
-        return nil
     }
     
-    func valueAndVersion(key: String, fromField field: String) -> AnyObject? {
-        if let fetchedRecord = self.cache.fetchedObjects[key] {
-            return getReceivedObject(fetchedRecord, field: field)
+    func convertToFileIfNeeded(recordName: String, attrib: AnyObject?) -> AnyObject? {
+        if attrib == nil {
+            return nil
         }
-        return nil
+        switch recordName {
+        case "image":
+            return PFFile(data: attrib as! NSData)!
+        case "textEng", "textRus":
+            return PFFile(data: attrib as! NSData)!
+        default:
+            //TODO: also we there if recordName is relationship
+            return attrib
+        }
     }
     
-    func getReceivedObjectIDs(fetchedRecord: PFObject, fieldName: String) -> AnyObject {
+    func getRecordOfRecord(fetchedRerord: PFObject, fromField field: String) throws -> AnyObject {
+        guard let rudeRecord = fetchedRerord[field] else {
+            throw FetchError.InvalidFieldOfRecord
+        }
         
-        if let receivedReference = fetchedRecord[fieldName] as? PFRelation {
-            let query = receivedReference.query()
-            do {
-                return (try query.findObjects().first! as PFObject).objectId!
-            } catch { print("Can't find object") }
+        if let file = rudeRecord as? PFFile {
+            return convertFile(file, field)
+        } else if let relationship = rudeRecord as? PFRelation {
+            let query = relationship.query()
+            return (try! query.findObjects().first! as PFObject).objectId!
+        } else if let arrayOfRecords = rudeRecord as? [PFObject] {
+            let setOfRecords = NSMutableSet()
+            for record in arrayOfRecords {
+                setOfRecords.addObject(record.objectId!)
+            }
+            return setOfRecords
         } else {
-            let receivedReferencesArray = fetchedRecord[fieldName] as! [PFObject]
-            return receivedReferencesArray.map { (let reference) -> String in
-                return reference.objectId!
-            }
+            return rudeRecord
         }
-        return []
     }
-    
-    func getKeyOfDestFrom(keyObject: String, to fieldName: String) -> AnyObject {
-        if let fetchedRecord = self.cache.fetchedObjects[keyObject] {
-            return getReceivedObjectIDs(fetchedRecord, fieldName: fieldName)
-        }
-        return []
-    }
-    
-    
-    // TODO:
-    func getKeyOfNewObjectWithEntityName(entityName: String) -> AnyObject {
-        let newObject = PFObject(className: entityName)
-        do {
-            try newObject.save()
-        } catch {}
-        self.objectsForSave[newObject.objectId!] = newObject
-        return newObject.objectId!
-    }
-    
-    // TODO:
-    func saveRecord(key: String, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
-        for attrib in dictOfAttribs {
-            objectsForSave[key]![attrib.0] = attrib.1
-        }
-        for (field, relateKeys) in dictOfRelats {
-            if relateKeys.count == 1 {
-                self.objectsForSave[key]![field] = self.objectsForSave[relateKeys.first!]
-            } else {
-                self.objectsForSave[key]![field] = relateKeys.map { (let key) -> PFObject in
-                    return self.objectsForSave[key]!
-                }
-            }
-        }
-        do {
-            try self.objectsForSave[key]!.save()
-        } catch {}
-    }
-    
-    // TODO:
-    func updateRecord(objectForUpdate: AnyObject, key: AnyObject, dictOfAttribs: [String : AnyObject], dictOfRelats: [String : [String]]) {
-        print("updateRecord")
-        return
-    }
-    
-    // TODO:
-    func deleteRecord(objectForDelete: AnyObject, key: AnyObject) {
-        return
-    }
-    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GenericCoreData
+import Kangaroo
 
 class SongVC: UIViewController {
     @IBOutlet var songNameTF: UITextField!
@@ -36,7 +36,8 @@ class SongConfigObject {
 
 class SongsTableVC: UITableViewController {
     var songCO: SongConfigObject!
-    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
+    var coreDataManager = SimpleCoreDataManager<AppConfig>()
+    
     var album: Album?
     var songs = [Song]()
     
@@ -45,11 +46,10 @@ class SongsTableVC: UITableViewController {
         super.viewDidLoad()
         self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "album = %@", (album?.objectID)!)
-        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { [weak self] (songs: [Song]) -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.songs.appendContentsOf(songs)
-                self?.tableView.reloadData()
-            }
+        
+        coreDataManager.executeAsyncFetchRequest(predicate, sortDescriptors: nil) { [weak self] (songs: [Song]) -> Void in
+            self!.songs = songs
+            self!.tableView.reloadData()
         }
     }
     

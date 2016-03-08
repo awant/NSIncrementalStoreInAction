@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-import GenericCoreData
+import Kangaroo
 
 class Artist: NSManagedObject, CoreDataRepresentable {
     static let entityName = "Artist"

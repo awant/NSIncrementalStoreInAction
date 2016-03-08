@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GenericCoreData
+import Kangaroo
 import CloudKit
 
 class ArtistTableVCell: UITableViewCell {
@@ -28,20 +28,34 @@ class ArtistTableVCell: UITableViewCell {
 
 class ArtistsTableVC: UITableViewController {
     var artists: [Artist]?
-    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
+    var coreDataManager = SimpleCoreDataManager<AppConfig>()
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         self.tableView.rowHeight = 80
+        coreDataManager.executeAsyncFetchRequest(nil, sortDescriptors: nil) { (artists: [Artist]) -> Void in
+            self.artists = artists
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        coreDataManager.executeAsyncRequest(nil, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (artists: [Artist]) -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                self.artists = artists
-                self.tableView.reloadData()
-            }
-        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name: fNotificationName, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func updateTable(notification: NSNotification) {
+        self.artists! += (notification.userInfo![fNewObjectsName] as! [Artist])
+        self.tableView.reloadData()
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -52,8 +66,6 @@ class ArtistsTableVC: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         return tableView.dequeueReusableCellWithIdentifier("ArtistCellId")!
     }
-    
-    
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let cell = cell as! ArtistTableVCell

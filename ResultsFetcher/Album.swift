@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-import GenericCoreData
+import Kangaroo
 
 
 class Album: NSManagedObject, CoreDataRepresentable {

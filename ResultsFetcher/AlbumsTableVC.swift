@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GenericCoreData
+import Kangaroo
 
 class AlbumTableVCell: UITableViewCell {
     
@@ -27,7 +27,7 @@ class AlbumTableVCell: UITableViewCell {
 
 class AlbumsTableVC: UITableViewController {
     var albums: [Album]?
-    let coreDataManager = CoreDataManager<AppConfig>(contextType: .PrivateQueue)
+    var coreDataManager = SimpleCoreDataManager<AppConfig>()
     
     var artist: Artist?
     
@@ -35,12 +35,26 @@ class AlbumsTableVC: UITableViewController {
         super.viewDidLoad()
         self.tableView.rowHeight = 80
         let predicate = NSPredicate(format: "artist = %@", (artist?.objectID)!)
-        coreDataManager.executeAsyncRequest(predicate, sortDescriptors: nil, errorHandler: ConsoleErrorHandler) { (albums: [Album]) -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                self.albums = albums
-                self.tableView.reloadData()
-            }
+        
+        coreDataManager.executeAsyncFetchRequest(predicate, sortDescriptors: nil) { [weak self] (albums: [Album]) -> Void in
+            self!.albums = albums
+            self!.tableView.reloadData()
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTable:", name: fNotificationName, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func updateTable(notification: NSNotification) {
+        self.albums! += (notification.userInfo![fNewObjectsName] as! [Album])
+        self.tableView.reloadData()
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
